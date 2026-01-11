@@ -1,5 +1,5 @@
-def install_pkgs [install: list<string>]{
-    if ($install | length) == 0 {
+def install_pkgs [install: list<string>] {
+    if ($install | is-empty) {
         return
     }
         
@@ -8,9 +8,9 @@ def install_pkgs [install: list<string>]{
 }
 
 def main [json_payload: string] {
-    let params = $json_payload 
+    let params = ($json_payload 
       | from json
-      | default [] install
+      | default [] install)
     
     install_pkgs $params.install
 }
