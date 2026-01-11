@@ -12,6 +12,12 @@ sudo bootc switch ghcr.io/chapati/sky-blue-bootc:latest --enforce-container-sigp
 systemctl reboot
 ```
 
+## Features
+
+Installed packages:
+* mc
+* htop
+
 ## Credits
 
 Many thanks to everybody who made my custom distro possible!
