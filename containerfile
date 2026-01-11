@@ -2,6 +2,9 @@
 FROM scratch AS ctx
 COPY build_files /
 
+ARG NU_FOLDER
+COPY ${NU_FOLDER} /nu-shell
+
 # Base Image
 FROM ghcr.io/ublue-os/bluefin-nvidia-open:stable
 
@@ -29,12 +32,11 @@ FROM ghcr.io/ublue-os/bluefin-nvidia-open:stable
 ### MODIFICATIONS
 ## make modifications desired in your image and install packages by modifying the build.sh script
 ## the following RUN directive does all the things required to run "build.sh" as recommended.
-
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
-    /ctx/build.sh
+    /ctx/nu-shell/nu /ctx/build.nu
     
 ### LINTING
 ## Verify final image and contents are correct.

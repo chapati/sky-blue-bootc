@@ -112,22 +112,28 @@ jobs:
           NU_VER="0.109.1"
           NU_FILE="nu-${NU_VER}-x86_64-unknown-linux-gnu"
           NU_URL="https://github.com/nushell/nushell/releases/download/${NU_VER}/${NU_FILE}.tar.gz"
-          curl -L "$NU_URL" | tar xz
-          echo "$GITHUB_WORKSPACE/$NU_FILE" >> $GITHUB_PATH
+          
+          curl -L "${NU_URL}" | tar xz
           ./${NU_FILE}/nu --version
-
+          
+          NU_PATH="${GITHUB_WORKSPACE}/${NU_FILE}"
+          echo "${NU_PATH}" >> $GITHUB_PATH
+          echo "nu_folder=${NU_FILE}" >> $GITHUB_OUTPUT
+          
       - name: Build Image
         id: build_image
         uses: redhat-actions/buildah-build@7a95fa7ee0f02d552a32753e7414641a04307056 # v2
         with:
           containerfiles: |
-            ./Containerfile
+            ./containerfile
           # Postfix image name with -custom to make it a little more descriptive
           # Syntax: https://docs.github.com/en/actions/learn-github-actions/expressions#format
           image:  ${{ env.IMAGE_NAME }}
           tags:   ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
           oci: false
+          build-args: |
+            NU_FOLDER=${{ steps.install_nu.outputs.nu_folder }}
 
       # Rechunk is a script that we use on Universal Blue to make sure there isnt a single huge layer when your image gets published.
       # This does not make your image faster to download, just provides better resumability and fixes a few errors.

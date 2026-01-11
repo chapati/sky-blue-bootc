@@ -1,4 +1,4 @@
-export image_name := env("IMAGE_NAME", "sky-blue")
+export image_name := env("IMAGE_NAME", "sky-blue-oci")
 export default_tag := env("DEFAULT_TAG", "latest")
 export bib_image := env("BIB_IMAGE", "quay.io/centos-bootc/bootc-image-builder:latest")
 
