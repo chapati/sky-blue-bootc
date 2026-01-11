@@ -32,7 +32,7 @@ def process_recipe [recipe_path: path, modules_dir: path] {
     let recipe = open --raw $recipe_path | from yaml
     print $"(ansi cyan)Name:(ansi reset) ($recipe.name)"
     print $"(ansi cyan)Description:(ansi reset) ($recipe.description)"
-    print $"(ansi cyan)Using modules from:(ansi reset) ($modules)"
+    print $"(ansi cyan)Using modules from:(ansi reset) ($modules_dir)"
 
     $recipe.modules | each { 
         let type   = $in.type
