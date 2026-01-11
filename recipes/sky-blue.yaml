@@ -1,0 +1,8 @@
+name: sky-blue-nvidia-open
+description: Build sky blue linux
+
+modules:
+  - type: dnf
+    install:
+      - mc
+      - htop

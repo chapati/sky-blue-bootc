@@ -1,6 +1,8 @@
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
 COPY build_files /
+COPY recipes /recipes
+COPY modules /modules
 
 ARG NU_FOLDER
 COPY ${NU_FOLDER} /nu-shell
@@ -36,7 +38,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
-    /ctx/nu-shell/nu /ctx/build.nu
+    /ctx/nu-shell/nu /ctx/build.nu --recipe /recipes/sky-blue.yaml
     
 ### LINTING
 ## Verify final image and contents are correct.
