@@ -1,10 +1,14 @@
+use common.nu strict
+
 def install_pkgs [install: list<string>] {
     if ($install | is-empty) {
         return
     }
         
     print $"Installing: ($install)"
-    dnf install -y ...$install
+    strict {
+      dnf install -y ...$install
+    }
 }
 
 def main [json_payload: string] {

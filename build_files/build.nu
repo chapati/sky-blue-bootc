@@ -1,5 +1,8 @@
 #!/ctx/nu-shell/nu
 
+# Import the strict function from the library
+use common.nu strict
+
 # Force ANSI coloring on, so Docker doesn't strip it
 $env.config.use_ansi_coloring = true
 
@@ -54,7 +57,9 @@ def main [--recipe: path, --modules: path] {
     process_recipe $recipe $modules
 
     print $"(ansi cyan)[build.nu] cleaning up(ansi reset)"
-    rm -rf /tmp/* /var/*
+    strict {
+        rm -rf /tmp/* /var/*
+    }
 
     print $"(ansi green)[build.nu] finished(ansi reset)"
 }
