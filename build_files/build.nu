@@ -1,6 +1,3 @@
-#!/ctx/nu-shell/nu
-
-# Import the strict function from the library
 use common.nu strict
 
 # Force ANSI coloring on, so Docker doesn't strip it
