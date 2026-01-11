@@ -32,6 +32,7 @@ def process_recipe [recipe_path: path, modules_dir: path] {
     let recipe = open --raw $recipe_path | from yaml
     print $"(ansi cyan)Name:(ansi reset) ($recipe.name)"
     print $"(ansi cyan)Description:(ansi reset) ($recipe.description)"
+    print $"(ansi cyan)Using modules from:(ansi reset) ($modules)"
 
     $recipe.modules | each { 
         let type   = $in.type
@@ -50,7 +51,6 @@ def main [--recipe: path, --modules: path] {
     }
 
     print $"(ansi green)[build.nu] started(ansi reset)"
-    print $"using modules from: ($modules)"
     process_recipe $recipe $modules
     print $"(ansi green)[build.nu] finished(ansi reset)"
 }
