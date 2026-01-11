@@ -18,12 +18,16 @@ def process_recipe [file_path: path] {
     } | ignore
 }
 
-def main [--recipe: path] {
+def main [--recipe: string] {
     if ($recipe == null) {
         error make {msg: "Please provide --recipe <path>"}
     }
 
     print $"(ansi green)[build.nu] started(ansi reset)"
-    process_recipe $recipe
+
+    let recipes_dir = "/ctx/recipes/"
+    let full_path = ($recipes_dir | path join $recipe)
+    process_recipe $full_path
+
     print $"(ansi green)[build.nu] finished(ansi reset)"
 }
