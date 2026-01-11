@@ -1,18 +1,22 @@
 # Sky Blue Linux
 
-This is a custum oci-based Linux image based on the Project Bluefin with several custom modifications.
+This is a custum oci-based Linux image based on the Project Bluefin with several custom modifications. At the moment bluefin-nvidia-open:stable is used as a base.
 
-# N.B.
+## Installation
 
-Sky Blue Linux uses x86-64 bluefin-nvidia:stable as a base. If you want another base feel free to clone the repo and make the necessary changes.
+* Install the latest [BlueFin](https://projectbluefin.io/)
+* Switch to the Sky Blue image
 
-# How to install
+```bash
+sudo bootc switch ghcr.io/chapati/sky-blue-bootc-nvidia-open:stable --enforce-container-sigpolicy
+systemctl reboot
+```
 
-* Install the latest stable [BlueFin](https://projectbluefin.io/)
-* Migrate to the Sky Linux image
+## Credits
 
-# Credits
+Many thanks to everybody who made my custom distro possible!
 
 - [Universal Blue](https://universal-blue.org/)
 - [Project Bluefin](https://projectbluefin.io/)
 - [BlueBuild](https://blue-build.org/)
+- [Rich Renomeron](https://github.com/rrenomeron/bootc-images)
