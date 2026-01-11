@@ -52,5 +52,9 @@ def main [--recipe: path, --modules: path] {
 
     print $"(ansi green)[build.nu] started(ansi reset)"
     process_recipe $recipe $modules
+
+    print $"(ansi cyan)[build.nu] cleaning up(ansi reset)"
+    rm -rf /tmp/* /var/*
+
     print $"(ansi green)[build.nu] finished(ansi reset)"
 }
