@@ -1,4 +1,8 @@
 #!/ctx/nu-shell/nu
+
+# Force ANSI coloring on, so Docker doesn't strip it
+$env.config.use_ansi_coloring = true
+
 def run_module [type: string, params: record, modules_dir: path] {
     print $"(ansi green)============================= Start module ($type) =============================(ansi reset)"    
     print $"With params: ($params)"
@@ -11,12 +15,20 @@ def run_module [type: string, params: record, modules_dir: path] {
     let json_payload = ($params | to json --raw)
     ^$nu.current-exe $module_path $json_payload
 
+    if ($env.LAST_EXIT_CODE != 0) {
+        error make {msg: $"Module '($type)' failed with exit code ($env.LAST_EXIT_CODE)"}
+    }
+
     print $"(ansi green)============================= End module ($type) =============================(ansi reset)"
 }
 
 def process_recipe [recipe_path: path, modules_dir: path] {
     print $"(ansi green)Processing recipe ($recipe_path)(ansi reset)"
     
+    if not ($recipe_path | path exists) {
+        error make {msg: $"Recipe file not found at: ($recipe_path)"}
+    }
+
     let recipe = open --raw $recipe_path | from yaml
     print $"(ansi cyan)Name:(ansi reset) ($recipe.name)"
     print $"(ansi cyan)Description:(ansi reset) ($recipe.description)"
