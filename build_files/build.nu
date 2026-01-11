@@ -53,7 +53,7 @@ def main [--recipe: path, --modules: path] {
         error make {msg: "Missing required flag: --modules <path>"}
     }
 
-    print $"(ansi green)[build.nu] started(ansi reset)"
+    print $"(ansi green)[build.nu] started(ansi reset)"    
     process_recipe $recipe $modules
 
     print $"(ansi cyan)[build.nu] cleaning up(ansi reset)"

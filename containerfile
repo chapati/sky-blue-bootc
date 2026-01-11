@@ -38,10 +38,8 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
-    ls -R /ctx
-    
-    #NU_LIB_DIRS=/ctx/lib \
-    #/ctx/nu-shell/nu /ctx/build.nu --recipe /ctx/recipes/sky-blue.yaml --modules /ctx/modules
+    NU_LIB_DIRS=/ctx/lib \
+    /ctx/nu-shell/nu /ctx/build.nu --recipe /ctx/recipes/sky-blue.yaml --modules /ctx/modules
     
 ### LINTING
 ## Verify final image and contents are correct.
