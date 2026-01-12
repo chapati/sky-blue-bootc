@@ -13,10 +13,11 @@ def run_module [type: string, params: record, modules_dir: path] {
     }
 
     let json_payload = ($params | to json --raw)
-    ^$nu.current-exe $module_path $json_payload
-
-    if ($env.LAST_EXIT_CODE != 0) {
-        error make {msg: $"Module '($type)' failed with exit code ($env.LAST_EXIT_CODE)"}
+    try {
+        ^$nu.current-exe --config $nu.config-path $module_path $json_payload
+    } catch {
+        print --stderr $"(ansi red)× Module '($type)' failed with exit code ($env.LAST_EXIT_CODE)(ansi reset)"
+        exit 1
     }
 
     print $"(ansi green)============================= End module ($type) =============================(ansi reset)"

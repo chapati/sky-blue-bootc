@@ -6,4 +6,3 @@ modules:
     install:
       - mc
       - htop
-      - thismustfailpackage12345
