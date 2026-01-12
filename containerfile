@@ -35,5 +35,8 @@ RUN --mount=type=bind,from=ctx,source=/build,target=/build \
     --mount=type=tmpfs,dst=/tmp \
     /build/nu-shell/nu --config /build/config.nu /build/build.nu --recipe /build/recipes/sky-blue.yaml --modules /build/modules
     
+RUN --mount=type=bind,from=ctx,source=/build,target=/build \
+    /build/nu-shell/nu --config /build/config.nu /build/cleanup.nu
+
 ## Verify final image and contents are correct.
 RUN bootc container lint
