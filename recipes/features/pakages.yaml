@@ -1,0 +1,8 @@
+name: packages
+description: Packages from repositories
+
+modules:
+  - type: dnf
+    install:
+      - mc
+      - htop

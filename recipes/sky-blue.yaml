@@ -1,8 +1,5 @@
 name: sky-blue-nvidia-open
-description: Build sky blue linux
+description: Build SkyBlue linux
 
 modules:
-  - type: dnf
-    install:
-      - mc
-      - htop
+  - from-file: features/pakages.yaml

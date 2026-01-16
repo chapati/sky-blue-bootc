@@ -36,9 +36,21 @@ def process_recipe [recipe_path: path, modules_dir: path] {
     print $"(ansi cyan)Using modules from:(ansi reset) ($modules_dir)"
 
     $recipe.modules | each { 
-        let type   = $in.type
-        let params = ($in | reject type)
-        run_module $type $params $modules_dir
+        if ($in | get -o from-file) != null {
+            let from_file = $in.from-file    
+            let recipe_dir = $recipe_path | path dirname
+            let sub_recipe = $recipe_dir | path join $from_file
+            print $"(ansi yellow)Including sub-recipe from file: ($sub_recipe)(ansi reset)"
+            process_recipe $sub_recipe $modules_dir
+        } else if ($in | get -o type) != null {
+            let type = $in.type
+            let params = ($in | reject type)
+            run_module $type $params $modules_dir
+        } else {
+            error make {
+                msg: $"Invalid module entry in recipe: ($in)"
+            }        
+        }
     } | ignore
 }
 
