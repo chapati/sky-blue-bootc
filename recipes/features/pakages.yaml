@@ -1,5 +1,5 @@
 name: packages
-description: Packages from repositories
+description: Install common cli-tools & utilities
 
 modules:
   - type: dnf
