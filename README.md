@@ -14,9 +14,34 @@ systemctl reboot
 
 ## Features
 
-Installed packages:
-* mc
-* htop
+Installed fedora packages:
+
+- bpftop
+- cascadia-code-fonts
+- htop
+- iotop
+- libvirt & related 
+- mc
+- nicstat
+- numactl
+- podman & related
+- qemu & related
+- sysprof
+- incus
+- incus-agent
+- lxc
+- tiptop
+- trace-cmd
+- udica
+- util-linux-script
+- virt-manager
+- virt-viewer
+- ydotool
+
+3rd-party packages:
+
+- 
+
 
 ## Credits
 
