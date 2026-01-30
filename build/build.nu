@@ -1,4 +1,4 @@
-use common.nu strict
+use common.nu *
 
 # Force ANSI coloring on, so Docker doesn't strip it
 $env.config.use_ansi_coloring = true
@@ -9,7 +9,7 @@ def run_module [type: string, params: record, modules_dir: path] {
 
     let module_path = ($modules_dir | path join $type $"($type).nu")
     if not ($module_path | path exists) {
-        error make {msg: $"Module script not found at: ($module_path)"}
+       die $"Module script not found at: ($module_path)"
     }
 
     let json_payload = ($params | to json --raw)
@@ -27,7 +27,7 @@ def process_recipe [recipe_path: path, modules_dir: path] {
     print $"(ansi green)Processing recipe ($recipe_path)(ansi reset)"
     
     if not ($recipe_path | path exists) {
-        error make {msg: $"Recipe file not found at: ($recipe_path)"}
+        die $"Recipe file not found at: ($recipe_path)"
     }
 
     let recipe = open --raw $recipe_path | from yaml
@@ -47,20 +47,18 @@ def process_recipe [recipe_path: path, modules_dir: path] {
             let params = ($in | reject type)
             run_module $type $params $modules_dir
         } else {
-            error make {
-                msg: $"Invalid module entry in recipe: ($in)"
-            }        
+            die $"Invalid module entry in recipe: ($in)"   
         }
     } | ignore
 }
 
 def main [--recipe: path, --modules: path] {
     if ($recipe == null) {
-        error make {msg: "Missing required flag: --recipe <path>"}
+        die "Missing required flag: --recipe <path>"
     }
 
     if ($modules == null) {
-        error make {msg: "Missing required flag: --modules <path>"}
+        die "Missing required flag: --modules <path>"
     }
 
     print $"(ansi green)[build.nu] started(ansi reset)"    

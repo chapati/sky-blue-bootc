@@ -7,3 +7,9 @@ export def strict [cmd: closure] {
         }
     }
 }
+
+export def die [msg: string] {
+    error make {
+        msg: $"(ansi red)× ($msg)(ansi reset)"
+    }
+}
