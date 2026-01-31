@@ -2,7 +2,7 @@ FROM registry.access.redhat.com/ubi10/ubi AS ctx
 
 RUN mkdir -p /build
 
-ARG NU_VERSION="0.109.1"
+ARG NU_VERSION="0.110.0"
 RUN NU_FILE="nu-${NU_VERSION}-x86_64-unknown-linux-gnu" \
     && NU_URL="https://github.com/nushell/nushell/releases/download/${NU_VERSION}/${NU_FILE}.tar.gz" \
     && curl -L "${NU_URL}" | tar xz \
