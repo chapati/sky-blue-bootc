@@ -13,3 +13,16 @@ export def die [msg: string] {
         msg: $"(ansi red)× ($msg)(ansi reset)"
     }
 }
+
+export def validate_params [params: record, allowed_keys: list<string>] {
+    let input_keys = ($params | columns)
+    let invalid_keys = ($input_keys | where {|k| $k not-in $allowed_keys })
+
+    if not ($invalid_keys | is-empty) {
+        die $"Unknown parameters: ($invalid_keys). Allowed: ($allowed_keys)"
+    }
+
+    if ($input_keys | is-empty) {
+        die "No valid parameters provided."
+    }
+}

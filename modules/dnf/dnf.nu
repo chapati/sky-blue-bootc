@@ -1,8 +1,8 @@
-use common.nu strict
+use common.nu *
 
 def install_pkgs [install: list<string>] {
     if ($install | is-empty) {
-        return
+        die "No packages specified for installation."
     }
         
     print $"Installing: ($install)"
@@ -11,10 +11,9 @@ def install_pkgs [install: list<string>] {
     }
 }
 
-def main [json_payload: string] {
-    let params = ($json_payload 
-      | from json
-      | default [] install)
-    
+def main [nuon: string, --base: path] {
+    let params = ($nuon | from nuon)      
+    validate_params $params ["install"]
+
     install_pkgs $params.install
 }

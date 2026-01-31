@@ -1,0 +1,7 @@
+name: ui
+description: UI & cosmetic stuff
+
+modules: 
+  - type: dnf
+    install:
+      - breeze-cursor-theme

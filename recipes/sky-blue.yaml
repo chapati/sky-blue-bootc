@@ -2,4 +2,9 @@ name: sky-blue-nvidia-open
 description: Build SkyBlue linux
 
 modules:
-  - from-file: features/pakages.yaml
+  - type: files
+    copy:
+      - source: system
+        target: /
+  
+  - include: features/pakages.yaml

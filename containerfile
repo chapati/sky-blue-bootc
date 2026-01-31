@@ -11,6 +11,7 @@ RUN NU_FILE="nu-${NU_VERSION}-x86_64-unknown-linux-gnu" \
 COPY build /build
 COPY recipes /build/recipes
 COPY modules /build/modules
+COPY files /build/files
 
 # Base Image
 FROM ghcr.io/ublue-os/bluefin-nvidia-open:stable
@@ -33,7 +34,7 @@ RUN --mount=type=bind,from=ctx,source=/build,target=/build \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
-    /build/nu-shell/nu --config /build/config.nu /build/build.nu --recipe /build/recipes/sky-blue.yaml --modules /build/modules
+    /build/nu-shell/nu --config /build/config.nu /build/build.nu --recipe /build/recipes/sky-blue.yaml --base /build
     
 RUN --mount=type=bind,from=ctx,source=/build,target=/build \
     /build/nu-shell/nu --config /build/config.nu /build/cleanup.nu

@@ -1,0 +1,9 @@
+[org/gnome/shell/extensions/dash-to-dock]
+dock-position='LEFT'
+disable-overview-on-startup=true
+intellihide-mode='FOCUS_APPLICATION_WINDOWS'
+require-pressure-to-show=true
+running-indicator-style='DOTS'
+show-show-apps-button=false
+show-trash=false
+show-mounts=false

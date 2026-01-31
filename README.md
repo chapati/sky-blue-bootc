@@ -40,8 +40,10 @@ Installed fedora packages:
 
 3rd-party packages:
 
-- 
 
+UI & cosmetic stuff:
+
+- breeze cursor theme installed, breeze-white as default
 
 ## Credits
 
