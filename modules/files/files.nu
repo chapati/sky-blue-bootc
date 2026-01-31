@@ -15,7 +15,9 @@ def copy_files [copy: record<source: string, target: string>, base: path] {
     }
 
     strict {
-        cp -rfv $"($source)/." $target
+        # nushell's/coureutils cp has a bug that doesn't copy contents of the folder correctly
+        # https://github.com/uutils/coreutils/issues/6671
+        /usr/bin/cp -rfv $"($source)/." $target
     }
 }
 
