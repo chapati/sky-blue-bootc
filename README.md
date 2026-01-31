@@ -1,6 +1,6 @@
 # Sky Blue Linux
 
-This is a custum oci-based Linux image based on the Project Bluefin with several custom modifications. At the moment bluefin-nvidia-open:stable is used as a base.
+This is a custum oci-based Linux image based on the Project Bluefin DX with several custom modifications. At the moment bluefin-dx-nvidia-open:stable is used as a base.
 
 ## Installation
 
@@ -16,27 +16,8 @@ systemctl reboot
 
 Installed fedora packages:
 
-- bpftop
-- cascadia-code-fonts
-- htop
-- iotop
-- libvirt & related 
 - mc
-- nicstat
-- numactl
-- podman & related
-- qemu & related
-- sysprof
-- incus
-- incus-agent
-- lxc
-- tiptop
-- trace-cmd
-- udica
-- util-linux-script
-- virt-manager
-- virt-viewer
-- ydotool
+- firefox flatpak replaced with the native package due to security implications
 
 3rd-party packages:
 
