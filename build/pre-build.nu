@@ -1,6 +1,8 @@
 use common.nu *
 
 def main [--optfix:path] {
+  print $"(ansi green)[pre-build.nu] started(ansi reset)" 
+  
   strict {
     ^mkdir -pv $optfix
   }
@@ -15,4 +17,6 @@ def main [--optfix:path] {
   strict {
     ^ln -fs $optfix /opt
   }
+  
+  print $"(ansi green)[pre-build.nu] finised(ansi reset)" 
 }

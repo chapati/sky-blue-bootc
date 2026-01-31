@@ -27,7 +27,7 @@ def run_module [type: string, params: record, base_dir: path] {
 }
 
 def process_recipe [recipe_path: path, base_dir: path] {
-    print $"(ansi green)Processing recipe ($recipe_path)(ansi reset)"
+    print $"(ansi green)Processing recipe:(ansi reset) ($recipe_path)"
     
     if not ($recipe_path | path exists) {
         die $"Recipe file not found at: ($recipe_path)"
