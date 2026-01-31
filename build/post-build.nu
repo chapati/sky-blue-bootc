@@ -26,7 +26,7 @@ def main [--optfix:path] {
     }
 
     strict {
-        ^rm -rfv /opt
+        ^unlink /opt
         ^ln -fs /var/opt /opt
     }
 
