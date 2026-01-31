@@ -44,6 +44,7 @@ Installed fedora packages:
 UI & cosmetic stuff:
 
 - breeze cursor theme installed, breeze-white as default
+- custom dash to dock config
 
 ## Credits
 
