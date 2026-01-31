@@ -8,7 +8,7 @@ This is a custum oci-based Linux image based on the Project Bluefin DX with seve
 * Switch to the Sky Blue image
 
 ```bash
-sudo bootc switch ghcr.io/chapati/sky-blue-bootc:latest --enforce-container-sigpolicy
+sudo bootc switch ghcr.io/chapati/sky-blue-nvidia-open:latest --enforce-container-sigpolicy
 systemctl reboot
 ```
 
