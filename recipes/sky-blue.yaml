@@ -8,3 +8,5 @@ modules:
         target: /
         
   - include: features/pakages.yaml
+  - include: features/google-chrome.yaml
+  - include: features/ui.yaml

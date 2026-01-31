@@ -3,21 +3,21 @@ use common.nu *
 def copy_files [copy: record<source: string, target: string>, base: path] { 
     validate_params $copy ["source", "target"]
 
-    let source = $base | path join 'files' $copy.source
+    let source = [$base 'files' $copy.source] | path join
     let target = $copy.target
 
     print $"(ansi cyan)Syncing: ($source) -> ($target)(ansi reset)"
 
     if not ($target | path exists) {
         strict {
-          mkdir $target # mkdir in nushell is -p by default
+          ^mkdir -p $target
         }
     }
 
     strict {
         # nushell's/coureutils cp has a bug that doesn't copy contents of the folder correctly
         # https://github.com/uutils/coreutils/issues/6671
-        /usr/bin/cp -rfv $"($source)/." $target
+        ^cp -rfv $"($source)/." $target
     }
 }
 

@@ -7,7 +7,7 @@ def run_module [type: string, params: record, base_dir: path] {
     print $"(ansi green)============================= Start module ($type) =============================(ansi reset)"    
     print $"(ansi cyan)With params:(ansi reset) ($params)"
 
-    let module_path = ($base_dir | path join "modules" $type $"($type).nu")
+    let module_path = [$base_dir "modules" $type $"($type).nu"] | path join
     print $"(ansi cyan)Module path:(ansi reset) ($module_path)"
 
     if not ($module_path | path exists) {
@@ -42,7 +42,7 @@ def process_recipe [recipe_path: path, base_dir: path] {
         if ($in | get -o include) != null {
             let from_file = $in.include
             let recipe_dir = $recipe_path | path dirname
-            let sub_recipe = $recipe_dir | path join $from_file
+            let sub_recipe = [$recipe_dir $from_file] | path join
             print $"(ansi yellow)Including sub-recipe from file: ($sub_recipe)(ansi reset)"
             process_recipe $sub_recipe $base_dir
         } else if ($in | get -o type) != null {
