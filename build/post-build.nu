@@ -1,7 +1,7 @@
 use common.nu *
 
 def main [--optfix:path] {
-    print $"(ansi green)[post-build.nu] finised(ansi reset)" 
+    print $"(ansi green)[post-build.nu] started(ansi reset)" 
     
     let optdirs = ls $optfix | where type == dir
 

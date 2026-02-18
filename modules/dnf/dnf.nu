@@ -1,14 +1,78 @@
 use common.nu *
 
-def install_pkgs [install: list<string>] {
+def install_packages [names: list<string>, ignore_errors: bool] {
+    if ($names | is-empty) {
+        die "No packages specified for installation"
+    } 
+
+    if $ignore_errors {
+        print $"(ansi yellow)Installing ($names) ignoring errors...(ansi reset)"
+        try {
+            ^dnf install -y ...$names
+        } catch {
+            print $"(ansi yellow)Warning: finished with errors.(ansi reset)"
+        }
+    } else {
+        print $"(ansi cyan)Installing ($names)...(ansi reset)"
+        strict {
+            ^dnf install -y ...$names
+        }
+    }
+}
+
+def install_pkgs [install: list<any>] {
     if ($install | is-empty) {
         die "No packages specified for installation"
     }
-        
-    print $"Installing: ($install)"
-    strict {
-      ^dnf install -y ...$install
-    }
+
+    # N.B. preserve the order of fields in opts to ensure consistent grouping in batches
+    let parsed = $install | each {
+        match $in {
+            $name if ($name | describe) == "string" => {
+                {
+                    name: $name, 
+                    opts: { 
+                        ignore_errors: false 
+                    }
+                }
+            }
+
+            {name: $name, options: $options} => {
+                if ($options | describe) != "list<string>" {
+                    die $"Field 'options' must be a list of strings, got ($options | describe) in package ($name)"
+                }
+
+                validate_list $options ["ignore-errors"]
+
+                {   
+                    name: $name, 
+                    opts: { 
+                        ignore_errors: ("ignore-errors" in $options) 
+                    } 
+                }
+            }
+
+            _ =>  {
+                die $"Unsupported install specification: ($in)"
+            }
+        }
+    } 
+
+    let batches = ($parsed 
+        | group-by { $in.opts | to nuon } 
+        | values 
+        | each {
+            let first = $in | first
+            {
+                packages: $in.name,
+                ignore_errors: $first.opts.ignore_errors
+            }
+        }
+    )
+
+    $batches | each {
+        install_packages $in.packages $in.ignore_errors
+    } | ignore
 }
 
 def enable_repos [repos: list<string>, base: path] {

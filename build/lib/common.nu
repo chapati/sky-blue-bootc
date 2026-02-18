@@ -26,3 +26,11 @@ export def validate_params [params: record, allowed_keys: list<string>] {
         die "No valid parameters provided."
     }
 }
+
+export def validate_list [params: list<string>,  allowed_keys: list<string>] {
+    $params | each {
+        if $in not-in $allowed_keys {
+            die $"Invalid parameter found: '($in)'. Allowed values are: ($allowed_keys | str join ', ')"
+        }
+    } | ignore
+}

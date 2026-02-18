@@ -1,7 +1,14 @@
 name: packages
 description: Install common cli-tools & utilities
 
+# TODO: check why nushell is not signed (gpgcheck=0 in repo)/signature check fails when enabled
+
 modules:
   - type: dnf
+    repos:
+      - nushell.repo
     install:
       - mc
+      - name: nushell
+        options: 
+          - ignore-errors

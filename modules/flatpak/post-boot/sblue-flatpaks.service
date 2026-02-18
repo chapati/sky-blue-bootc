@@ -1,0 +1,11 @@
+[Unit]
+Description=Manage Sky Blue flatpaks
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/sblue/flatpaks/sblue-flatpaks.nu
+
+[Install]
+WantedBy=multi-user.target

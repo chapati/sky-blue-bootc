@@ -21,6 +21,7 @@ Installed fedora packages:
 
 3rd-party packages:
 
+- nushell from gemfury nushell repo
 - google chrome stable installed from google repository
 
 UI & cosmetic stuff:
