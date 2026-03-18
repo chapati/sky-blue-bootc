@@ -55,6 +55,43 @@ def process_recipe [recipe_path: path, base_dir: path] {
     } | ignore
 }
 
+def reg_service [service_name: string, is_system: bool] {
+    if $is_system {
+        print $"(ansi green)Registering system service:(ansi reset) ($service_name)"
+    } else {
+        print $"(ansi green)Registering user service:(ansi reset) ($service_name)"
+    }
+    
+    const script_dir = "/usr/libexec/sblue/"
+    let script_name = $"($service_name).nu"
+
+    let script_src = [$env.FILE_PWD, "post-boot", $script_name] | path join
+    let script_dst = [$script_dir, $script_name] | path join
+
+    strict {
+        ^mkdir -p $script_dir
+        ^cp $script_src $script_dst
+        ^chmod +x $script_dst
+    }
+
+    let unit_dir = if $is_system {"/usr/lib/systemd/system/"} else {"/usr/lib/systemd/user/"}
+    let service_name = $"($service_name).service"
+
+    let unit_src = [$env.FILE_PWD, "post-boot", $service_name] | path join
+    let unit_dst = [$unit_dir, $service_name] | path join
+    
+    strict {
+        ^mkdir -p $unit_dir
+        ^cp $unit_src $unit_dst
+
+        if $is_system {
+            ^systemctl enable $service_name
+        } else {
+            ^systemctl --global enable $service_name
+        }
+    }    
+}
+
 def main [--recipe: path, --base: path] {
     if ($recipe == null) {
         die "Missing required flag: --recipe <path>"
@@ -64,7 +101,15 @@ def main [--recipe: path, --base: path] {
         die "Missing required flag: --base <path>"
     }
 
-    print $"(ansi green)[build.nu] started(ansi reset)"    
+    print $"(ansi green)[build.nu] started(ansi reset)"   
+    
+    # 1. Register sblue-system-setup service
+    reg_service "sblue-system-setup" true
+    
+    # 2. Process sblue-user-setup service
+    reg_service "sblue-user-setup" false
+
+    # 3. Process main recipe
     process_recipe $recipe $base
 
     print $"(ansi green)[build.nu] finished(ansi reset)"

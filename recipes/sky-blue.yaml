@@ -9,5 +9,5 @@ modules:
         
   - include: features/pakages.yaml
   - include: features/google-chrome.yaml
-  #- include: features/firefox.yaml
+  - include: features/firefox.yaml
   - include: features/ui.yaml

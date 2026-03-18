@@ -1,0 +1,11 @@
+[Unit]
+Description=Sky Blue system setup service
+Requires=ublue-system-setup.service
+After=ublue-system-setup.service
+
+[Service]
+Type=simple
+ExecStart=/usr/libexec/sblue/sblue-system-setup.nu
+
+[Install]
+WantedBy=multi-user.target
