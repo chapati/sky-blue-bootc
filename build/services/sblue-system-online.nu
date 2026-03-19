@@ -5,7 +5,10 @@ use common.nu *
 # This service is oneshot. Do not perform any long-running tasks here. 
 # Instead, spawn a background process to perform flatpak installation and other long-running tasks.
 #
-print $"(ansi green)-- Sky Blue system online setup --(ansi reset)"
+def main [--base: path] {
+  print $"(ansi green)-- Sky Blue system online setup --(ansi reset)"
+  wait_service_end "sblue-system-setup" true "active" "exited"
+}
 
 # 1. Wait for the Flatpak lock (Essential since the user is now logged in!)
 # The user might have opened GNOME Software, which will lock the DB.

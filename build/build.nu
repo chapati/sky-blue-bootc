@@ -123,16 +123,15 @@ def main [--recipe: path, --base: path] {
 
     print $"(ansi green)[build.nu] started(ansi reset)"   
 
-    # 1. Copy libraries to the target system
+    # Copy libraries to the target system
     copy_libs $base
     
-    # 1. Register sblue-system-setup service
+    # Register services
     reg_service "sblue-system-setup" true $base
-    
-    # 2. Process sblue-user-setup service
+    reg_service "sblue-system-online" true $base
     reg_service "sblue-user-setup" false $base
 
-    # 3. Process main recipe
+    # Process main recipe
     process_recipe $recipe $base
 
     print $"(ansi green)[build.nu] finished(ansi reset)"

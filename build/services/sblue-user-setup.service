@@ -6,7 +6,7 @@ ConditionUser=!@system
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/nu --config /usr/libexec/sblue/config.nu /usr/libexec/sblue/sblue-user-setup.nu
+ExecStart=/usr/bin/nu --config /usr/libexec/sblue/config.nu /usr/libexec/sblue/sblue-user-setup.nu --base /usr/libexec/sblue
 # Do not kill spawned children
 KillMode=process 
 # Do not restart service after exit

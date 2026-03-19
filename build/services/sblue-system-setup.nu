@@ -1,11 +1,15 @@
 use common.nu *
+use systemd.nu *
 
 # 
-# This service has network target
+# This service starts PRIOR the network.target
 # This service is oneshot. Do not perform any long-running tasks here. 
-# Instead, spawn a background process to perform flatpak installation and other long-running tasks.
 #
-print $"(ansi green)-- Sky Blue system setup --(ansi reset)"
+def main [--base: path] {
+  print $"(ansi green)-- Sky Blue system setup --(ansi reset)"
+  wait_service_end "ublue-system-setup" true "inactive" "dead"
+}
+
 
 # # Wait for ublue-user-setup to finish
 # print "Waiting for ublue-user-setup to complete..."

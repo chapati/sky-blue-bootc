@@ -1,11 +1,11 @@
 [Unit]
 Description=Sky Blue online system setup service
-Requires=network-online.target ublue-system-setup.service
-After=network-online.target ublue-system-setup.service
+Requires=network-online.target sblue-system-setup.service
+After=network-online.target sblue-system-setup.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/nu --config /usr/libexec/sblue/config.nu /usr/libexec/sblue/sblue-system-online.nu
+ExecStart=/usr/bin/nu --config /usr/libexec/sblue/config.nu /usr/libexec/sblue/sblue-system-online.nu --base /usr/libexec/sblue
 # Do not kill spawned children
 KillMode=process 
 # Do not restart service after exit
