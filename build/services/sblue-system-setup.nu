@@ -1,4 +1,10 @@
-#!/usr/bin/nu
+use common.nu *
+
+# 
+# This service has network target
+# This service is oneshot. Do not perform any long-running tasks here. 
+# Instead, spawn a background process to perform flatpak installation and other long-running tasks.
+#
 print $"(ansi green)-- Sky Blue system setup --(ansi reset)"
 
 # # Wait for ublue-user-setup to finish

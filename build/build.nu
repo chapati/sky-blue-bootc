@@ -1,7 +1,5 @@
 use common.nu *
 
-# Force ANSI coloring on, so Docker doesn't strip it
-$env.config.use_ansi_coloring = true
 
 def run_module [type: string, params: record, base_dir: path] {
     print $"(ansi green)============================= Start module ($type) =============================(ansi reset)"    
@@ -55,34 +53,56 @@ def process_recipe [recipe_path: path, base_dir: path] {
     } | ignore
 }
 
-def reg_service [service_name: string, is_system: bool] {
+def copy_libs [base_path: path] {
+    print $"(ansi green)Copying nushel libs to the target system(ansi reset)"
+
+    let lib_src = [$base_path "lib"] | path join
+    if not ($lib_src | path exists) {
+        die $"Library directory not found at: ($lib_src)"
+    }
+
+    let lib_dst = "/usr/libexec/sblue/lib/"
+    strict {
+        ^mkdir -p $lib_dst
+        ^cp -rfv $"($lib_src)/." $lib_dst
+    }
+
+    let config_src = [$base_path "config.nu"] | path join
+    if not ($config_src | path exists) {
+        die $"Config file not found at: ($config_src)"  
+    }
+
+    let config_dst = "/usr/libexec/sblue/config.nu"
+    strict {
+        ^cp -fv $config_src $config_dst
+    }
+}
+
+def reg_service [service_name: string, is_system: bool, base_path: path] {
     if $is_system {
         print $"(ansi green)Registering system service:(ansi reset) ($service_name)"
     } else {
         print $"(ansi green)Registering user service:(ansi reset) ($service_name)"
     }
     
-    const script_dir = "/usr/libexec/sblue/"
     let script_name = $"($service_name).nu"
-
-    let script_src = [$env.FILE_PWD, "post-boot", $script_name] | path join
-    let script_dst = [$script_dir, $script_name] | path join
+    let script_src = [$base_path, "services", $script_name] | path join
+    let script_dst = ["/usr/libexec/sblue/", $script_name] | path join
 
     strict {
-        ^mkdir -p $script_dir
-        ^cp $script_src $script_dst
-        ^chmod +x $script_dst
+        ^mkdir -p ($script_dst | path dirname)
+        ^cp -fv $script_src $script_dst
     }
-
+    
     let unit_dir = if $is_system {"/usr/lib/systemd/system/"} else {"/usr/lib/systemd/user/"}
     let service_name = $"($service_name).service"
 
-    let unit_src = [$env.FILE_PWD, "post-boot", $service_name] | path join
+    let unit_src = [$base_path, "services", $service_name] | path join
     let unit_dst = [$unit_dir, $service_name] | path join
     
     strict {
-        ^mkdir -p $unit_dir
-        ^cp $unit_src $unit_dst
+        ^mkdir -p ($unit_dst | path dirname)
+        ^cp -fv $unit_src $unit_dst
 
         if $is_system {
             ^systemctl enable $service_name
@@ -102,12 +122,15 @@ def main [--recipe: path, --base: path] {
     }
 
     print $"(ansi green)[build.nu] started(ansi reset)"   
+
+    # 1. Copy libraries to the target system
+    copy_libs $base
     
     # 1. Register sblue-system-setup service
-    reg_service "sblue-system-setup" true
+    reg_service "sblue-system-setup" true $base
     
     # 2. Process sblue-user-setup service
-    reg_service "sblue-user-setup" false
+    reg_service "sblue-user-setup" false $base
 
     # 3. Process main recipe
     process_recipe $recipe $base
