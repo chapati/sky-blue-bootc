@@ -1,0 +1,1 @@
+* Fix cosign stage warnings, why cosign doesn't fail?
