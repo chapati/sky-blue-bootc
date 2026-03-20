@@ -1,6 +1,5 @@
 use common.nu *
 
-
 def run_module [type: string, params: record, base_dir: path] {
     print $"(ansi green)============================= Start module ($type) =============================(ansi reset)"    
     print $"(ansi cyan)With params:(ansi reset) ($params)"
@@ -78,40 +77,6 @@ def copy_libs [base_path: path] {
     }
 }
 
-def reg_service [service_name: string, is_system: bool, base_path: path] {
-    if $is_system {
-        print $"(ansi green)Registering system service:(ansi reset) ($service_name)"
-    } else {
-        print $"(ansi green)Registering user service:(ansi reset) ($service_name)"
-    }
-    
-    let script_name = $"($service_name).nu"
-    let script_src = [$base_path, "services", $script_name] | path join
-    let script_dst = ["/usr/libexec/sblue/", $script_name] | path join
-
-    strict {
-        ^mkdir -p ($script_dst | path dirname)
-        ^cp -fv $script_src $script_dst
-    }
-    
-    let unit_dir = if $is_system {"/usr/lib/systemd/system/"} else {"/usr/lib/systemd/user/"}
-    let service_name = $"($service_name).service"
-
-    let unit_src = [$base_path, "services", $service_name] | path join
-    let unit_dst = [$unit_dir, $service_name] | path join
-    
-    strict {
-        ^mkdir -p ($unit_dst | path dirname)
-        ^cp -fv $unit_src $unit_dst
-
-        if $is_system {
-            ^systemctl enable $service_name
-        } else {
-            ^systemctl --global enable $service_name
-        }
-    }    
-}
-
 def main [--recipe: path, --base: path] {
     if ($recipe == null) {
         die "Missing required flag: --recipe <path>"
@@ -126,11 +91,6 @@ def main [--recipe: path, --base: path] {
     # Copy libraries to the target system
     copy_libs $base
     
-    # Register services
-    reg_service "sblue-system-setup" true $base
-    reg_service "sblue-system-online" true $base
-    reg_service "sblue-user-setup" false $base
-
     # Process main recipe
     process_recipe $recipe $base
 
