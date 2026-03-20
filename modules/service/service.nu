@@ -1,6 +1,6 @@
 use common.nu *
 
-def enable_service [service_name: string, scope: string, base_path: path] { 
+def register_service [service_name: string, scope: string, base_path: path] { 
     if $scope == "system" {
         print $"(ansi green)Registering system service:(ansi reset) ($service_name)"
     } else if $scope == "user" {
@@ -38,12 +38,12 @@ def enable_service [service_name: string, scope: string, base_path: path] {
 
 def main [nuon: string, --base: path] {
   let params = ($nuon | from nuon)
-  validate_params $params ["enable"]
+  validate_params $params ["register"]
 
-  let enable = ($params | get -o enable)
-  if $enable != null {
-    $params.enable | each {
-      enable_service $in.name $in.scope $base
+  let register = ($params | get -o register)
+  if $register != null {
+    $params.register | each {
+      register_service $in.name $in.scope $base
     } | ignore
   }
 }
