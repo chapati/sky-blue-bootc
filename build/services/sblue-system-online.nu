@@ -1,4 +1,5 @@
 use common.nu *
+use systemd.nu *
 
 # 
 # This service has network.online target

@@ -23,17 +23,17 @@ export def wait_service_end [service_name: string, is_system: bool, state: strin
           die $"Error: Could not retrieve status for ($service_name)"
           break
       }
+
+      if $service_info.ActiveState == "failed" {
+        die $"($service_name) failed. Unable to continue."
+        break
+      }
   
       if $service_info.ActiveState == $state and $service_info.SubState == $substate {
         print $"($service_name) completed."
         break
       }
-      
-      if $service_info.ActiveState == "failed" {
-        print $"Warning: ($service_name) failed. Proceeding anyway."
-        break
-      }
-
+    
       sleep 1sec
     }
 }
