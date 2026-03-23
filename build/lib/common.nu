@@ -1,6 +1,11 @@
-export def strict [cmd: closure] {
+export def strict [cmd: closure, result: bool = false] {
     let res = try {
-        {failed: false, result: (do --env $cmd)}
+        if result {
+            {failed: false, result: (do --env $cmd)}
+        } else {
+            do --env $cmd
+            {failed: false, result: null}
+        }
     } catch { 
         {failed: true, error: $in}
     }
