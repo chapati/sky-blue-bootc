@@ -1,6 +1,6 @@
 export def strict [cmd: closure, result: bool = false] {
     let res = try {
-        if result {
+        if $result {
             {failed: false, result: (do --env $cmd)}
         } else {
             do --env $cmd
