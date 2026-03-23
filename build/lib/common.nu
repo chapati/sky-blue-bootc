@@ -1,14 +1,22 @@
 export def strict [cmd: closure] {
-    let result = do $cmd
-    
-    let code = $env.LAST_EXIT_CODE
-    if ($code != 0) {
-        error make {
-            msg: $"(ansi red)Command ($cmd) failed with exit code ($code)(ansi reset)"
-        }
+    let res = try {
+        {failed: false, result: (do --env $cmd)}
+    } catch { 
+        {failed: true, error: $in}
     }
-    
-    return $result
+
+    if $res.failed {
+        let err = ($res.error.json | from json)
+        error make {
+            msg: $err.msg
+            label: {
+                text: $err.labels.0.text,
+                span: $err.labels.0.span
+            }
+        }
+    } else {
+        return $res.result
+    }
 }
 
 export def die [msg: string] {

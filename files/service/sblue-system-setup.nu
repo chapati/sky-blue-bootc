@@ -8,23 +8,21 @@ use systemd.nu *
 def main [--base: path] {
   print $"(ansi green)-- Sky Blue system setup --(ansi reset)"
   wait_service_end "ublue-system-setup" true "inactive" "dead"
+
+  let hooks_dir = "/usr/share/sblue/system-setup.hooks.d"
+  if not ($hooks_dir | path exists) {
+    die $"Hooks directory not found at: ($hooks_dir)"
+  }
+
+  for hook in (ls $hooks_dir | where type == file) {
+    print $"(ansi cyan)Running system setup hook: ($hook.name)(ansi reset)"
+    strict  {
+      ^/usr/bin/nu --config /usr/libexec/sblue/config.nu $hook.name --base ($hook.name | path dirname)
+    }
+    # let $result = strict { 
+    #   ^/usr/bin/nu --config /usr/libexec/sblue/config.nu $hook.name --base ($hook.name | path dirname)
+    # }
+    # if ($result.stdout | is-not-empty) { print $result.stdout }
+    # if ($result.stderr | is-not-empty) { print -e $result.stderr }
+  }
 }
-
-
-# # Wait for ublue-user-setup to finish
-# print "Waiting for ublue-user-setup to complete..."
-
-# loop {
-#     let status = (systemctl is-active ublue-user-setup.service | str trim)
-#     let substate = (systemctl show ublue-user-setup.service --property=SubState | str replace "SubState=" "" | str trim)
-    
-#     # If it's finished (dead) or failed, we break the loop and continue
-#     if $status == "inactive" or $status == "failed" { 
-#         print $"Ublue setup finished with substate: ($substate)"
-#         break 
-#     }
-    
-#     sleep 1sec
-# }
-
-# # Now continue with your Sky Blue logic...

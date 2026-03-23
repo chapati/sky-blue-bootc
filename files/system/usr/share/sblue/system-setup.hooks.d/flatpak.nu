@@ -1,0 +1,1 @@
+print $"(ansi green)System setup flatpak hook(ansi reset)"
