@@ -12,7 +12,7 @@ export def wait_service_end [service_name: string, is_system: bool, state: strin
 
     loop {
       let service_info = (
-        strict $get_status
+        strict $get_status true
         | lines 
         | str trim
         | parse "{k}={v}" 
