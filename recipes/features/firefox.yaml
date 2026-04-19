@@ -4,9 +4,9 @@ description: Replace firefox flatpak with native package
 # TODO: firefox default settings common/system_files/bluefin/usr/share/ublue-os/firefox-config
 
 modules:
-  #- type: flatpak
-  #  remove:
-  #    - org.mozilla.firefox
+  - type: flatpak
+    remove:
+      - org.mozilla.firefox
 
   - type: dnf
     install:
