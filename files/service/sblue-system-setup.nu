@@ -17,12 +17,7 @@ def main [--base: path] {
   for hook in (ls $hooks_dir | where type == file) {
     print $"(ansi cyan)Running system setup hook: ($hook.name)(ansi reset)"
     strict  {
-      ^/usr/bin/nu --config /usr/libexec/sblue/config.nu $hook.name --base ($hook.name | path dirname)
+      ^/usr/bin/nu --config /usr/libexec/sblue/config.nu $hook.name --base ($hook.name | path dirname) out> /dev/stdout err> /dev/stderr
     }
-    # let $result = strict { 
-    #   ^/usr/bin/nu --config /usr/libexec/sblue/config.nu $hook.name --base ($hook.name | path dirname)
-    # }
-    # if ($result.stdout | is-not-empty) { print $result.stdout }
-    # if ($result.stderr | is-not-empty) { print -e $result.stderr }
   }
 }
