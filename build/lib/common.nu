@@ -3,7 +3,7 @@ export def strict [cmd: closure, result: bool = false] {
         if $result {
             {failed: false, result: (do --env $cmd)}
         } else {
-            do --env $cmd
+            do --env $cmd | print
             {failed: false, result: null}
         }
     } catch { 
