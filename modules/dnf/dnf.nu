@@ -91,7 +91,7 @@ def enable_repos [repos: list<string>, base: path] {
         let repo_id = ($in | path parse | get stem)
 
         try {
-            ^dnf config-manager --enable $repo_id
+            ^dnf config-manager enable $repo_id
         } catch {
             # most likely it is enabled already
             # so just ignore any errors here
