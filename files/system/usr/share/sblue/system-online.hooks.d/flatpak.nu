@@ -10,7 +10,12 @@ if not ($flatpak_config_path | path exists) {
 }
 
 let to_remove = open $flatpak_config_path | get remove
-let installed = (strict {^flatpak list --columns=application}, true) | lines | str trim
+let installed = (
+  strict {^flatpak list --columns=application}, true 
+  | lines 
+  | str trim
+)
+
 print $installed
 
 if ($to_remove | is-empty) {
