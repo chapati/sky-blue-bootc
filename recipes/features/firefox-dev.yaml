@@ -8,6 +8,10 @@ modules:
     snippets:
       - "curl -L 'https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US' > firefox-dev.tar.xz" 
       - "tar xf firefox-dev.tar.xz"
+      - "ls -lah"
       - "mv firefox /usr/lib/opt/firefox-dev"
       - "rm firefox-dev.tar.xz"
+      - "ls -lah /usr/lib/opt/"
+      - "ls -lah /var/"
+      - "ls -lah /var/opt/"
       - "ln -s /usr/lib/opt/firefox-dev /var/opt/firefox-dev"
