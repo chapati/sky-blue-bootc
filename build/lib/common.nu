@@ -1,9 +1,9 @@
 export def strict [cmd: closure, result: bool = false] {
     let res = try {
         if $result {
-            {failed: false, result: (do --env $cmd)}
+            {failed: false, result: (do $cmd)}
         } else {
-            do --env $cmd
+            do $cmd
             {failed: false, result: null}
         }
     } catch { 

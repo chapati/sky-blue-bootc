@@ -16,8 +16,6 @@ let installed = (
   | str trim
 )
 
-print $installed
-
 if ($to_remove | is-empty) {
   print "The removal list is empty."
   return

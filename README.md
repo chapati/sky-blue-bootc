@@ -20,6 +20,7 @@ Installed as native packages:
 - nushell from gemfury nushell repo
 - google chrome stable from google repository
 - firefox flatpak replaced with the native package due to security implications
+- firefox developer edition as a native package from mozilla website
 
 UI & cosmetic stuff:
 
