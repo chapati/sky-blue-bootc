@@ -1,6 +1,6 @@
 use common.nu *
 use systemd.nu *
-use hooks.nu
+use hooks.nu *
 
 # 
 # This service starts PRIOR the network.target
