@@ -10,6 +10,6 @@ def main [--base: path] {
   print $"(ansi green)-- Sky Blue system setup --(ansi reset)"
   wait_service_end "ublue-system-setup" true "inactive" "dead"
 
-  let hooks_dir = "/usr/share/sblue/system-setup.hooks.d"
-  run_hooks $hooks_dir
+  # let hooks_dir = "/usr/share/sblue/system-setup.hooks.d"
+  # run_hooks $hooks_dir
 }

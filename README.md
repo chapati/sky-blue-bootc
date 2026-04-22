@@ -14,19 +14,16 @@ systemctl reboot
 
 ## Features
 
-Installed fedora packages:
+Installed as native packages:
 
 - mc
-- firefox flatpak replaced with the native package due to security implications
-
-3rd-party packages:
-
 - nushell from gemfury nushell repo
-- google chrome stable installed from google repository
+- google chrome stable from google repository
+- firefox flatpak replaced with the native package due to security implications
 
 UI & cosmetic stuff:
 
-- breeze cursor theme installed, breeze-white as default
+- breeze cursor theme installed, breeze-white set as default
 - custom dash to dock config
 
 ## Credits

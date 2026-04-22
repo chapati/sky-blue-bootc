@@ -1,3 +1,5 @@
+use common.nu *
+
 print $"(ansi green)-- System setup flatpak hook --(ansi reset)"
 
 let flatpak_config_path = "/usr/share/sblue/flatpak.json"
