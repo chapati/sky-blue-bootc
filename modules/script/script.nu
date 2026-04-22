@@ -5,6 +5,7 @@ def main [nuon: string, --base: path] {
     validate_params $params ["snippets"]
     
     $params.snippets | each {
+      print $"(ansi purple)Executing:(ansi reset) $in"
       strict {
         ^bash -c $in
       }
