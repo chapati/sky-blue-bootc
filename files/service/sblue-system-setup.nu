@@ -1,5 +1,6 @@
 use common.nu *
 use systemd.nu *
+use hooks.nu
 
 # 
 # This service starts PRIOR the network.target
@@ -10,14 +11,5 @@ def main [--base: path] {
   wait_service_end "ublue-system-setup" true "inactive" "dead"
 
   let hooks_dir = "/usr/share/sblue/system-setup.hooks.d"
-  if not ($hooks_dir | path exists) {
-    die $"Hooks directory not found at: ($hooks_dir)"
-  }
-
-  for hook in (ls $hooks_dir | where type == file) {
-    print $"(ansi cyan)Running system setup hook: ($hook.name)(ansi reset)"
-    strict  {
-      ^/usr/bin/nu --config /usr/libexec/sblue/config.nu $hook.name --base ($hook.name | path dirname)
-    }
-  }
+  run_hooks $hooks_dir
 }
