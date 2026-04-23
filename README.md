@@ -21,6 +21,7 @@ Installed as native packages:
 - google chrome stable from google repository
 - firefox flatpak replaced with the native package due to security implications
 - firefox developer edition as a native package from mozilla website
+- sublime merge
 
 UI & cosmetic stuff:
 

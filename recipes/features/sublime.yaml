@@ -1,0 +1,9 @@
+name: sublime
+description: Install sublime merge
+
+modules:
+  - type: dnf
+    repos:
+      - sublime-text.repo
+    install:
+      - sublime-merge

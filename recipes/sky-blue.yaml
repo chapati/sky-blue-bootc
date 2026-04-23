@@ -20,4 +20,5 @@ modules:
   - include: features/google-chrome.yaml
   - include: features/firefox.yaml
   - include: features/firefox-dev.yaml
+  - include: features/sublime.yaml
   - include: features/ui.yaml
