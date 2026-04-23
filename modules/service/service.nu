@@ -47,7 +47,7 @@ def main [nuon: string, --base: path] {
     } | ignore
   }
 
-  let disable = ($params | get -o register)
+  let disable = ($params | get -o disable)
   if $disable != null {
     $disable | each {
         let scope = $in.scope
@@ -55,15 +55,17 @@ def main [nuon: string, --base: path] {
 
         if $scope == "system" {
             strict {
+                print $"(ansi green)Disabling system service:(ansi reset) ($service_name)"
                 ^systemctl mask --now $service_name
             }
         } else if $scope == "user" {
             strict {
+                print $"(ansi green)Disabling user service:(ansi reset) ($service_name)"
                 ^systemctl mask --now --global $service_name
             }
         } else {
             die $"Unknown ($service_name) service scope: ($scope) "
         }
-    }
+    } | ignore 
   }
 }
