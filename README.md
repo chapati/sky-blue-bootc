@@ -25,6 +25,9 @@ Installed as native packages:
 - veracrypt
 - qbittorrent
 - clapper
+- flatseal
+- valutwarden
+- foliate
 
 Flatpaks:
 
@@ -43,9 +46,15 @@ Flatpaks:
 
 Removed from base bluefin:
 
-- firefox flatpak replaced with the native package due to security implications
-- thunderbird removed (replaced with BetterBird)
 - tailscale VPN client
+
+BlueFin flatpaks replaced with the native packages. SkyBlue prefers
+native fedora-reviewed packages over flatpaks.
+
+- firefox
+- flatseal
+- thunderbird replaced with betterbird
+- pinta
 
 UI & cosmetic stuff:
 

@@ -10,7 +10,6 @@ modules:
       - com.bitwarden.desktop
       - eu.betterbird.Betterbird
       - app.grayjay.Grayjay
-      - com.github.johnfactotum.Foliate
       - com.github.neithern.g4music
       - com.github.taiko2k.tauonmb
       - com.slack.Slack
@@ -18,3 +17,9 @@ modules:
       - org.cockpit_project.CockpitClient
     remove:
       - org.mozilla.Thunderbird
+      - com.github.tchx84.Flatseal
+      - com.github.PintaProject.Pinta
+  
+  - type: dnf
+    install:
+      - flatseal
