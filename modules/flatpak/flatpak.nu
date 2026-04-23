@@ -2,18 +2,20 @@ use common.nu *
 
 let flatpak_config_path = "/usr/share/sblue/flatpak.json"
 
-def install_pkgs [install: list<string>] {
-    if ($install | is-empty) {
-        die "No packages specified for installation"
+def install_pkgs [pkgs: list<string>] {
+   if ($pkgs | is-empty) {
+        die "No packages specified for install"
     }
-        
-    print $"(ansi cyan)Installing flatpaks: ($install)(ansi reset)"
-    
-    # We use --system to ensure global installation (usually /var/lib/flatpak)
-    # --noninteractive is crucial for CI/CD to prevent prompts
-    strict {
-      ^flatpak install --system --noninteractive -y ...$install
+
+    # Ensure the file exists, or create a default structure
+    if not ($flatpak_config_path | path exists) {
+        { install: [] } | save $flatpak_config_path
     }
+
+    # Read, append, and save
+    open $flatpak_config_path 
+        | update install { append $pkgs | uniq }
+        | save -f $flatpak_config_path
 }
 
 def remove_pkgs [pkgs: list<string>] {

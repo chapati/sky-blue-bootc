@@ -10,23 +10,20 @@ if not ($flatpak_config_path | path exists) {
 }
 
 let to_remove = open $flatpak_config_path | get remove
+let to_install = open $flatpak_config_path | get install
 let installed = (
   strict { ^flatpak list --columns=application } true 
   | lines 
   | str trim
 )
 
-if ($to_remove | is-empty) {
-  print "The removal list is empty."
-  return
-} else {
+if not ($to_remove | is-empty) {
   $to_remove | each { |pkg|
     if ($pkg in $installed) {
       print $"(ansi cyan)Removing ($pkg)...(ansi reset)"
       
       # Ignore errors, we do not want the whole system setup script
-      # to fail just because of flatpaks. Also they might be 
-      # already uninstalled.
+      # to fail just because of flatpaks. 
       try {
         ^flatpak uninstall --system --noninteractive -y $pkg
       } catch { |err|
@@ -34,6 +31,24 @@ if ($to_remove | is-empty) {
       }
     } else {
       print $"(ansi yellow)($pkg) is not installed. Skipping.(ansi reset)"
+    }
+  }
+}
+
+if not ($to_install | is-empty) {
+  $to_install | each { |pkg|
+    if not ($pkg in $installed) {
+      print $"(ansi cyan)Installing ($pkg)...(ansi reset)"
+      
+      # Ignore errors, we do not want the whole system setup script
+      # to fail just because of flatpaks. 
+      try {
+        ^flatpak install --system --noninteractive -y $pkg
+      } catch { |err|
+        print $"Failed to install ($pkg): ($err)"
+      }
+    } else {
+      print $"(ansi yellow)($pkg) is already installed. Skipping.(ansi reset)"
     }
   }
 }
