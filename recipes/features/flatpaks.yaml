@@ -1,0 +1,13 @@
+name: sublime
+description: Manage flatpaks
+
+modules:
+  - type: flatpak
+    install:
+      - md.obsidian.Obsidian
+      - org.telegram.desktop
+      - com.mongodb.Compass
+      - com.bitwarden.desktop
+      - eu.betterbird.Betterbird
+    remove:
+      - org.mozilla.Thunderbird

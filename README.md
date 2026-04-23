@@ -23,14 +23,20 @@ Installed as native packages:
 - firefox developer edition from mozilla website
 - sublime merge
 - veracrypt
+- qbittorrent
 
 Flatpaks:
 
-- 
+- Obsidian
+- Telegram Desktop
+- MongoDb Compass
+- BitWarden Desktop
+- BetterBird
 
 Removed from base bluefin:
 
 - firefox flatpak replaced with the native package due to security implications
+- thunderbird removed (replaced with BetterBird)
 
 UI & cosmetic stuff:
 

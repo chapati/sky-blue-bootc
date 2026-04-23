@@ -22,3 +22,4 @@ modules:
   - include: features/firefox-dev.yaml
   - include: features/sublime.yaml
   - include: features/ui.yaml
+  - include: features/flatpaks.yaml
