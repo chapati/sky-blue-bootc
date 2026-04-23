@@ -2,16 +2,20 @@ use common.nu *
 
 let flatpak_config_path = "/usr/share/sblue/flatpak.json"
 
+def ensure_config [] {
+    if not ($flatpak_config_path | path exists) {
+        { install: [], remove: [] } | save $flatpak_config_path
+    }
+}
+
 def install_pkgs [pkgs: list<string>] {
    if ($pkgs | is-empty) {
         die "No packages specified for install"
     }
 
-    # Ensure the file exists, or create a default structure
-    if not ($flatpak_config_path | path exists) {
-        { install: [] } | save $flatpak_config_path
-    }
-
+    # Ensure the file exists / create a default structure
+    ensure_config 
+   
     # Read, append, and save
     open $flatpak_config_path 
         | update install { append $pkgs | uniq }
@@ -23,10 +27,8 @@ def remove_pkgs [pkgs: list<string>] {
         die "No packages specified for removal"
     }
 
-    # Ensure the file exists, or create a default structure
-    if not ($flatpak_config_path | path exists) {
-        { remove: [] } | save $flatpak_config_path
-    }
+    # Ensure the file exists / create a default structure
+    ensure_config 
 
     # Read, append, and save
     open $flatpak_config_path 
