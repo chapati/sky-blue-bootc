@@ -20,8 +20,17 @@ Installed as native packages:
 - nushell from gemfury nushell repo
 - google chrome stable from google repository
 - firefox flatpak replaced with the native package due to security implications
-- firefox developer edition as a native package from mozilla website
+- firefox developer edition from mozilla website
 - sublime merge
+- veracrypt
+
+Flatpaks:
+
+- 
+
+Removed from base bluefin:
+
+- firefox flatpak replaced with the native package due to security implications
 
 UI & cosmetic stuff:
 

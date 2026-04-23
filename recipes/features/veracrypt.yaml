@@ -1,0 +1,12 @@
+name: veracrypt
+description: Install veracrypt
+
+modules:
+  - type: script
+    snippets:
+      - "rpm --import 'https://amcrypto.jp/VeraCrypt/VeraCrypt_PGP_public_key.asc'"
+      - "curl -L 'https://launchpad.net/veracrypt/trunk/1.26.24/+download/veracrypt-1.26.24-Fedora-40-x86_64.rpm' > veracrypt.rpm"
+      - "rpm -iv veracrypt.rpm"
+      - "rm veracrypt.rpm"
+      # xpm codec is not installed, we supply png icon for veracrypt
+      - "rm /usr/share/pixmaps/veracrypt.xpm"
