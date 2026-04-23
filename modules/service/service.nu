@@ -38,12 +38,32 @@ def register_service [service_name: string, scope: string, base_path: path] {
 
 def main [nuon: string, --base: path] {
   let params = ($nuon | from nuon)
-  validate_params $params ["register"]
+  validate_params $params ["register", "disable"]
 
   let register = ($params | get -o register)
   if $register != null {
-    $params.register | each {
+    $register | each {
       register_service $in.name $in.scope $base
     } | ignore
+  }
+
+  let disable = ($params | get -o register)
+  if $disable != null {
+    $disable | each {
+        let scope = $in.scope
+        let service_name = $in.name
+
+        if $scope == "system" {
+            strict {
+                ^systemctl mask --now $service_name
+            }
+        } else if $scope == "user" {
+            strict {
+                ^systemctl mask --now --global $service_name
+            }
+        } else {
+            die $"Unknown ($service_name) service scope: ($scope) "
+        }
+    }
   }
 }

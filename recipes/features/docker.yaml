@@ -1,0 +1,13 @@
+name: docker
+description: Disable rootful docker
+
+modules:
+  - type: service
+    disable:
+      - name: docker.socket
+        scope: system
+      - name: docker.service
+        scope: system
+  - type: script
+    snippets:
+      - "rm /var/run/docker.sock || true"
