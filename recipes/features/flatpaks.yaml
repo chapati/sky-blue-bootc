@@ -9,5 +9,12 @@ modules:
       - com.mongodb.Compass
       - com.bitwarden.desktop
       - eu.betterbird.Betterbird
+      - app.grayjay.Grayjay
+      - com.github.johnfactotum.Foliate
+      - com.github.neithern.g4music
+      - com.github.taiko2k.tauonmb
+      - com.slack.Slack
+      - us.zoom.Zoom
+      - org.cockpit_project.CockpitClient
     remove:
       - org.mozilla.Thunderbird

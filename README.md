@@ -32,6 +32,13 @@ Flatpaks:
 - MongoDb Compass
 - BitWarden Desktop
 - BetterBird
+- Grayjay
+- Foliate
+- G4music
+- Tauon
+- Slack
+- Zoom
+- Cockpit Client
 
 Removed from base bluefin:
 
