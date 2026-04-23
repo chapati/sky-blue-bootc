@@ -10,6 +10,9 @@ modules:
     install:
       - mc
       - qbittorrent
+      - clapper
       - name: nushell
         options: 
           - ignore-errors
+    remove:
+      - tailscale

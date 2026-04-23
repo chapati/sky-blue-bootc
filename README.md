@@ -24,6 +24,7 @@ Installed as native packages:
 - sublime merge
 - veracrypt
 - qbittorrent
+- clapper
 
 Flatpaks:
 
@@ -44,6 +45,7 @@ Removed from base bluefin:
 
 - firefox flatpak replaced with the native package due to security implications
 - thunderbird removed (replaced with BetterBird)
+- tailscale VPN client
 
 UI & cosmetic stuff:
 
