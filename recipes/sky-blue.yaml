@@ -21,6 +21,7 @@ modules:
   - include: features/firefox.yaml
   - include: features/firefox-dev.yaml
   - include: features/sublime.yaml
+  - include: features/veracrypt.yaml
   - include: features/ui.yaml
   - include: features/flatpaks.yaml
   - include: features/docker.yaml
