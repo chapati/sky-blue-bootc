@@ -11,8 +11,7 @@ modules:
       - mc
       - qbittorrent
       - clapper
-      - valutwarden
-      - pinta
+      - vaultwarden
       - name: nushell
         options: 
           - ignore-errors

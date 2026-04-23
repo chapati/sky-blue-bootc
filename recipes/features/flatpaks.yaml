@@ -23,3 +23,4 @@ modules:
   - type: dnf
     install:
       - flatseal
+      - pinta
