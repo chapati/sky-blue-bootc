@@ -25,9 +25,9 @@ Installed as native packages:
 - veracrypt
 - qbittorrent
 - clapper
-- flatseal
 - valutwarden
 - foliate
+- g4music
 
 Flatpaks:
 
@@ -37,8 +37,6 @@ Flatpaks:
 - BitWarden Desktop
 - BetterBird
 - Grayjay
-- Foliate
-- G4music
 - Tauon
 - Slack
 - Zoom
@@ -55,6 +53,7 @@ native fedora-reviewed packages over flatpaks.
 - flatseal
 - thunderbird replaced with betterbird
 - pinta
+- gnome-calculator 
 
 UI & cosmetic stuff:
 

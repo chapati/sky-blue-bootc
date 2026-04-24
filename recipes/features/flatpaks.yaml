@@ -10,7 +10,6 @@ modules:
       - com.bitwarden.desktop
       - eu.betterbird.Betterbird
       - app.grayjay.Grayjay
-      - com.github.neithern.g4music
       - com.github.taiko2k.tauonmb
       - com.slack.Slack
       - us.zoom.Zoom
@@ -19,8 +18,12 @@ modules:
       - org.mozilla.Thunderbird
       - com.github.tchx84.Flatseal
       - com.github.PintaProject.Pinta
+      - org.gnome.Calculator
   
   - type: dnf
     install:
       - flatseal
       - pinta
+      - foliate
+      - g4music
+      - gnome-calculator
