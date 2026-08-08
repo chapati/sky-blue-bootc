@@ -5,6 +5,7 @@ modules:
   - type: dnf
     install:
       - breeze-cursor-theme
+      - papirus-icon-theme
 
   - type: gnome-extensions
     remove:
