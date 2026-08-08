@@ -1,0 +1,9 @@
+[vivaldi]
+name=Vivaldi Browser
+enabled=1
+autorefresh=0
+baseurl=https://repo.vivaldi.com/archive/rpm/$basearch
+type=rpm-md
+gpgcheck=1
+gpgkey=https://repo.vivaldi.com/archive/linux_signing_key.pub
+keeppackages=0

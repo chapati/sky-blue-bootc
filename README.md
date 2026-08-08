@@ -20,6 +20,7 @@ Installed as native packages:
 - nushell from gemfury nushell repo
 - google chrome stable from google repository
 - firefox developer edition from mozilla website
+- vivaldi stable from official vivaldi repo
 - sublime merge
 - veracrypt
 - qbittorrent
