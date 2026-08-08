@@ -40,7 +40,8 @@ RUN --mount=type=bind,from=ctx,source=/build,target=/build \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
     /build/nu-shell/nu --config /build/config.nu /build/build.nu --recipe /build/recipes/sky-blue.yaml --base /build && \
-    dnf autoremove
+    dnf autoremove &&
+    dconf update
 
 RUN --mount=type=bind,from=ctx,source=/build,target=/build \
     /build/nu-shell/nu --config /build/config.nu /build/post-build.nu --optfix "${OPTFIX_DIR}"
