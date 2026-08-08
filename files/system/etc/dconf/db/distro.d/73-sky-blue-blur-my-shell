@@ -1,2 +1,5 @@
+[org/gnome/shell/extensions/blur-my-shell]
+settings-version=2
+
 [org/gnome/shell/extensions/blur-my-shell/dash-to-dock]
 blur=false
