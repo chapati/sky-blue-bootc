@@ -11,9 +11,8 @@ modules:
       - mc
       - qbittorrent
       - clapper
-      - vaultwarden
       - name: nushell
-        options: 
+        options:
           - ignore-errors
     remove:
       - tailscale

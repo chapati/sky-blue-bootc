@@ -19,13 +19,11 @@ Installed as native packages:
 - mc
 - nushell from gemfury nushell repo
 - google chrome stable from google repository
-- firefox flatpak replaced with the native package due to security implications
 - firefox developer edition from mozilla website
 - sublime merge
 - veracrypt
 - qbittorrent
 - clapper
-- valutwarden
 - foliate
 - g4music
 
@@ -44,16 +42,21 @@ Flatpaks:
 
 Removed from base bluefin:
 
-- tailscale VPN client
+- TailScale VPN client
+- Gnome Connections
 
-BlueFin flatpaks replaced with the native packages. SkyBlue prefers
-native fedora-reviewed packages over flatpaks.
+Flatpaks replaced with the native packages. SkyBlue prefers native fedora-reviewed packages over flatpaks.
 
-- firefox
+- firefox replaced with the native package due to security implications
 - flatseal
 - thunderbird replaced with betterbird
 - pinta
-- gnome-calculator 
+- gnome-calculator
+- gnome-calendar
+- gnome-characters
+- deja-dup
+- file-roller
+- gnome-firmware
 
 UI & cosmetic stuff:
 
