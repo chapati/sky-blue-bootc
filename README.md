@@ -71,6 +71,11 @@ Removed from base bluefin:
 - Gnome Weather
 - Gnome Clocks
 
+Due to security implications SkyBlue tries to reduce base environment attack surface as much as possible. For example we
+tend to remove software written in python and python packages. The following packagees were removed:
+
+- yubikey manager (python)
+
 UI & cosmetic stuff:
 
 - breeze cursor theme installed, breeze-white set as default

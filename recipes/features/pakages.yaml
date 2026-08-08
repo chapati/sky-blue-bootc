@@ -16,3 +16,4 @@ modules:
           - ignore-errors
     remove:
       - tailscale
+      - yubikey-manager
