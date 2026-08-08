@@ -81,7 +81,8 @@ tend to remove software written in python and python packages. The following pac
 
 UI & cosmetic stuff:
 
-- Breeze cursor theme installed, Breeze_Light set as default
+- Breeze Light cursor theme
+- Papirus icon theme with the nordic folders flavor
 - custom dash to dock config
 - custom blur my shell config
 - custom logo menu config

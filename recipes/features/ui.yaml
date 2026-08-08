@@ -13,3 +13,8 @@ modules:
       - places-menu@gnome-shell-extensions.gcampax.github.com
       - launch-new-instance@gnome-shell-extensions.gcampax.github.com
       - apps-menu@gnome-shell-extensions.gcampax.github.com
+
+  - type: script
+    snippets:
+      - "chmod +x /usr/bin/papirus-folders"
+      - "/usr/bin/papirus-folders -C nordic"
