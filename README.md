@@ -40,6 +40,7 @@ Flatpaks added:
 - Slack
 - Zoom
 - Cockpit Client
+- Shortwave
 
 Flatpaks replaced with the native packages. SkyBlue prefers native fedora-reviewed packages over flatpaks due to many security implications
 of flatpaks.
