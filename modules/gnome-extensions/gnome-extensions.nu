@@ -10,7 +10,7 @@ def remove_exts [remove: list<string>] {
   $remove | each { |uuid|
     let ext_path = [$exts_dir $uuid] | path join
     if ($ext_path | path exists) {
-      print $"(ansi cyan)Removing extension ($uuid)...(ansi reset)"
+      print $"(ansi cyan)Removing extension ($uuid)(ansi reset)"
       strict {
         ^rm -r $ext_path
       }

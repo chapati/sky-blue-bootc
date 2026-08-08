@@ -83,7 +83,9 @@ UI & cosmetic stuff:
 
 - Breeze cursor theme installed, Breeze_Light set as default
 - custom dash to dock config
-- removed windows list gnome shell extensions
+- custom blur my shell config
+- custom logo menu config
+- removed apps menu, places status indicator, launch new instance, windows list gnome shell extensions
 
 ## Credits
 
