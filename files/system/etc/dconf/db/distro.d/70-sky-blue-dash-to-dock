@@ -1,11 +1,12 @@
 [org/gnome/shell/extensions/dash-to-dock]
-background-opacity=0
+background-opacity=0.01
 custom-background-color=true
 custom-theme-shrink=true
 dash-max-icon-size=48
 disable-overview-on-startup=true
 dock-fixed=true
 dock-position='LEFT'
+height-fraction=1
 intellihide-mode='FOCUS_APPLICATION_WINDOWS'
 require-pressure-to-show=true
 running-indicator-style='DOTS'

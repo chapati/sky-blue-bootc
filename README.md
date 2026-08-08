@@ -27,6 +27,7 @@ Installed as native packages:
 - clapper
 - foliate
 - g4music
+- dconf-editor
 
 Flatpaks added:
 

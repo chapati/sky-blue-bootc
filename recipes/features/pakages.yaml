@@ -16,6 +16,7 @@ modules:
         options:
           - ignore-errors
       - vivaldi-stable
+      - dconf-editor
     remove:
       - tailscale
       - yubikey-manager
