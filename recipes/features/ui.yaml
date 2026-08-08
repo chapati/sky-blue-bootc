@@ -1,7 +1,11 @@
 name: ui
 description: UI & cosmetic stuff
 
-modules: 
+modules:
   - type: dnf
     install:
       - breeze-cursor-theme
+
+  - type: gnome-extensions
+    remove:
+      - window-list@gnome-shell-extensions.gcampax.github.com

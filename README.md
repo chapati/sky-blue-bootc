@@ -80,8 +80,9 @@ tend to remove software written in python and python packages. The following pac
 
 UI & cosmetic stuff:
 
-- breeze cursor theme installed, breeze-white set as default
+- Breeze cursor theme installed, Breeze_Light set as default
 - custom dash to dock config
+- removed windows list gnome shell extensions
 
 ## Credits
 
