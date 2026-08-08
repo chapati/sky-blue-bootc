@@ -26,6 +26,19 @@ modules:
       - org.gnome.DejaDup
       - org.gnome.FileRoller
       - org.gnome.Firmware
+      - org.gnome.Logs
+      - org.gnome.Loupe
+      - org.gnome.Maps
+      - org.gnome.NautilusPreviewer
+      - org.gnome.Papers
+      - org.gnome.Showtime
+      - org.gnome.SimpleScan
+      - org.gnome.Snapshot
+      - org.gnome.TextEditor
+      - org.gnome.Weather
+      - org.gnome.baobab
+      - org.gnome.clocks
+      - org.gnome.font-viewer
 
   - type: dnf
     install:
@@ -40,3 +53,12 @@ modules:
       - deja-dup
       - file-roller
       - gnome-firmware
+      - gnome-logs
+      - loupe
+      - sushi
+      - papers-previewer
+      - snapshot
+      - gnome-text-editor
+      - baobab
+      - gnome-font-viewer
+

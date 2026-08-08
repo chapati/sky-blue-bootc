@@ -27,7 +27,7 @@ Installed as native packages:
 - foliate
 - g4music
 
-Flatpaks:
+Flatpaks added:
 
 - Obsidian
 - Telegram Desktop
@@ -40,16 +40,12 @@ Flatpaks:
 - Zoom
 - Cockpit Client
 
-Removed from base bluefin:
+Flatpaks replaced with the native packages. SkyBlue prefers native fedora-reviewed packages over flatpaks due to many security implications
+of flatpaks.
 
-- TailScale VPN client
-- Gnome Connections
-
-Flatpaks replaced with the native packages. SkyBlue prefers native fedora-reviewed packages over flatpaks.
-
-- firefox replaced with the native package due to security implications
+- firefox
 - flatseal
-- thunderbird replaced with betterbird
+- thunderbird (replaced with betterbird)
 - pinta
 - gnome-calculator
 - gnome-calendar
@@ -57,6 +53,23 @@ Flatpaks replaced with the native packages. SkyBlue prefers native fedora-review
 - deja-dup
 - file-roller
 - gnome-firmware
+- gnome-logs
+- loupe
+- sushi
+- papers-previewer
+- snapshot
+- gnome-text-editor
+- baobab
+
+Removed from base bluefin:
+
+- TailScale VPN client
+- Gnome Connections
+- Gnome Maps
+- Showtime
+- SimpleScan
+- Gnome Weather
+- Gnome Clocks
 
 UI & cosmetic stuff:
 
