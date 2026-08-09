@@ -19,7 +19,7 @@ COPY files /build/files
 FROM alpine:latest AS theme-builder
 RUN apk add --no-cache bash git sassc glib
 
-RUN git clone https://github.com/chapati/graphite-gtk-theme.git /build/theme
+RUN git clone --depth 1 https://github.com/chapati/graphite-gtk-theme.git /build/theme
 WORKDIR /build/theme
 RUN ./parse-sass.sh && ./install.sh -d /tmp/themes -c dark --tweaks nord normal rimless darker macos -t blue
 
@@ -31,8 +31,14 @@ FROM ghcr.io/ublue-os/bluefin-dx-nvidia-open:stable
 # Copy compiled theme from the lightweight builder
 COPY --from=theme-builder /tmp/themes/ /usr/share/themes/
 
-ARG OPTFIX_DIR="/usr/lib/opt"
+# Global GTK4 / Libadwaita override (links strictly gtk.css, gtk-dark.css, and assets)
+RUN THEME_NAME="Graphite-blue-Dark-nord" && \
+    mkdir -p /etc/gtk-4.0 && \
+    ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/gtk.css" /etc/gtk-4.0/gtk.css && \
+    ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/gtk-dark.css" /etc/gtk-4.0/gtk-dark.css && \
+    ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/assets" /etc/gtk-4.0/assets
 
+ARG OPTFIX_DIR="/usr/lib/opt"
 ### [IM]MUTABLE /opt
 ## Some bootable images, like Fedora, have /opt symlinked to /var/opt, in order to
 ## make it mutable/writable for users. However, some packages write files to this directory,
