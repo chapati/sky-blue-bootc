@@ -33,10 +33,10 @@ COPY --from=theme-builder /tmp/themes/ /usr/share/themes/
 
 # Global GTK4 / Libadwaita override (links strictly gtk.css, gtk-dark.css, and assets)
 RUN THEME_NAME="Graphite-blue-Dark-nord" && \
-    mkdir -p /etc/gtk-4.0 && \
-    ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/gtk.css" /etc/gtk-4.0/gtk.css && \
-    ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/gtk-dark.css" /etc/gtk-4.0/gtk-dark.css && \
-    ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/assets" /etc/gtk-4.0/assets
+    mkdir -p /etc/skel/.config/gtk-4.0 && \
+    ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/gtk.css" /etc/skel/.config/gtk-4.0/gtk.css && \
+    ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/gtk-dark.css" /etc/skel/.config/gtk-4.0/gtk-dark.css && \
+    ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/assets" /etc/skel/.config/gtk-4.0/assets
 
 ARG OPTFIX_DIR="/usr/lib/opt"
 ### [IM]MUTABLE /opt
