@@ -83,6 +83,7 @@ UI & cosmetic stuff:
 
 - Breeze Light cursor theme
 - Papirus icon theme with the nordic folders flavor
+- GTK & Shell theme based on modified Graphite-gtk-theme
 - custom dash to dock config
 - custom blur my shell config
 - custom logo menu config

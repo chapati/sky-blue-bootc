@@ -13,8 +13,23 @@ COPY recipes /build/recipes
 COPY modules /build/modules
 COPY files /build/files
 
+#
+# Stage: Compile GTK Theme
+#
+FROM alpine:latest AS theme-builder
+RUN apk add --no-cache bash git sassc glib
+
+RUN git clone https://github.com/chapati/graphite-gtk-theme.git /build/theme
+WORKDIR /build/theme
+RUN ./parse-sass.sh && ./install.sh -d /tmp/themes -c dark --tweaks nord normal rimless darker macos -t blue
+
+#
 # Base Image
+#
 FROM ghcr.io/ublue-os/bluefin-dx-nvidia-open:stable
+
+# Copy compiled theme from the lightweight builder
+COPY --from=theme-builder /tmp/themes/ /usr/share/themes/
 
 ARG OPTFIX_DIR="/usr/lib/opt"
 
