@@ -34,11 +34,9 @@ def install_exts [install: list<any>] {
       ^mkdir $extract_dir
     }
 
-    print $"(ansi cyan)Fetching metadata for extension ($uuid)...(ansi reset)"
-    let info = http get $"https://extensions.gnome.org/extension-info/?uuid=($uuid)"
+    let dl_url = $"https://extensions.gnome.org/download-extension/($uuid).shell-extension.zip"
+    print $"(ansi cyan)Downloading ($uuid)...(ansi reset)"
 
-    let dl_url = $"https://extensions.gnome.org($info.download_url)"
-    print $"(ansi cyan)Downloading ($uuid) from ($dl_url)...(ansi reset)"
     strict {
       ^curl -sSL $dl_url -o $zip_path
       ^unzip -q -o $zip_path -d $extract_dir
