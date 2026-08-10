@@ -29,12 +29,13 @@ def install_exts [install: list<any>] {
     let tmp_dir = (mktemp -d)
     let zip_path = [$tmp_dir "ext.zip"] | path join
     let extract_dir = [$tmp_dir "extracted"] | path join
+    let shell_ver = strict {^gnome-shell --version | parse "GNOME Shell {ver}" | get ver.0 | split row "." | first} true
 
     strict {
       ^mkdir $extract_dir
     }
 
-    let dl_url = $"https://extensions.gnome.org/download-extension/($uuid).shell-extension.zip"
+    let dl_url = $"https://extensions.gnome.org/download-extension/($uuid).shell-extension.zip?shell_version=($shell_ver)"
     print $"(ansi cyan)Downloading ($uuid)...(ansi reset)"
 
     strict {
