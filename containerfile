@@ -32,7 +32,7 @@ FROM ghcr.io/ublue-os/bluefin-dx-nvidia-open:stable
 COPY --from=theme-builder /tmp/themes/ /usr/share/themes/
 
 # Global GTK4 / Libadwaita override (links strictly gtk.css, gtk-dark.css, and assets)
-RUN THEME_NAME="Graphite-blue-Dark-nord" && \
+RUN THEME_NAME="Graphite-blue-Dark-ayu" && \
     mkdir -p /etc/skel/.config/gtk-4.0 && \
     ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/gtk.css" /etc/skel/.config/gtk-4.0/gtk.css && \
     ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/gtk-dark.css" /etc/skel/.config/gtk-4.0/gtk-dark.css && \

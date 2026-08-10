@@ -1,11 +1,11 @@
 [org/gnome/desktop/interface]
 cursor-theme='Breeze_Light'
 icon-theme='Papirus'
-gtk-theme='Graphite-blue-Dark-nord'
+gtk-theme='Graphite-blue-Dark-ayu'
 color-scheme='prefer-dark'
 
 [org.gnome.desktop.wm.preferences]
-theme='Graphite-blue-Dark-nord'
+theme='Graphite-blue-Dark-ayu'
 
 [org.gnome.shell.extensions.user-theme]
-name='Graphite-blue-Dark-nord'
+name='Graphite-blue-Dark-ayu'
