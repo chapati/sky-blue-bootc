@@ -13,6 +13,8 @@ modules:
       - places-menu@gnome-shell-extensions.gcampax.github.com
       - launch-new-instance@gnome-shell-extensions.gcampax.github.com
       - apps-menu@gnome-shell-extensions.gcampax.github.com
+    install:
+      - color-picker@tuberry
 
   - type: script
     snippets:

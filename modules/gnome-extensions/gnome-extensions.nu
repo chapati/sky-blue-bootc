@@ -20,14 +20,66 @@ def remove_exts [remove: list<string>] {
   } | ignore
 }
 
+def install_exts [install: list<any>] {
+  if ($install | is-empty) {
+    die "No extensions specified for installation"
+  }
+
+  $install | each { |uuid|
+    let tmp_dir = (mktemp -d)
+    let zip_path = [$tmp_dir "ext.zip"] | path join
+    let extract_dir = [$tmp_dir "extracted"] | path join
+
+    strict {
+      ^mkdir $extract_dir
+    }
+
+    print $"(ansi cyan)Fetching metadata for extension ($uuid)...(ansi reset)"
+    let info = http get $"https://extensions.gnome.org/extension-info/?uuid=($uuid)"
+
+    let dl_url = $"https://extensions.gnome.org($info.download_url)"
+    print $"(ansi cyan)Downloading ($uuid) from ($dl_url)...(ansi reset)"
+    strict {
+      ^curl -sSL $dl_url -o $zip_path
+      ^unzip -q -o $zip_path -d $extract_dir
+    }
+
+    let meta_files = (glob $"($extract_dir)/**/metadata.json")
+    if ($meta_files | is-empty) {
+      die $"Invalid extension archive for ($uuid): missing metadata.json"
+    }
+
+    let src_dir = ($meta_files | first | path dirname)
+    let dest_dir = [$exts_dir $uuid] | path join
+
+    print $"(ansi green)Installing ($uuid) to ($dest_dir)(ansi reset)"
+    strict {
+      ^rm -rf $dest_dir
+      ^mkdir $dest_dir
+      ^cp -r $"($src_dir)/." $dest_dir
+      ^chmod -R a+rX $dest_dir
+    }
+
+    let schema_dir = [$dest_dir "schemas"] | path join
+    if ($schema_dir | path exists) {
+      print $"(ansi cyan)Compiling schemas for ($uuid)...(ansi reset)"
+      strict {
+        ^glib-compile-schemas $schema_dir
+      }
+    }
+
+    rm -rf $tmp_dir
+  } | ignore
+}
+
 def main [nuon: string, --base: path] {
   let params = ($nuon | from nuon)
   validate_params $params ["install", "remove"]
 
-  # let install = ($params | get -o install)
-  # if $install != null {
-  #     install_exts $install
-  # }
+  let install = ($params | get -o install)
+  if $install != null {
+    install_exts $install
+  }
 
   let remove = ($params | get -o remove)
   if $remove != null {
