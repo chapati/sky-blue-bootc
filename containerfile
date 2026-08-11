@@ -8,10 +8,10 @@ RUN NU_FILE="nu-${NU_VERSION}-x86_64-unknown-linux-gnu" \
     && curl -L "${NU_URL}" | tar xz \
     && mv "${NU_FILE}" /build/nu-shell
 
-COPY build /build
+COPY build   /build
 COPY recipes /build/recipes
 COPY modules /build/modules
-COPY files /build/files
+COPY files   /build/files
 
 #
 # Stage: Compile GTK Theme
@@ -28,10 +28,10 @@ RUN ./parse-sass.sh && ./install.sh -d /tmp/themes -c dark --tweaks ayu normal r
 #
 FROM ghcr.io/ublue-os/bluefin-dx-nvidia-open:stable
 
-# Copy compiled theme from the lightweight builder
+# Copy compiled theme from the theme-builder
 COPY --from=theme-builder /tmp/themes/ /usr/share/themes/
 
-# Global GTK4 / Libadwaita override (links strictly gtk.css, gtk-dark.css, and assets)
+# Global GTK4 / Libadwaita override
 RUN THEME_NAME="Graphite-blue-Dark-ayu" && \
     mkdir -p /etc/skel/.config/gtk-4.0 && \
     ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/gtk.css" /etc/skel/.config/gtk-4.0/gtk.css && \
@@ -50,9 +50,9 @@ ARG OPTFIX_DIR="/usr/lib/opt"
 
 # RUN rm /opt && mkdir /opt
 
-### MODIFICATIONS
-## make modifications desired in your image and install packages by modifying the build.sh script
-## the following RUN directive does all the things required to run "build.sh" as recommended.
+#
+# Run declarative build yamls
+#
 RUN --mount=type=bind,from=ctx,source=/build,target=/build \
     /build/nu-shell/nu --config /build/config.nu /build/pre-build.nu --optfix "${OPTFIX_DIR}"
 
@@ -67,5 +67,7 @@ RUN --mount=type=bind,from=ctx,source=/build,target=/build \
 RUN --mount=type=bind,from=ctx,source=/build,target=/build \
     /build/nu-shell/nu --config /build/config.nu /build/post-build.nu --optfix "${OPTFIX_DIR}"
 
-## Verify final image and contents are correct.
+#
+# Verify final image and contents are correct.
+#
 RUN bootc container lint
