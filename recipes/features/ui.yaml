@@ -15,6 +15,8 @@ modules:
       - apps-menu@gnome-shell-extensions.gcampax.github.com
     install:
       - color-picker@tuberry
+    enable:
+      - color-picker@tuberry
 
   - type: script
     snippets:

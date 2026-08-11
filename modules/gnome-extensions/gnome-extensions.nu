@@ -71,13 +71,52 @@ def install_exts [install: list<any>] {
   } | ignore
 }
 
+def enable_extensions [extensions: list<string>] {
+  if ($extensions | is-empty) {
+    return
+  }
+
+  let distro_dir = "/etc/dconf/db/distro.d"
+  let keyfile = [$distro_dir "60-extensions"] | path join
+  let bluefin_override = "/usr/share/glib-2.0/schemas/zz0-bluefin-modifications.gschema.override"
+
+  let bluefin_line = (
+    open $bluefin_override
+    | lines
+    | where { |l| $l | str contains "enabled-extensions" }
+  )
+
+  if ($bluefin_line | is-empty) {
+    die $"enabled-extensions key not found in '($bluefin_override)'"
+  }
+
+  let array_str = ($bluefin_line | first | split row "=" | last | str trim)
+  let bluefin_uuids = ($array_str | from nuon)
+  if ($bluefin_uuids | is-empty) {
+    die $"Failed to parse UUIDs from '($bluefin_override)'"
+  }
+
+  let all_uuids = ($bluefin_uuids | append $extensions | uniq)
+  let formatted_list = ($all_uuids | each { |u| $"'($u)'" } | str join ", ")
+  let dconf_content = $"[org/gnome/shell]\nenabled-extensions=[($formatted_list)]\n"
+
+  mkdir $distro_dir
+  print $"(ansi cyan)Setting default enabled extensions in ($keyfile)...(ansi reset)"
+  $dconf_content | save -f $keyfile
+}
+
 def main [nuon: string, --base: path] {
   let params = ($nuon | from nuon)
-  validate_params $params ["install", "remove"]
+  validate_params $params ["install", "remove", "enable"]
 
   let install = ($params | get -o install)
   if $install != null {
     install_exts $install
+  }
+
+  let enable = ($params | get -o enable)
+  if $enable != null {
+    enable_exts $enable
   }
 
   let remove = ($params | get -o remove)
