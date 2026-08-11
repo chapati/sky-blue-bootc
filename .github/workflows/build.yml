@@ -32,24 +32,43 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  notify_failure:
-    name: Notify Telegram on Failure
+  notify_status:
+    name: Notify on Completion
     runs-on: ubuntu-latest
     needs: [build_push, sign_image]
     # 'always()' ensures this job runs even if a dependency failed
-    # 'contains(...)' checks if ANY of the required jobs returned a 'failure' result
-    if: ${{always() && contains(needs.*.result, 'failure')}}
+    if: ${{ always() }}
     steps:
     - name: Send Telegram Notification
       env:
         TELEGRAM_TOKEN: ${{secrets.TELEGRAM_BOT_TOKEN}}
         TELEGRAM_CHAT_ID: ${{secrets.TELEGRAM_BOT_CHAT_ID}}
       run: |
+        if [ "${{ contains(needs.*.result, 'failure') }}" = "true" ]; then
+          EMOJI="💢"
+          STATUS="Failed"
+        elif [ "${{ contains(needs.*.result, 'cancelled') }}" = "true" ]; then
+          EMOJI="🖐️"
+          STATUS="Cancelled"
+        else
+          EMOJI="🌱"
+          STATUS="Succeeded"
+        fi
+
+        LINES=(
+          "${EMOJI} *SkyBlue OS Workflow ${STATUS}!*"
+          ""
+          "*Repo:* ${{ github.repository }}"
+          "*Branch:* ${{ github.ref_name }}"
+          "[View Workflow Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+        )
+        MESSAGE=$(printf "%s\n" "${LINES[@]}")
+
         curl -sS --fail-with-body -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
           -d chat_id="${TELEGRAM_CHAT_ID}" \
           -d link_preview_options='{"is_disabled": true}' \
           -d parse_mode="Markdown" \
-          -d text="💢 *SkyBlue OS Workflow Failed!*%0A%0A*Repo:* ${{ github.repository }}%0A*Branch:* ${{ github.ref_name }}%0A*Log:* https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          --data-urlencode "text=${MESSAGE}"
 
   build_push:
     name: Build and push image
