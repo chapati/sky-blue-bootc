@@ -224,9 +224,9 @@ jobs:
       - name: Sign image with Cosign
         run: |
           IMAGE_FULL="${IMAGE_REGISTRY,,}/${IMAGE_NAME,,}@${DIGEST}"
+          chmod 644 ~/.docker/config.json
           podman run --rm \
-            -v ~/.docker/config.json:/root/.docker/config.json:ro \
-            -e DOCKER_CONFIG=/root/.docker \
+            -v ~/.docker/config.json:/home/nonroot/.docker/config.json:ro \
             -e COSIGN_PRIVATE_KEY="${COSIGN_PRIVATE_KEY}" \
             -e COSIGN_PASSWORD="" \
             ghcr.io/sigstore/cosign/cosign:v3.1.3@sha256:9e5c2f2edc34351160407ca3416c61855bdf9403c3c5936e0f0be7fc261611b8 \
