@@ -140,10 +140,6 @@
         #     NU_PATH="${GITHUB_WORKSPACE}/${NU_FILE}"
         #     echo "${NU_PATH}" >> $GITHUB_PATH
         #     echo "nu_folder=${NU_FILE}" >> $GITHUB_OUTPUT
-
-        - name: Force failure for notification test
-          run: exit 1
-
         - name: Build Image
           id: build_image
           uses: redhat-actions/buildah-build@7a95fa7ee0f02d552a32753e7414641a04307056 # v2
