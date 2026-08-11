@@ -71,7 +71,7 @@ def install_exts [install: list<any>] {
   } | ignore
 }
 
-def enable_extensions [extensions: list<string>] {
+def enable_exts [extensions: list<string>] {
   if ($extensions | is-empty) {
     return
   }
@@ -101,7 +101,7 @@ def enable_extensions [extensions: list<string>] {
   let dconf_content = $"[org/gnome/shell]\nenabled-extensions=[($formatted_list)]\n"
 
   mkdir $distro_dir
-  print $"(ansi cyan)Setting default enabled extensions in ($keyfile)...(ansi reset)"
+  print $"(ansi green)Enabled extensions: ($all_uuids | str join ', ')(ansi reset)"
   $dconf_content | save -f $keyfile
 }
 
