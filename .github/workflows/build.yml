@@ -44,7 +44,7 @@
           TELEGRAM_CHAT_ID: ${{secrets.TELEGRAM_BOT_CHAT_ID}}
         run: |
           curl -sS --fail-with-body -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
-            -d chat_id="${TELEGRAM_CHAT_ID}" \
+            -d chat_id="${TELEGRAM_CHAT_ID1}" \
             -d parse_mode="Markdown" \
             -d text="*SkyBlue OS Workflow Failed!*%0A%0A*Repo:* ${{ github.repository }}%0A*Branch:* ${{ github.ref_name }}%0A*Log:* https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
