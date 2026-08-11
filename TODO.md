@@ -1,4 +1,4 @@
-* custom theme for ptyxis that looks like the system theme
+* custom theme for ptyxis that looks like the system theme? (may be not necessary, caputchin looks fine)
 * Enable user-theme@gnome-shell-extensions.gcampax.github.com
 * Fix cosign stage warnings, why cosign doesn't fail?
 * Verify checksum at least for veracrypt
