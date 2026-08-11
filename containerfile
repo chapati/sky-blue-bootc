@@ -21,7 +21,7 @@ RUN apk add --no-cache bash git sassc glib
 
 RUN git clone --depth 1 https://github.com/chapati/graphite-gtk-theme.git /build/theme
 WORKDIR /build/theme
-RUN ./parse-sass.sh && ./install.sh -d /tmp/themes -c dark --tweaks nord normal rimless darker macos -t blue
+RUN ./parse-sass.sh && ./install.sh -d /tmp/themes -c dark --tweaks ayu normal rimless macos -t blue
 
 #
 # Base Image
