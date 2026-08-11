@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build_push, sign_image]
     # 'always()' ensures this job runs even if a dependency failed
-    if: ${{ always() }}
+    if: ${{ always() && github.ref_name == 'main' && github.event_name != 'pull_request' }}
     steps:
     - name: Send Telegram Notification
       env:
