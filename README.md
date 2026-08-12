@@ -57,6 +57,7 @@ of flatpaks.
 - file-roller
 - gnome-firmware
 - gnome-logs
+- gnome-weather
 - loupe
 - sushi
 - papers-previewer
@@ -71,7 +72,6 @@ Removed from base bluefin:
 - Gnome Maps
 - Showtime
 - SimpleScan
-- Gnome Weather
 - Gnome Clocks
 
 Due to security implications SkyBlue tries to reduce base environment attack surface as much as possible. For example we
@@ -87,7 +87,9 @@ UI & cosmetic stuff:
 - custom dash to dock config
 - custom blur my shell config
 - custom logo menu config
-- removed apps menu, places status indicator, launch new instance, windows list gnome shell extensions
+- color picker extension
+- user-theme extension
+- removed 'apps menu', 'places status indicator', 'launch new instance' and 'windows list' gnome shell extensions
 
 ## Credits
 

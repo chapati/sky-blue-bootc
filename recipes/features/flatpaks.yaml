@@ -62,4 +62,4 @@ modules:
       - gnome-text-editor
       - baobab
       - gnome-font-viewer
-
+      - gnome-weather

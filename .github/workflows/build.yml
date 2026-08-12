@@ -56,7 +56,7 @@ jobs:
         fi
 
         LINES=(
-          "${EMOJI} *SkyBlue OS Workflow ${STATUS}!*"
+          "${EMOJI} *SkyBlue OS Workflow ${STATUS}*"
           ""
           "*Repo:* ${{ github.repository }}"
           "*Branch:* ${{ github.ref_name }}"
