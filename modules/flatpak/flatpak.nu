@@ -4,6 +4,7 @@ let flatpak_config_path = "/usr/share/sblue/flatpak.json"
 
 def ensure_config [] {
     if not ($flatpak_config_path | path exists) {
+        strict {^mkdir -p ($flatpak_config_path | path dirname)}
         { install: [], remove: [] } | save $flatpak_config_path
     }
 }
@@ -14,10 +15,10 @@ def install_pkgs [pkgs: list<string>] {
     }
 
     # Ensure the file exists / create a default structure
-    ensure_config 
-   
+    ensure_config
+
     # Read, append, and save
-    open $flatpak_config_path 
+    open $flatpak_config_path
         | update install { append $pkgs | uniq }
         | save -f $flatpak_config_path
 }
@@ -28,18 +29,18 @@ def remove_pkgs [pkgs: list<string>] {
     }
 
     # Ensure the file exists / create a default structure
-    ensure_config 
+    ensure_config
 
     # Read, append, and save
-    open $flatpak_config_path 
+    open $flatpak_config_path
         | update remove { append $pkgs | uniq }
         | save -f $flatpak_config_path
 }
 
 def main [nuon: string, --base: path] {
-    let params = ($nuon | from nuon)        
+    let params = ($nuon | from nuon)
     validate_params $params ["remove", "install"]
-    
+
     let remove  = ($params | get -o remove)
     if $remove != null {
         remove_pkgs $params.remove

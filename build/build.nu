@@ -1,7 +1,7 @@
 use common.nu *
 
 def run_module [type: string, params: record, base_dir: path] {
-    print $"(ansi green)============================= Start module ($type) =============================(ansi reset)"    
+    print $"(ansi green)============================= Start module ($type) =============================(ansi reset)"
     print $"(ansi cyan)With params:(ansi reset) ($params)"
 
     let module_path = [$base_dir "modules" $type $"($type).nu"] | path join
@@ -25,7 +25,7 @@ def run_module [type: string, params: record, base_dir: path] {
 
 def process_recipe [recipe_path: path, base_dir: path] {
     print $"(ansi green)Processing recipe:(ansi reset) ($recipe_path)"
-    
+
     if not ($recipe_path | path exists) {
         die $"Recipe file not found at: ($recipe_path)"
     }
@@ -35,7 +35,7 @@ def process_recipe [recipe_path: path, base_dir: path] {
     print $"(ansi cyan)Description:(ansi reset) ($recipe.description)"
     print $"(ansi cyan)Base:(ansi reset) ($base_dir)"
 
-    $recipe.modules | each { 
+    $recipe.modules | each {
         if ($in | get -o include) != null {
             let from_file = $in.include
             let recipe_dir = $recipe_path | path dirname
@@ -47,7 +47,7 @@ def process_recipe [recipe_path: path, base_dir: path] {
             let params = ($in | reject type)
             run_module $type $params $base_dir
         } else {
-            die $"Invalid module entry in recipe: ($in)"   
+            die $"Invalid module entry in recipe: ($in)"
         }
     } | ignore
 }
@@ -68,7 +68,7 @@ def copy_libs [base_path: path] {
 
     let config_src = [$base_path "config.nu"] | path join
     if not ($config_src | path exists) {
-        die $"Config file not found at: ($config_src)"  
+        die $"Config file not found at: ($config_src)"
     }
 
     let config_dst = "/usr/libexec/sblue/config.nu"
@@ -86,11 +86,19 @@ def main [--recipe: path, --base: path] {
         die "Missing required flag: --base <path>"
     }
 
-    print $"(ansi green)[build.nu] started(ansi reset)"   
+    print $"(ansi green)[build.nu] started(ansi reset)"
+
+    if (is_dev) {
+        print $"(ansi yellow)[build.nu] Mode: DEV(ansi reset)"
+    } else {
+        print $"(ansi green)[build.nu] Mode: STABLE(ansi reset)"
+    }
 
     # Copy libraries to the target system
-    copy_libs $base
-    
+    if not (is_dev) {
+        copy_libs $base
+    }
+
     # Process main recipe
     process_recipe $recipe $base
 

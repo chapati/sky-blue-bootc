@@ -1,3 +1,4 @@
+* harden veracrypt install - check key against official id/fingerprint
 * deploy public key to target machines via /etc/containers/policy.json
 * generate new keypair protected with password
 * run trivy or grype against the image before the signing step failing the job if critical CVEs or unknown binaries are detected

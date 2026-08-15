@@ -1,0 +1,8 @@
+name: dev-blue
+description: SkyBlue under contruction
+
+modules:
+  - type: files
+    copy:
+      - source: system
+        target: /

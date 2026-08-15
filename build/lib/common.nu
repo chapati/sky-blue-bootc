@@ -6,7 +6,7 @@ export def strict [cmd: closure, result: bool = false] {
             do $cmd
             {failed: false, result: null}
         }
-    } catch { 
+    } catch {
         {failed: true, error: $in}
     }
 
@@ -49,4 +49,8 @@ export def validate_list [params: list<string>,  allowed_keys: list<string>] {
             die $"Invalid parameter found: '($in)'. Allowed values are: ($allowed_keys | str join ', ')"
         }
     } | ignore
+}
+
+export def is_dev []: nothing -> bool {
+    ($env.DEV_MODE? | default "false") in ["true" "1" "yes"]
 }

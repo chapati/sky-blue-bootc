@@ -1,10 +1,28 @@
 use common.nu *
 
-def copy_files [copy: record<source: string, target: string>, base: path] { 
+def copy_files [copy: record<source: string, target: string>, base: path] {
     validate_params $copy ["source", "target"]
 
     let source = [$base 'files' $copy.source] | path join
     let target = $copy.target
+
+    #
+    # In dev mode we strictly check that we do not overwrite any target file,
+    # i.e. we do not overwrite anything that comes from the stable stage
+    #
+    if (is_dev) {
+        let is_dir = ($source | path type) == "dir"
+        let files  = if $is_dir { glob $"($source)/**/*" } else { [$source] }
+
+        let conflicts = ($files | where {|f| ($f | path type) == "file" } | each {|f|
+            let rel_file = if $is_dir { $f | path relative-to $source } else { $f | path basename }
+            $target | path join $rel_file
+        } | where {|f| $f | path exists })
+
+        if not ($conflicts | is-empty) {
+            error make { msg: $"[DEV_MODE CONFLICT] Files already exists in stable layer: ($conflicts)" }
+        }
+    }
 
     print $"(ansi cyan)Syncing: ($source) -> ($target)(ansi reset)"
 
@@ -22,10 +40,10 @@ def copy_files [copy: record<source: string, target: string>, base: path] {
 }
 
 def main [--base: path, nuon: string] {
-    let params = ($nuon | from nuon)  
+    let params = ($nuon | from nuon)
     validate_params $params ["copy"]
 
-    $params.copy | each { 
+    $params.copy | each {
       copy_files $in $base
     } | ignore
 }
