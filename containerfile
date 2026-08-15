@@ -1,7 +1,7 @@
 # ==============================================================================
 # Stage: Nushell Binary (Cached permanently until NU_VERSION changes)
 # ==============================================================================
-FROM registry.access.redhat.com/ubi10/ubi AS nu-base
+FROM registry.access.redhat.com/ubi10/ubi:latest AS nu-base
 
 ARG NU_VERSION="0.110.0"
 ARG NU_SHA256="d68c38d408b04c7d957930d4de15b3ded1520cf322bc6897ef85666955f41889"
@@ -54,13 +54,14 @@ RUN --mount=type=bind,target=/ctx \
 FROM nu-base AS ctx-stable
 
 ARG CACHE_KEY=default
-RUN --mount=type=bind,target=/ctx \
-    echo "Stable cache key: ${CACHE_KEY}" && \
-    mkdir -p /build/ /build/modules/ /build/files/ /build/recipes/ && \
-    cp -a /ctx/build/. /build/ && \
-    cp -a /ctx/modules/. /build/modules/ && \
-    cp -a /ctx/recipes/. /build/recipes/ && \
-    cp -a /ctx/files/. /build/files/
+RUN echo "Stable cache key: ${CACHE_KEY}"
+
+WORKDIR /build
+
+COPY build/   ./
+COPY modules/ ./modules/
+COPY recipes/ ./recipes/
+COPY files/   ./files/
 
 
 # ==============================================================================
@@ -68,13 +69,13 @@ RUN --mount=type=bind,target=/ctx \
 # ==============================================================================
 FROM nu-base AS ctx-dev
 
-RUN --mount=type=bind,target=/ctx \
-    mkdir -p /build/ /build/modules/ /build/files/ /build/recipes/ && \
-    cp -a /ctx/build/. /build/ && \
-    cp -a /ctx/modules/. /build/modules/ && \
-    cp -a /ctx/dev/modules/. /build/modules/ && \
-    cp -a /ctx/dev/recipes/. /build/recipes/ && \
-    cp -a /ctx/dev/files/. /build/files/
+WORKDIR /build
+
+COPY build/       ./
+COPY modules/     ./modules/
+COPY dev/modules/ ./modules/
+COPY dev/recipes/ ./recipes/
+COPY dev/files/   ./files/
 
 #
 # Base Image
