@@ -1,27 +1,80 @@
-FROM registry.access.redhat.com/ubi10/ubi AS ctx
-
-RUN mkdir -p /build
+# ==============================================================================
+# Stage: Nushell Binary (Cached permanently until NU_VERSION changes)
+# ==============================================================================
+FROM registry.access.redhat.com/ubi10/ubi AS nu-base
 
 ARG NU_VERSION="0.110.0"
-RUN NU_FILE="nu-${NU_VERSION}-x86_64-unknown-linux-gnu" \
+ARG NU_SHA256="d68c38d408b04c7d957930d4de15b3ded1520cf322bc6897ef85666955f41889"
+
+RUN mkdir -p /build && \
+    NU_FILE="nu-${NU_VERSION}-x86_64-unknown-linux-gnu" \
     && NU_URL="https://github.com/nushell/nushell/releases/download/${NU_VERSION}/${NU_FILE}.tar.gz" \
-    && curl -L "${NU_URL}" | tar xz \
-    && mv "${NU_FILE}" /build/nu-shell
+    && curl -sSL "${NU_URL}" -o "${NU_FILE}.tar.gz" \
+    && echo "${NU_SHA256}  ${NU_FILE}.tar.gz" | sha256sum -c - \
+    && tar -xzf "${NU_FILE}.tar.gz" \
+    && mv "${NU_FILE}" /build/nu-shell \
+    && rm "${NU_FILE}.tar.gz"
 
-COPY build   /build
-COPY recipes /build/recipes
-COPY modules /build/modules
-COPY files   /build/files
-
-#
-# Stage: Compile GTK Theme
-#
+# =============================================================================
+# Stage: Compile GTK Theme. Cached based on THEME_COMMIT
+# =============================================================================
 FROM alpine:latest AS theme-builder
+
+# Tooling layer is cached until alpine version is changed
 RUN apk add --no-cache bash git sassc glib
 
-RUN git clone --depth 1 https://github.com/chapati/graphite-gtk-theme.git /build/theme
+# Base repo layer, cached forever
 WORKDIR /build/theme
-RUN ./parse-sass.sh && ./install.sh -d /tmp/themes -c dark --tweaks ayu normal rimless macos -t blue
+RUN git init \
+    && git remote add origin https://github.com/chapati/graphite-gtk-theme.git
+
+# Commit-dependent layer
+ARG THEME_COMMIT=main
+RUN git fetch --depth 1 origin "${THEME_COMMIT}" \
+    && git checkout FETCH_HEAD \
+    && ./parse-sass.sh \
+    && ./install.sh -d /tmp/themes -c dark --tweaks ayu normal rimless macos -t blue
+
+# ==============================================================================
+# Stage: Stable pre-build & post-build layer
+# ==============================================================================
+FROM nu-base AS ctx-prepost
+
+RUN --mount=type=bind,target=/ctx \
+    mkdir -p /build/ /build/lib/ && \
+    cp -a /ctx/build/lib/. /build/lib/ && \
+    cp /ctx/build/config.nu /build/ && \
+    cp /ctx/build/pre-build.nu /build/ && \
+    cp /ctx/build/post-build.nu /build/
+
+
+# ==============================================================================
+# Stage: Stable base layer
+# ==============================================================================
+FROM nu-base AS ctx-stable
+
+ARG CACHE_KEY=default
+RUN --mount=type=bind,target=/ctx \
+    echo "Stable cache key: ${CACHE_KEY}" && \
+    mkdir -p /build/ /build/modules/ /build/files/ /build/recipes/ && \
+    cp -a /ctx/build/. /build/ && \
+    cp -a /ctx/modules/. /build/modules/ && \
+    cp -a /ctx/recipes/. /build/recipes/ && \
+    cp -a /ctx/files/. /build/files/
+
+
+# ==============================================================================
+# Stage: dev layer
+# ==============================================================================
+FROM nu-base AS ctx-dev
+
+RUN --mount=type=bind,target=/ctx \
+    mkdir -p /build/ /build/modules/ /build/files/ /build/recipes/ && \
+    cp -a /ctx/build/. /build/ && \
+    cp -a /ctx/modules/. /build/modules/ && \
+    cp -a /ctx/dev/modules/. /build/modules/ && \
+    cp -a /ctx/dev/recipes/. /build/recipes/ && \
+    cp -a /ctx/dev/files/. /build/files/
 
 #
 # Base Image
@@ -53,18 +106,35 @@ ARG OPTFIX_DIR="/usr/lib/opt"
 #
 # Run declarative build yamls
 #
-RUN --mount=type=bind,from=ctx,source=/build,target=/build \
+RUN --mount=type=bind,from=ctx-prepost,source=/build,target=/build \
     /build/nu-shell/nu --config /build/config.nu /build/pre-build.nu --optfix "${OPTFIX_DIR}"
 
-RUN --mount=type=bind,from=ctx,source=/build,target=/build \
+#
+# Run stable layer
+#
+RUN --mount=type=bind,from=ctx-stable,source=/build,target=/build \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
     /build/nu-shell/nu --config /build/config.nu /build/build.nu --recipe /build/recipes/sky-blue.yaml --base /build && \
-    dnf autoremove && \
-    dconf update
+    dnf -y autoremove
 
-RUN --mount=type=bind,from=ctx,source=/build,target=/build \
+#
+# Run dev layer, by default it is skipped
+#
+ARG SKIP_DEV_LAYER="true"
+RUN --mount=type=bind,from=ctx-dev,source=/build,target=/build \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    if [ "$SKIP_DEV_LAYER" != "true" ]; then \
+        DEV_MODE=true /build/nu-shell/nu --config /build/config.nu /build/build.nu --recipe /build/recipes/dev-blue.yaml --base /build && \
+        dnf -y autoremove ; \
+    else \
+        echo "Skipping dev layer" ; \
+    fi
+
+RUN --mount=type=bind,from=ctx-prepost,source=/build,target=/build \
     /build/nu-shell/nu --config /build/config.nu /build/post-build.nu --optfix "${OPTFIX_DIR}"
 
 #
