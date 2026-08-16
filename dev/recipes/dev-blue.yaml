@@ -8,6 +8,6 @@ modules:
         target: /
 
   - include: features/dev-ui.yaml
-  - include: features/dev-firefox-dev.yaml
+
 
 
