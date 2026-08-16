@@ -16,6 +16,7 @@ modules:
       - name: sblue-user-setup
         scope: user
 
+  - include: features/branding.yaml
   - include: features/pakages.yaml
   - include: features/google-chrome.yaml
   - include: features/firefox.yaml
@@ -25,3 +26,4 @@ modules:
   - include: features/flatpaks.yaml
   - include: features/docker.yaml
   - include: features/ui.yaml
+
