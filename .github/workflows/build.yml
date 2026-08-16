@@ -20,12 +20,14 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_DESC:     "SkyBlue Linux"
-  IMAGE_KEYWORDS: "bootc,ublue,universal-blue,sblue,skyblue"
-  IMAGE_LOGO_URL: "https://avatars.githubusercontent.com/chapati?s=200&v=4"
-  IMAGE_NAME:     "sky-blue-nvidia-open"
-  IMAGE_REGISTRY: "ghcr.io/${{github.repository_owner}}"
-  DEFAULT_TAG:    "latest"
+  IMAGE_DESC:        "SkyBlue Linux"
+  IMAGE_KEYWORDS:    "bootc,ublue,universal-blue,sblue,skyblue"
+  IMAGE_LOGO_URL:    "https://avatars.githubusercontent.com/chapati?s=200&v=4"
+  IMAGE_NAME:        "sky-blue-nvidia-open"
+  IMAGE_FLAVOR:      "nvidia-open"
+  IMAGE_REGISTRY:    "ghcr.io/${{github.repository_owner,,}}"
+  DEFAULT_TAG:       "latest"
+  BASE_IMAGE_NAME:   "bluefin-dx-nvidia-open"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -102,32 +104,9 @@ jobs:
     outputs:
       digest: ${{steps.push.outputs.digest}}
     steps:
-      - name: Prepare environment
-        run: |
-          # Lowercase the image uri
-          echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
-          echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
-
       # These stage versions are pinned by https://github.com/renovatebot/renovate
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
-
-      # You only use this action if the container-storage-action proves to be unreliable, you don't need to enable both
-      # This is optional, but if you see that your builds are way too big for the runners, you can enable this by uncommenting the following lines:
-      # - name: Maximize build space
-      #  uses: ublue-os/remove-unwanted-software@695eb75bc387dbcd9685a8e72d23439d8686cba6
-
-      # Looks like on ubuntu-24.04 it does nothing, confirm and remove
-      # - name: Mount BTRFS for podman storage
-      #   # Looks like on ubuntu-24.04 it does nothing, confirm and remove
-      #   # Fallback to the remove-unwanted-software-action if github doesn't allocate enough space
-      #   # See: https://github.com/ublue-os/container-storage-action/pull/11
-      #   id: container-storage-action
-      #   uses: ublue-os/container-storage-action@dc1f4c8f17b672069e921f001132f7cf98a423a6
-      #   continue-on-error: true
-      #   with:
-      #     target-dir: /var/lib/containers
-      #     mount-opts: compress-force=zstd:2
 
       - name: Get current date
         id: date
@@ -184,6 +163,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Prepare build args file
+        run: |
+          cat <<EOF > build_args.txt
+          IMAGE_NAME=${{ env.IMAGE_NAME }}
+          IMAGE_FLAVOR=${{ env.IMAGE_FLAVOR }}
+          IMAGE_VENDOR=${{ github.repository_owner }}
+          IMAGE_TAG=${{ env.DEFAULT_TAG }}
+          BASE_IMAGE_NAME=${{ env.BASE_IMAGE_NAME }}
+          THEME_COMMIT=${{ steps.theme_sha.outputs.sha }}
+          EOF
+
       - name: Build Image
         id: build_image
         uses: redhat-actions/buildah-build@7a95fa7ee0f02d552a32753e7414641a04307056 # v2
@@ -194,8 +184,7 @@ jobs:
           tags:   ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
           oci:    false
-          build-args: |
-            THEME_COMMIT=${{ steps.theme_sha.outputs.sha }}
+          build-args-files: build_args.txt
 
       # Rechunk is a script that we use on Universal Blue to make sure there isnt a single huge layer when your image gets published.
       # This does not make your image faster to download, just provides better resumability and fixes a few errors.

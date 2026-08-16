@@ -14,6 +14,12 @@
 * BitWarden extensions
 * Disable rootful docker - for now only services are disabled
 
+# Branding
+
+* current motd implementation is very clunky - we overwrite ublue-os motd,
+  investigate how to do this in a better way, leaving base motd untouched
+  and redirecting to sblue files
+
 # UI
 
 * less round corner in gnome shell windows

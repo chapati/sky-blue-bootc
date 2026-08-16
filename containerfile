@@ -53,9 +53,6 @@ RUN --mount=type=bind,target=/ctx \
 # ==============================================================================
 FROM nu-base AS ctx-stable
 
-ARG CACHE_KEY=default
-RUN echo "Stable cache key: ${CACHE_KEY}"
-
 WORKDIR /build
 
 COPY build/   ./
@@ -106,10 +103,23 @@ RUN --mount=type=bind,from=ctx-prepost,source=/build,target=/build \
 #
 # Run stable layer
 #
+ARG IMAGE_NAME
+ARG IMAGE_FLAVOR
+ARG IMAGE_VENDOR
+ARG IMAGE_TAG
+ARG BASE_IMAGE_NAME
+
 RUN --mount=type=bind,from=ctx-stable,source=/build,target=/build \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
+    echo "==> Production Build: Validating required build args..." && \
+    [ -n "$IMAGE_NAME" ]      || { echo "FATAL: IMAGE_NAME build arg is missing"; exit 1; } && \
+    [ -n "$IMAGE_FLAVOR" ]    || { echo "FATAL: IMAGE_FLAVOR build arg is missing"; exit 1; } && \
+    [ -n "$IMAGE_VENDOR" ]    || { echo "FATAL: IMAGE_VENDOR build arg is missing"; exit 1; } && \
+    [ -n "$IMAGE_TAG" ]       || { echo "FATAL: IMAGE_TAG build arg is missing"; exit 1; } && \
+    [ -n "$BASE_IMAGE_NAME" ] || { echo "FATAL: BASE_IMAGE_NAME build arg is missing"; exit 1; } && \
+    export IMAGE_NAME IMAGE_FLAVOR IMAGE_VENDOR IMAGE_TAG BASE_IMAGE_NAME && \
     /build/nu-shell/nu --config /build/config.nu /build/build.nu --recipe /build/recipes/sky-blue.yaml --base /build && \
     dnf -y autoremove && \
     dconf update
@@ -123,6 +133,13 @@ RUN --mount=type=bind,from=ctx-dev,source=/build,target=/build \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
     if [ "$SKIP_DEV_LAYER" != "true" ]; then \
+        echo "==> Dev Build: Validating required build args..." && \
+        [ -n "$IMAGE_NAME" ]      || { echo "FATAL: IMAGE_NAME build arg is missing"; exit 1; } && \
+        [ -n "$IMAGE_FLAVOR" ]    || { echo "FATAL: IMAGE_FLAVOR build arg is missing"; exit 1; } && \
+        [ -n "$IMAGE_VENDOR" ]    || { echo "FATAL: IMAGE_VENDOR build arg is missing"; exit 1; } && \
+        [ -n "$IMAGE_TAG" ]       || { echo "FATAL: IMAGE_TAG build arg is missing"; exit 1; } && \
+        [ -n "$BASE_IMAGE_NAME" ] || { echo "FATAL: BASE_IMAGE_NAME build arg is missing"; exit 1; } && \
+        export IMAGE_NAME IMAGE_FLAVOR IMAGE_VENDOR IMAGE_TAG BASE_IMAGE_NAME && \
         DEV_MODE=true /build/nu-shell/nu --config /build/config.nu /build/build.nu --recipe /build/recipes/dev-blue.yaml --base /build && \
         dnf -y autoremove && \
         dconf update ; \

@@ -1,3 +1,5 @@
+* custom dns resolver which blocks access to internal domains from non-hardened browser
+* investigate cryptomator vs veracrypt
 * harden veracrypt install - check key against official id/fingerprint
 * deploy public key to target machines via /etc/containers/policy.json
 * generate new keypair protected with password
