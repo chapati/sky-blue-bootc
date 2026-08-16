@@ -1,0 +1,8 @@
+name: Firefox
+description: Install firefox developer edition
+
+modules:
+  - type: script
+    snippets:
+      - "mkdir -p /usr/lib/opt/firefox-dev/distribution"
+      - "ln -sf /usr/share/sblue/firefox-dev/policies.json /usr/lib/opt/firefox-dev/distribution/policies.json"

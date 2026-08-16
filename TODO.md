@@ -1,3 +1,4 @@
+* predefined policies for adblock
 * fix dns resolution in the virtual machine
 * investigate moving files from /etc to /user/share + tmpfiles
 * define theme name globally and reference everywhere where Graphite-blue-Dark-ayu is used
@@ -16,3 +17,4 @@
 # UI
 
 * less round corner in gnome shell windows
+* mac colors for firefox buttons
