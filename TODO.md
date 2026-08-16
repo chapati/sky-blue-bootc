@@ -1,3 +1,8 @@
+# Important
+
+* change hostname to skyblue
+
+# Backlog
 * predefined policies for adblock
 * fix dns resolution in the virtual machine
 * investigate moving files from /etc to /user/share + tmpfiles
@@ -22,5 +27,6 @@
 
 # UI
 
+* distorted colors in shell logout window
 * less round corner in gnome shell windows
 * mac colors for firefox buttons

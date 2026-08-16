@@ -15,7 +15,7 @@ location = "${LOCAL_IP}:5000"
 insecure = true
 EOF
 
-sudo bootc switch ${LOCAL_IP}:5000/sky-blue:latest
+sudo bootc switch ${LOCAL_IP}:5000/sky-blue-nvidia-open:latest
 ```
 
 3. Swith back to cloud prod image

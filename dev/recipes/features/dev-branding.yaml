@@ -5,9 +5,18 @@ modules:
   - type: script
     snippets:
       - |
+        # overwrite ublue-os motd
+        cp -aT /usr/share/sblue/motd /usr/share/ublue-os/motd
+
         IMAGE_INFO="/usr/share/ublue-os/image-info.json"
         IMAGE_REF="ostree-image-signed:docker://ghcr.io/$IMAGE_VENDOR/$IMAGE_NAME"
         FEDORA_MAJOR_VERSION=$(rpm -E %fedora)
+
+        if [ "${DEV_MODE:-false}" = "true" ] || [ "$IMAGE_VENDOR" = "local-dev" ]; then
+          IMAGE_REF="ostree-unverified-registry:docker://localhost:5000/$IMAGE_NAME"
+        else
+          IMAGE_REF="ostree-image-signed:docker://ghcr.io/$IMAGE_VENDOR/$IMAGE_NAME"
+        fi
 
         cat >$IMAGE_INFO <<EOF
         {

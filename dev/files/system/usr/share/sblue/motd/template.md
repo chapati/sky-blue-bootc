@@ -1,6 +1,6 @@
-#  Welcome to SkyBlue
+#   Welcome to SkyBlue
 
- `${MOTD_IMAGE_NAME}:${MOTD_IMAGE_TAG}`
+` ${MOTD_IMAGE_NAME}:${MOTD_IMAGE_TAG}`
 
 | 󰞷 Command | Description |
 | ------- | ----------- |
@@ -11,5 +11,5 @@
 
 ${MOTD_TIP}
 
-- **󰊤** [SkyBlue Repo](https://github.com/chapati/skyblue)
+- **󰊤** [Project Repository](https://github.com/chapati/skyblue)
 - **󰌹** [Upstream](https://projectbluefin.io)
