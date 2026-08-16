@@ -4,8 +4,8 @@ icon-theme='Papirus'
 gtk-theme='Graphite-blue-Dark-ayu'
 color-scheme='prefer-dark'
 
-[org.gnome.desktop.wm.preferences]
+[org/gnome/desktop/wm/preferences]
 theme='Graphite-blue-Dark-ayu'
 
-[org.gnome.shell.extensions.user-theme]
+[org/gnome/shell/extensions/user-theme]
 name='Graphite-blue-Dark-ayu'

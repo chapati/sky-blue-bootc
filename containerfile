@@ -3,8 +3,8 @@
 # ==============================================================================
 FROM registry.access.redhat.com/ubi10/ubi:latest AS nu-base
 
-ARG NU_VERSION="0.110.0"
-ARG NU_SHA256="d68c38d408b04c7d957930d4de15b3ded1520cf322bc6897ef85666955f41889"
+ARG NU_VERSION="0.115.0"
+ARG NU_SHA256="da83cfe482060d2c34b6b9af829975a313bce6b92e0398c3b2a59cb38630c7b2"
 
 RUN mkdir -p /build && \
     NU_FILE="nu-${NU_VERSION}-x86_64-unknown-linux-gnu" \
@@ -85,13 +85,6 @@ FROM ghcr.io/ublue-os/bluefin-dx-nvidia-open:stable
 # Copy compiled theme from the theme-builder
 COPY --from=theme-builder /tmp/themes/ /usr/share/themes/
 
-# Global GTK4 / Libadwaita override
-RUN THEME_NAME="Graphite-blue-Dark-ayu" && \
-    mkdir -p /etc/skel/.config/gtk-4.0 && \
-    ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/gtk.css" /etc/skel/.config/gtk-4.0/gtk.css && \
-    ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/gtk-dark.css" /etc/skel/.config/gtk-4.0/gtk-dark.css && \
-    ln -sf "/usr/share/themes/${THEME_NAME}/gtk-4.0/assets" /etc/skel/.config/gtk-4.0/assets
-
 ARG OPTFIX_DIR="/usr/lib/opt"
 ### [IM]MUTABLE /opt
 ## Some bootable images, like Fedora, have /opt symlinked to /var/opt, in order to
@@ -118,7 +111,8 @@ RUN --mount=type=bind,from=ctx-stable,source=/build,target=/build \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
     /build/nu-shell/nu --config /build/config.nu /build/build.nu --recipe /build/recipes/sky-blue.yaml --base /build && \
-    dnf -y autoremove
+    dnf -y autoremove && \
+    dconf update
 
 #
 # Run dev layer, by default it is skipped
@@ -130,7 +124,8 @@ RUN --mount=type=bind,from=ctx-dev,source=/build,target=/build \
     --mount=type=tmpfs,dst=/tmp \
     if [ "$SKIP_DEV_LAYER" != "true" ]; then \
         DEV_MODE=true /build/nu-shell/nu --config /build/config.nu /build/build.nu --recipe /build/recipes/dev-blue.yaml --base /build && \
-        dnf -y autoremove ; \
+        dnf -y autoremove && \
+        dconf update ; \
     else \
         echo "Skipping dev layer" ; \
     fi

@@ -1,25 +1,28 @@
 export def strict [cmd: closure, result: bool = false] {
     let res = try {
-        if $result {
-            {failed: false, result: (do $cmd)}
-        } else {
-            do $cmd
-            {failed: false, result: null}
+        $env.LAST_EXIT_CODE = 0
+        let val = (do $cmd)
+
+        if ($env.LAST_EXIT_CODE? | default 0) != 0 {
+            error make { msg: $"External command failed with exit code ($env.LAST_EXIT_CODE)" }
         }
-    } catch {
-        {failed: true, error: $in}
+
+        {failed: false, result: $val}
+    } catch { |err|
+        {failed: true, error: $err}
     }
 
     if $res.failed {
-        let err = ($res.error.json | from json)
+        let err = $res.error
+        let msg = $err.msg? | default "Strict closure execution failed"
         error make {
-            msg: $err.msg
-            label: {
-                text: $err.labels.0.text,
-                span: $err.labels.0.span
-            }
+            msg: $msg
+            labels: [{
+                text: ($err.labels?.0?.text? | default "failed here")
+                span: ($err.labels?.0?.span? | default (metadata $cmd))
+            }]
         }
-    } else {
+    } else if $result {
         return $res.result
     }
 }

@@ -1,0 +1,10 @@
+name: ui
+description: UI & cosmetic stuff
+
+modules:
+  - type: script
+    snippets:
+      - |
+        # 1. GTK4 / Libadwaita Fallback (/etc/xdg/gtk-4.0)
+        echo "Placeholder"
+

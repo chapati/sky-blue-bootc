@@ -6,3 +6,5 @@ modules:
     copy:
       - source: system
         target: /
+
+  - include: features/dev-ui.yaml
