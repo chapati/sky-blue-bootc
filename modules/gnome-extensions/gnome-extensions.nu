@@ -1,6 +1,7 @@
 use common.nu *
 
 let exts_dir = "/usr/share/gnome-shell/extensions"
+let global_schema_dir = "/usr/share/glib-2.0/schemas"
 
 def remove_exts [remove: list<string>] {
   if ($remove | is-empty) {
@@ -62,8 +63,18 @@ def install_exts [install: list<any>] {
     let schema_dir = [$dest_dir "schemas"] | path join
     if ($schema_dir | path exists) {
       print $"(ansi cyan)Compiling schemas for ($uuid)...(ansi reset)"
+
+      # Some extensions hardcode Gio.SettingsSchemaSource.new_from_directory() pointing
+      # explicitly to their own folder, so we update local extension schemas
       strict {
         ^glib-compile-schemas $schema_dir
+      }
+
+      # Copy XML schemas to global GLib directory so gsettings resolves keys globally
+      let xml_schemas = (glob $"($schema_dir)/*.gschema.xml")
+      if not ($xml_schemas | is-empty) {
+        $xml_schemas | each { |xml| ^cp $xml $global_schema_dir }
+        ^glib-compile-schemas $global_schema_dir
       }
     }
 
@@ -109,6 +120,15 @@ def main [nuon: string, --base: path] {
   let params = ($nuon | from nuon)
   validate_params $params ["install", "remove", "enable"]
 
+  #
+  # Order is important: remove, install, enable. Some extensions ship broken in base images
+  # Removing and then installing these again fixes the issue
+  #
+  let remove = ($params | get -o remove)
+  if $remove != null {
+    remove_exts $remove
+  }
+
   let install = ($params | get -o install)
   if $install != null {
     install_exts $install
@@ -117,10 +137,5 @@ def main [nuon: string, --base: path] {
   let enable = ($params | get -o enable)
   if $enable != null {
     enable_exts $enable
-  }
-
-  let remove = ($params | get -o remove)
-  if $remove != null {
-    remove_exts $remove
   }
 }

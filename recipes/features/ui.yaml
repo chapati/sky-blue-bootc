@@ -13,12 +13,16 @@ modules:
       - places-menu@gnome-shell-extensions.gcampax.github.com
       - launch-new-instance@gnome-shell-extensions.gcampax.github.com
       - apps-menu@gnome-shell-extensions.gcampax.github.com
+      # Remove broken dash to dock, will be reinstalled
+      - dash-to-dock@micxgx.gmail.com
     install:
       - color-picker@tuberry
       - user-theme@gnome-shell-extensions.gcampax.github.com
+      - dash-to-dock@micxgx.gmail.com
     enable:
       - color-picker@tuberry
       - user-theme@gnome-shell-extensions.gcampax.github.com
+      - dash-to-dock@micxgx.gmail.com
 
   - type: script
     snippets:
