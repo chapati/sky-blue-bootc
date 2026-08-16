@@ -1,0 +1,5 @@
+{
+  "nushellLanguageServer.includeDirs": [
+    "./build/lib/"
+  ]
+}
