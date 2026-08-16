@@ -163,17 +163,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Prepare build args file
-        run: |
-          cat <<EOF > build_args.txt
-          IMAGE_NAME=${{ env.IMAGE_NAME }}
-          IMAGE_FLAVOR=${{ env.IMAGE_FLAVOR }}
-          IMAGE_VENDOR=${{ github.repository_owner }}
-          IMAGE_TAG=${{ env.DEFAULT_TAG }}
-          BASE_IMAGE_NAME=${{ env.BASE_IMAGE_NAME }}
-          THEME_COMMIT=${{ steps.theme_sha.outputs.sha }}
-          EOF
-
       - name: Build Image
         id: build_image
         uses: redhat-actions/buildah-build@7a95fa7ee0f02d552a32753e7414641a04307056 # v2
@@ -184,7 +173,13 @@ jobs:
           tags:   ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
           oci:    false
-          build-args-files: build_args.txt
+          build-args: |
+            IMAGE_NAME=${{ env.IMAGE_NAME }}
+            IMAGE_FLAVOR=${{ env.IMAGE_FLAVOR }}
+            IMAGE_VENDOR=${{ github.repository_owner }}
+            IMAGE_TAG=${{ env.DEFAULT_TAG }}
+            BASE_IMAGE_NAME=${{ env.BASE_IMAGE_NAME }}
+            THEME_COMMIT=${{ steps.theme_sha.outputs.sha }}
 
       # Rechunk is a script that we use on Universal Blue to make sure there isnt a single huge layer when your image gets published.
       # This does not make your image faster to download, just provides better resumability and fixes a few errors.
