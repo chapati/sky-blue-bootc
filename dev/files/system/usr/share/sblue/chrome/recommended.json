@@ -1,0 +1,14 @@
+{
+  "PasswordManagerEnabled": false,
+  "NetworkPredictionOptions": 2,
+  "BookmarkBarEnabled": true,
+  "DefaultSearchProviderEnabled": true,
+  "RestoreOnStartup": 5,
+  "ImportAutofillFormData": false,
+  "ImportBookmarks": false,
+  "ImportHistory": false,
+  "ImportSavedPasswords": false,
+  "ImportSearchEngine": false,
+  "DefaultSearchProviderName": "Google",
+  "DefaultSearchProviderSearchURL": "https://www.google.com/search?q={searchTerms}"
+}

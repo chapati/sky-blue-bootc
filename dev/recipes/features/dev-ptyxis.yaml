@@ -1,0 +1,8 @@
+name: Primary
+description: Ptyxis setup
+
+modules:
+  - type: script
+    snippets:
+      - |
+        sed -i '/^Primary=true$/d' /etc/skel/.local/share/org.gnome.Ptyxis/palettes/catppuccin-dynamic.palette

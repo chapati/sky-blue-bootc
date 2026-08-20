@@ -53,7 +53,6 @@ of flatpaks.
 - gnome-calculator
 - gnome-calendar
 - gnome-characters
-- deja-dup
 - file-roller
 - gnome-firmware
 - gnome-logs
@@ -64,6 +63,7 @@ of flatpaks.
 - snapshot
 - gnome-text-editor
 - baobab
+- deja-dup
 
 Removed from base bluefin:
 
@@ -90,6 +90,7 @@ UI & cosmetic stuff:
 - color picker extension
 - user-theme extension
 - removed 'apps menu', 'places status indicator', 'launch new instance' and 'windows list' gnome shell extensions
+- custom Dracula-based Ptyxis theme which works well with mc
 
 ## Credits
 

@@ -1,0 +1,39 @@
+{
+  "MetricsReportingEnabled": false,
+  "PromotionsEnabled": false,
+  "DefaultBrowserSettingEnabled": false,
+  "ImportHomepage": false,
+  "NTPFooterExtensionAttributionEnabled": false,
+  "BrowserSignin": 0,
+  "ExtensionSettings": {
+    "nhdogjmejiglipccpnnnanhbledajbpd": {
+      "installation_mode": "normal_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "toolbar_pin": "default_pinned"
+    },
+    "nngceckbapebfimnlniiiahkandclblb": {
+      "installation_mode": "normal_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "toolbar_pin": "default_pinned"
+    },
+    "cfhdojbkjhnklbpkdaibdccddilifddb": {
+      "installation_mode": "normal_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "toolbar_pin": "default_pinned"
+    },
+    "dlnejlppicbjfcfcedcflplfjajinajd": {
+      "installation_mode": "normal_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "toolbar_pin": "default_unpinned"
+    },
+    "eifflpmocdbdmepbjaopkkhbfmdgijcc": {
+      "installation_mode": "normal_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "toolbar_pin": "default_unpinned"
+    },
+    "fonhhkedhglpkohpmijjgdloldoldflj": {
+      "installation_mode": "normal_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx"
+    }
+  }
+}

@@ -8,6 +8,7 @@ modules:
         target: /
 
   - include: features/dev-ui.yaml
-
+  - include: features/dev-firefox.yaml
+  - include: features/dev-ptyxis.yaml
 
 

@@ -17,14 +17,18 @@
       "MoreFromMozilla": false
     },
     "ExtensionSettings": {
-      "{f1128560-8b23-46c1-aa6f-fb3e79f23cf3}": {
+      "{e42266c1-3e10-4955-a63c-cdffcc999d2f}": {
         "installation_mode": "normal_installed",
-        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/gnome-adwaita-gtk4-dark/latest.xpi"
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/minimalist-nord/latest.xpi"
       },
       "{446900e4-71c2-419f-a6a7-df9c091e268b}": {
         "installation_mode": "normal_installed",
         "install_url": "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi",
         "default_area": "navbar"
+      },
+      "chrome-gnome-shell@gnome.org": {
+        "installation_mode": "normal_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/gnome-shell-integration/latest.xpi"
       },
       "{4f391a9e-8717-4ba6-a5b1-488a34931fcb}": {
         "installation_mode": "normal_installed",
@@ -34,14 +38,6 @@
         "installation_mode": "normal_installed",
         "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi",
         "default_area": "navbar"
-      },
-      "cookie-manager@robwu.nl": {
-        "installation_mode": "normal_installed",
-        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/a-cookie-manager/latest.xpi"
-      },
-      "webextension@metamask.io": {
-        "installation_mode": "normal_installed",
-        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ether-metamask/latest.xpi"
       }
     },
     "Preferences": {
