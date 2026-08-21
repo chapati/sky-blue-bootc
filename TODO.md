@@ -47,3 +47,4 @@
 * chrome on default theme has transparent header
 * chrome on default theme has not skinned address popover
 * square buttons in chrome in GTK theme
+* + button in pytxis on the right side has incorrect background
