@@ -38,7 +38,7 @@ def copy_files [copy: record<source: string, target: string>, base: path] {
     }
 }
 
-def main [--base: path, nuon: string] {
+def main [--base: path, --recipe-name: string, nuon: string] {
     let params = ($nuon | from nuon)
     validate_params $params ["copy"]
 

@@ -1,4 +1,4 @@
-name: Primary
+name: ptyxis
 description: Ptyxis setup
 
 modules:
@@ -6,3 +6,15 @@ modules:
     snippets:
       - |
         sed -i '/^Primary=true$/d' /etc/skel/.local/share/org.gnome.Ptyxis/palettes/catppuccin-dynamic.palette
+
+  - type: dconf
+    distro.d:
+      # 2871e8027773ae74d6c87a5f659bbc74 is the hardcoded default profile in bluefin
+      - key: /org/gnome/Ptyxis/Profiles/2871e8027773ae74d6c87a5f659bbc74/palette
+        type: string
+        value: sky-blue-dynamic
+
+  - type: tmpfiles
+    system: |
+      d  /etc/skel/.local/share/org.gnome.Ptyxis/palettes 0755 root root -
+      L+ /etc/skel/.local/share/org.gnome.Ptyxis/palettes/sky-blue-dynamic.palette - - - - /usr/share/sblue/ptyxis/sky-blue-dracula.palette

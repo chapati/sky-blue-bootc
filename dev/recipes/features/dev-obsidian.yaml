@@ -1,0 +1,9 @@
+name: obsidian
+description: Obsidian config
+
+modules:
+  - type: tmpfiles
+    user: |
+      # Force-copy starter vault pre-seed
+      d %h/.var/app/md.obsidian.Obsidian/data 0755 - - -
+      C+ %h/.var/app/md.obsidian.Obsidian/data/Notes - - - - /usr/share/sblue/obsidian/starter-vault

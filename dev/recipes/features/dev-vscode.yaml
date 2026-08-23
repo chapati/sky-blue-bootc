@@ -1,0 +1,8 @@
+name: vscode
+description: vscode default config
+
+modules:
+  - type: script
+    snippets:
+      - |
+        echo "Placeholder"

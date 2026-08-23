@@ -116,7 +116,7 @@ def enable_exts [extensions: list<string>] {
   $dconf_content | save -f $keyfile
 }
 
-def main [nuon: string, --base: path] {
+def main [nuon: string, --recipe-name: string, --base: path] {
   let params = ($nuon | from nuon)
   validate_params $params ["install", "remove", "enable"]
 

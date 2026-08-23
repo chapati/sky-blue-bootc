@@ -7,8 +7,10 @@ modules:
       - source: system
         target: /
 
-  - include: features/dev-ui.yaml
+  - include: features/dev-chrome.yaml
   - include: features/dev-firefox.yaml
+  - include: features/dev-fonts.yaml
   - include: features/dev-ptyxis.yaml
-
-
+  - include: features/dev-qbittorrent.yaml
+  - include: features/dev-vscode.yaml
+  - include: features/dev-obsidian.yaml

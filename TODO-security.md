@@ -1,3 +1,5 @@
+* checksums for nerdonts
+* scan third-party repos before embedding into image
 * host veracrypt inside the repo
 * investigate vs codieum vs vscode (extensions, updates &c)
 * analyse packages

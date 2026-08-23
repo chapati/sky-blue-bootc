@@ -1,6 +1,6 @@
 use common.nu *
 
-def run_module [type: string, params: record, base_dir: path] {
+def run_module [type: string, params: record, base_dir: path, recipe_name: string] {
     print $"(ansi green)============================= Start module ($type) =============================(ansi reset)"
     print $"(ansi cyan)With params:(ansi reset) ($params)"
 
@@ -13,7 +13,7 @@ def run_module [type: string, params: record, base_dir: path] {
 
     try {
         let payload = $params | to nuon
-        ^$nu.current-exe --config $nu.config-path $module_path --base $base_dir $payload
+        ^$nu.current-exe --config $nu.config-path $module_path --base $base_dir --recipe-name $recipe_name $payload
     } catch {
         print --stderr $"(ansi red)× Module '($type)' failed with exit code ($env.LAST_EXIT_CODE)(ansi reset)"
         print --stderr $"============================= (ansi red)Failed module ($type)(ansi reset) ============================="
@@ -45,7 +45,7 @@ def process_recipe [recipe_path: path, base_dir: path] {
         } else if ($in | get -o type) != null {
             let type = $in.type
             let params = ($in | reject type)
-            run_module $type $params $base_dir
+            run_module $type $params $base_dir $recipe.name
         } else {
             die $"Invalid module entry in recipe: ($in)"
         }

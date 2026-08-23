@@ -37,7 +37,7 @@ def remove_pkgs [pkgs: list<string>] {
         | save -f $flatpak_config_path
 }
 
-def main [nuon: string, --base: path] {
+def main [nuon: string, --recipe-name: string, --base: path] {
     let params = ($nuon | from nuon)
     validate_params $params ["remove", "install"]
 

@@ -11,5 +11,5 @@
 
 ${MOTD_TIP}
 
-- **󰊤** [Project Repository](https://github.com/chapati/skyblue)
+- **󰊤** [Project Repository](https://github.com/chapati/sky-blue-bootc)
 - **󰌹** [Upstream](https://projectbluefin.io)

@@ -3,7 +3,7 @@ use common.nu *
 def install_packages [names: list<string>, ignore_errors: bool] {
     if ($names | is-empty) {
         die "No packages specified for installation"
-    } 
+    }
 
     if $ignore_errors {
         print $"(ansi yellow)Installing ($names) ignoring errors...(ansi reset)"
@@ -30,9 +30,9 @@ def install_pkgs [install: list<any>] {
         match $in {
             $name if ($name | describe) == "string" => {
                 {
-                    name: $name, 
-                    opts: { 
-                        ignore_errors: false 
+                    name: $name,
+                    opts: {
+                        ignore_errors: false
                     }
                 }
             }
@@ -44,11 +44,11 @@ def install_pkgs [install: list<any>] {
 
                 validate_list $options ["ignore-errors"]
 
-                {   
-                    name: $name, 
-                    opts: { 
-                        ignore_errors: ("ignore-errors" in $options) 
-                    } 
+                {
+                    name: $name,
+                    opts: {
+                        ignore_errors: ("ignore-errors" in $options)
+                    }
                 }
             }
 
@@ -56,11 +56,11 @@ def install_pkgs [install: list<any>] {
                 die $"Unsupported install specification: ($in)"
             }
         }
-    } 
+    }
 
-    let batches = ($parsed 
-        | group-by { $in.opts | to nuon } 
-        | values 
+    let batches = ($parsed
+        | group-by { $in.opts | to nuon }
+        | values
         | each {
             let first = $in | first
             {
@@ -78,7 +78,7 @@ def install_pkgs [install: list<any>] {
 def remove_packages [names: list<string>, ignore_errors: bool] {
     if ($names | is-empty) {
         die "No packages specified for removal"
-    } 
+    }
 
     if $ignore_errors {
         print $"(ansi yellow)Removing ($names) ignoring errors...(ansi reset)"
@@ -105,9 +105,9 @@ def remove_pkgs [remove: list<any>] {
         match $in {
             $name if ($name | describe) == "string" => {
                 {
-                    name: $name, 
-                    opts: { 
-                        ignore_errors: false 
+                    name: $name,
+                    opts: {
+                        ignore_errors: false
                     }
                 }
             }
@@ -119,11 +119,11 @@ def remove_pkgs [remove: list<any>] {
 
                 validate_list $options ["ignore-errors"]
 
-                {   
-                    name: $name, 
-                    opts: { 
-                        ignore_errors: ("ignore-errors" in $options) 
-                    } 
+                {
+                    name: $name,
+                    opts: {
+                        ignore_errors: ("ignore-errors" in $options)
+                    }
                 }
             }
 
@@ -131,11 +131,11 @@ def remove_pkgs [remove: list<any>] {
                 die $"Unsupported install specification: ($in)"
             }
         }
-    } 
+    }
 
-    let batches = ($parsed 
-        | group-by { $in.opts | to nuon } 
-        | values 
+    let batches = ($parsed
+        | group-by { $in.opts | to nuon }
+        | values
         | each {
             let first = $in | first
             {
@@ -182,16 +182,16 @@ def cleanup_repos [repos: list<string>] {
     $repos | each {
         print $"(ansi cyan)Removing repo: ($in)(ansi reset)"
         let target = ["/etc/yum.repos.d/" $in] | path join
-        strict { 
-            ^rm -f $target 
+        strict {
+            ^rm -f $target
         }
     } | ignore
 }
 
-def main [nuon: string, --base: path] {
-    let params = ($nuon | from nuon)        
+def main [nuon: string, --recipe-name: string, --base: path] {
+    let params = ($nuon | from nuon)
     validate_params $params ["install", "remove", "repos"]
-    
+
     let repos = ($params | get -o repos)
     if $repos != null {
         enable_repos $params.repos $base
