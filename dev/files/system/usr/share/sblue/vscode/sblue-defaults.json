@@ -1632,8 +1632,7 @@
         "compounds": []
       },
       "editor.tabSize": 2,
-      "raku.rakuPath": "/home/vscode/.asdf/installs/raku/2025.11/bin/rakudo",
-      "extensions.verifySignature": false,
+      "extensions.verifySignature": true,
       "editor.unicodeHighlight.nonBasicASCII": false,
       "editor.inlayHints.enabled": "off",
       "workbench.iconTheme": "symbols",
