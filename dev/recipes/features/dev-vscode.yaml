@@ -1,8 +1,17 @@
 name: vscode
-description: vscode default config
+description: vscode config
 
 modules:
   - type: script
-    snippets:
-      - |
-        echo "Placeholder"
+    snippets: |
+      #
+      # Default vscode config
+      #
+      TARGET_DIR="/usr/share/code/resources/app/extensions/sblue-defaults"
+      SOURCE_FILE="/usr/share/sblue/vscode/sblue-defaults.json"
+
+      mkdir -p "$TARGET_DIR"
+      chmod 755 "$TARGET_DIR"
+
+      cp -fv "$SOURCE_FILE" "$TARGET_DIR/package.json"
+      chmod 644 "$TARGET_DIR/package.json"

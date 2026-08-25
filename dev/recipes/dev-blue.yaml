@@ -13,4 +13,3 @@ modules:
   - include: features/dev-ptyxis.yaml
   - include: features/dev-qbittorrent.yaml
   - include: features/dev-vscode.yaml
-  - include: features/dev-obsidian.yaml

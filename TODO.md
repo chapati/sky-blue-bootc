@@ -4,13 +4,14 @@
 * assess chrome them - input too dark
 * decide if to base default palette on catppuccin or leave on Dracula
 * gnome background is still dark in system pages like settings
-* create placeholder for sblue zsh config (source from shared) to be able to adjust later
+* zsh config
 * add everything to readme that happened before ptyxis theme
-* Ptyxis font and settings, color scheme in mc
+* Color scheme in mc
 * set default applications
 * chrome buttons too big and do not have enough spacing in classic theme
 * cannot type commands while in Ctrl+O in mc
 * deep merge for obsidian settings?
+* theme in vscode cli is too bright
 
 # Backlog
 * check access rights on all files

@@ -11,13 +11,11 @@ def run_module [type: string, params: record, base_dir: path, recipe_name: strin
        die $"Module script not found at: ($module_path)"
     }
 
-    try {
-        let payload = $params | to nuon
-        ^$nu.current-exe --config $nu.config-path $module_path --base $base_dir --recipe-name $recipe_name $payload
-    } catch {
-        print --stderr $"(ansi red)× Module '($type)' failed with exit code ($env.LAST_EXIT_CODE)(ansi reset)"
-        print --stderr $"============================= (ansi red)Failed module ($type)(ansi reset) ============================="
-        exit 1
+    let payload = $params | to nuon
+    ^$nu.current-exe --config $nu.config-path $module_path --base $base_dir --recipe-name $recipe_name $payload
+
+    if $env.LAST_EXIT_CODE? != 0 {
+        die $"Module '($type)' failed with exit code ($env.LAST_EXIT_CODE)"
     }
 
     print $"(ansi green)============================= End module ($type) =============================(ansi reset)"
