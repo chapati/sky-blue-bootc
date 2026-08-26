@@ -1,4 +1,4 @@
-* checksums for nerdonts
+* checksums for nerdfonts
 * scan third-party repos before embedding into image
 * host veracrypt inside the repo
 * investigate vs codieum vs vscode (extensions, updates &c)
@@ -9,7 +9,7 @@ rpm -qa --qf '%{NAME}\n' "python3-*" | sort
 dnf repoquery --whatrequires "python3-key*" --installed
 ```
 
-* get rid of python, during the build fail if python is present
+* get rid of python, as much as possible
 * custom dns resolver which blocks access to internal domains from non-hardened browser
 * investigate cryptomator vs veracrypt
 * harden veracrypt install - check key against official id/fingerprint

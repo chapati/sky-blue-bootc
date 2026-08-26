@@ -1,0 +1,20 @@
+name: mc
+description: midnight commander
+
+modules:
+  - type: script
+    snippets: |
+      TARGET_DIR="/usr/share/mc/skins"
+      TARGET_FILE="${TARGET_DIR}/sky-blue-dynamic.ini"
+      SOURCE_FILE="/usr/share/sblue/mc/skins/sky-blue-dynamic.ini"
+
+      mkdir -p "${TARGET_DIR}"
+      chmod 755 "${TARGET_DIR}"
+
+      cp -fv "${SOURCE_FILE}" "${TARGET_FILE}"
+      chmod 644 "${TARGET_FILE}"
+
+  - type: tmpfiles
+    system: |
+      d /etc/mc 0755 root root -
+      L+ /etc/mc/mc.ini - - - - /usr/share/sblue/mc/mc.ini
