@@ -1,36 +1,41 @@
-name: zsh
-description: zsh config
+  name: zsh
+  description: zsh config
 
-modules:
-  - type: dnf
-    install:
-      - eza
-      - bat
-      - zoxide
-      - zsh-autosuggestions
-      - zsh-syntax-highlighting
-      - fzf
+  modules:
+    - type: dnf
+      install:
+        - eza
+        - bat
+        - zoxide
+        - zsh-autosuggestions
+        - zsh-syntax-highlighting
+        - fzf
 
-  - type: git
-    fetch:
-      - target: /usr/share/sblue/zsh/plugins/fzf-tab
-        url: https://github.com/Aloxaf/fzf-tab
-        hash: 24105b15714bfec37989ed5c5b6e60f572253019
+    - type: git
+      fetch:
+        - target: /usr/share/sblue/zsh/plugins/fzf-tab
+          url: https://github.com/Aloxaf/fzf-tab
+          hash: 24105b15714bfec37989ed5c5b6e60f572253019
 
-      - target: /usr/share/sblue/zsh/plugins/powerlevel10k
-        url: https://github.com/romkatv/powerlevel10k
-        hash: 3308262dfbd743b6e1d3956a2b5572f7a049d692
+        - target: /usr/share/sblue/zsh/plugins/powerlevel10k
+          url: https://github.com/romkatv/powerlevel10k
+          hash: 3308262dfbd743b6e1d3956a2b5572f7a049d692
 
-  - type: script
-    snippets: |
-      # Change default shell for all new users to zsh
-      sed -i 's|SHELL=/bin/bash|SHELL=/bin/zsh|g' /etc/default/useradd
+    - type: script
+      snippets: |
+        # Purge remote fetcher scripts and sources
+        rm -rf /usr/share/sblue/zsh/plugins/powerlevel10k/gitstatus/src
+        rm -rf /usr/share/sblue/zsh/plugins/powerlevel10k/gitstatus/.vscode
 
-      # Setup skel
-      rm -rf /etc/skel/.zshrc
-      cp /usr/share/sblue/zsh/skel.zshrc /etc/skel/.zshrc
-      chmod 644 /etc/skel/.zshrc
+        # Stage pinned binary directly into usrbin
+        mkdir -p /usr/share/sblue/zsh/plugins/powerlevel10k/gitstatus/usrbin
+        curl -fsSL https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-x86_64.tar.gz | tar -xz -C /usr/share/sblue/zsh/plugins/powerlevel10k/gitstatus/usrbin/
 
-      rm -rf /etc/skel/.zshrc
-      cp /usr/share/sblue/zsh/skel.zshrc /etc/skel/.zshrc
-      chmod 644 /etc/skel/.zshrc
+        # Change default shell for all new users to zsh
+        sed -i 's|SHELL=/bin/bash|SHELL=/bin/zsh|g' /etc/default/useradd
+
+        # Setup skel
+        rm -rf /etc/skel/.zshrc
+        cp /usr/share/sblue/zsh/skel.zshrc /etc/skel/.zshrc
+        chmod 644 /etc/skel/.zshrc
+

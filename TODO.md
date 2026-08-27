@@ -1,11 +1,11 @@
 # Important
 
-* empty line between commands in zsh
 * assess chrome theme - input too dark
-* gnome background is still dark in system pages like settings
+* chrome background is still dark in system pages like settings
 * set default applications
 * chrome buttons too big and do not have enough spacing in classic theme
-* cannot type commands while in Ctrl+O in mc
+* ugly prompt in mc in tumbleweed
+* cannot type commands while in Ctrl+O in mc in bluefin eve after MC_SID fix
 * theme in vscode cli is too bright also not synced with ptyxis
 * bad prompt line start in mc (artifact from shell prompt)
 * red color is too dark in fastfetch
@@ -16,6 +16,7 @@
 * selection is not working properly in codeblocks in obsidian, most likely because of font size for ```
 
 # Backlog
+* distorted shell prompt on terminal resize, p10k readme has mitigations
 * add everything to readme
 * bad forged on date in fastfetch
 * check access rights on all files

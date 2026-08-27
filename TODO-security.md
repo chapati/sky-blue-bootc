@@ -1,3 +1,4 @@
+* create module for curl that checks hash, add hash for zsh gitstatus and other places
 * checksums for nerdfonts
 * scan third-party repos before embedding into image
 * host veracrypt inside the repo
