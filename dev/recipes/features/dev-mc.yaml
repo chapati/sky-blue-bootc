@@ -18,3 +18,12 @@ modules:
     system: |
       d /etc/mc 0755 root root -
       L+ /etc/mc/mc.ini - - - - /usr/share/sblue/mc/mc.ini
+
+  - type: script
+    snippets: |
+      # color codes output by the glow binary used by motd cause
+      # mc to hang for 5 seconds on startup
+      cat << 'EOF' > /etc/profile.d/ublue-motd.sh
+      #!/usr/bin/env bash
+      [ -z "$MC_SID" ] && [ -t 1 ] && [ ! -e "$HOME"/.config/no-show-user-motd ] && ublue-motd
+      EOF

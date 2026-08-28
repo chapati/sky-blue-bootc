@@ -11,3 +11,8 @@ modules:
       # Link policy JSON from immutable /usr tree to /etc on boot
       L+ /etc/opt/chrome/policies/recommended/sblue-recommended.json - - - - /usr/share/sblue/chrome/recommended.json
       L+ /etc/opt/chrome/policies/managed/sblue-managed.json         - - - - /usr/share/sblue/chrome/managed.json
+      L+ /usr/lib/opt/google/chrome/initial_preferences              - - - - /usr/share/sblue/chrome/initial_preferences
+
+  - type: script
+    snippets: |
+      ln -sf /usr/share/sblue/chrome/initial_preferences /usr/lib/opt/google/chrome/initial_preferences

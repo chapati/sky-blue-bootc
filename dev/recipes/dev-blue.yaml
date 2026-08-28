@@ -9,9 +9,11 @@ modules:
 
   - include: features/dev-chrome.yaml
   - include: features/dev-firefox.yaml
-  - include: features/dev-fonts.yaml
   - include: features/dev-ptyxis.yaml
   - include: features/dev-qbittorrent.yaml
   - include: features/dev-vscode.yaml
   - include: features/dev-mc.yaml
   - include: features/dev-zsh.yaml
+  - include: features/dev-ui.yaml
+  - include: features/dev-emacs.yaml
+

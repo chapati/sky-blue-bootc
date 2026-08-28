@@ -1,22 +1,22 @@
 [Palette]
-Name=SkyBlue Dracula
+Name=SkyBlue Dynamic
 Background=#282A36
 Foreground=#F8F8F2
 Cursor=#F8F8F2
 
 # Standard (Calmer / Muted)
-Color0=#262626
+Color0=#44475A
 Color1=#E06C75
 Color2=#98C379
 Color3=#E5C07B
 Color4=#5294CB
 Color5=#C678DD
-Color6=#70E4FF
+Color6=#74C7EC
 Color7=#F8F8F2
 
 # Bright (Shifted Accents)
 Color8=#7A7A7A
-Color9=#E64747
+Color9=#FF6E6E
 Color10=#50FA7B
 Color11=#E4F34A
 Color12=#61AFEF

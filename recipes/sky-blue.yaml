@@ -26,4 +26,6 @@ modules:
   - include: features/flatpaks.yaml
   - include: features/docker.yaml
   - include: features/ui.yaml
+  - include: features/fonts.yaml
+
 

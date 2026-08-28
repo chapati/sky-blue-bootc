@@ -1,21 +1,24 @@
 # Important
 
-* assess chrome theme - input too dark
-* chrome background is still dark in system pages like settings
-* set default applications
+* assess chrome theme - input too dark - need to make custom theme, manifest allows to change that color
 * chrome buttons too big and do not have enough spacing in classic theme
 * ugly prompt in mc in tumbleweed
-* cannot type commands while in Ctrl+O in mc in bluefin eve after MC_SID fix
 * theme in vscode cli is too bright also not synced with ptyxis
 * bad prompt line start in mc (artifact from shell prompt)
-* red color is too dark in fastfetch
-* refactor everything what is possible from files
 * bad active menu color in mc theme
-* fzf/fzf-tab skin colors
-* preview alias fzf --preview 'bat --style=numbers --color=always {}'
+* too light inactive menu color in mc theme (try #262626)
 * selection is not working properly in codeblocks in obsidian, most likely because of font size for ```
+* list which ports are opened and remove / close unnecessary
+* hardening - default firewall rules to deny
+* rootless docker
 
 # Backlog
+* refactor everything what is possible from files
+* remove queue buttons from qbittorrent
+* fzf/fzf-tab skin colors
+* preview alias fzf --preview 'bat --style=numbers --color=always {}'
+* both fastfetch and neofetch installed, choose one, check if there are other
+* gdm theme https://gdm-settings.github.io/
 * distorted shell prompt on terminal resize, p10k readme has mitigations
 * add everything to readme
 * bad forged on date in fastfetch
@@ -35,6 +38,7 @@
 * BitWarden extensions
 * Disable rootful docker - for now only services are disabled
 * extensions take time to install on first run of chrome and firefox, bundle during the build
+* set default applications, seems that default choice is good already so can solve this later
 
 # Branding
 
