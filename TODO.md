@@ -1,5 +1,8 @@
 # Important
 
+* vscode
+* toolbox vs distrobox, or install both
+* incus
 * assess chrome theme - input too dark - need to make custom theme, manifest allows to change that color
 * chrome buttons too big and do not have enough spacing in classic theme
 * theme in vscode cli is too bright also not synced with ptyxis
@@ -54,6 +57,7 @@
 * Disable rootful docker - for now only services are disabled
 * extensions take time to install on first run of chrome and firefox, bundle during the build
 * set default applications, seems that default choice is good already so can solve this later
+* org.gnome.DejaDup for backups
 
 # Branding
 

@@ -1,23 +1,67 @@
 name: packages
 description: Install common cli-tools & utilities
 
-# TODO: check why nushell is not signed (gpgcheck=0 in repo)/signature check fails when enabled
-
 modules:
   - type: dnf
     repos:
-      - nushell.repo
       - vivaldi.repo
     install:
       - mc
-      - qbittorrent
-      - clapper
-      - name: nushell
-        options:
-          - ignore-errors
       - vivaldi-stable
-      - dconf-editor
+      - clapper
       - strace
+      - flatseal
+      - g4music
+      - foliate
+      - gnome-font-viewer
+      - gnome-firmware
+      - gnome-logs
+      - gnome-calculator
+      - gnome-calendar
+      - gnome-characters
+      - gnome-contacts
+      - gnome-weather
+      - gnome-clocks
+      - loupe
+      - sushi
+      - gnome-text-editor
+      - file-roller
+      - papers-previewer
+      - baobab
     remove:
       - tailscale
       - yubikey-manager
+
+  - type: flatpak
+    remove:
+      - org.gnome.Showtime
+      - org.mozilla.Thunderbird
+      - org.gnome.font-viewer
+      - org.gnome.Firmware
+      - org.gnome.Logs
+      - org.gnome.Calculator
+      - org.gnome.Calendar
+      - org.gnome.Maps
+      - org.gnome.Characters
+      - org.gnome.Contacts
+      - org.gnome.Connections
+      - org.gnome.Loupe
+      - org.gnome.NautilusPreviewer
+      - org.gnome.DejaDup
+      - org.gnome.TextEditor
+      - org.gnome.FileRoller
+      - org.gnome.Papers
+      - org.gnome.Snapshot
+      - org.gnome.baobab
+      - org.gnome.SimpleScan
+      - org.gnome.Weather
+      - org.gnome.clocks
+    install:
+      - md.obsidian.Obsidian
+      - org.telegram.desktop
+      - com.mongodb.Compass
+      - com.bitwarden.desktop
+      - eu.betterbird.Betterbird
+      - app.grayjay.Grayjay
+      - org.cockpit_project.CockpitClient
+      - de.haeckerfelix.Shortwave

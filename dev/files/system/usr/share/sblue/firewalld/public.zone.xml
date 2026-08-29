@@ -1,0 +1,11 @@
+<!--
+  Target DROP: Stealth mode. Unsolicited ingress packets on unlisted ports are silently dropped rather than rejected with ICMP admin-prohibited.
+  Port scanners will see ports as filtered rather than closed. This also significantly delays ports scanning.
+-->
+<zone target="DROP">
+  <short>Public</short>
+  <description>Hardened default public zone. Drops unsolicited incoming traffic silently. Allows only DHCPv6 client responses and active outgoing connection state tracking.</description>
+  <service name="dhcpv6-client"/>
+  <!-- Preserves Container Networking: Allows intra-zone packet forwarding required by rootless Podman/Netavark when routing traffic out through the default interface. -->
+  <forward/>
+</zone>

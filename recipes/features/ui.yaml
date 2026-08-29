@@ -40,6 +40,8 @@ modules:
       - L   %h/.config/gtk-3.0/gtk-dark.css                   -     -   -   -   .sky-blue-theme-data/gtk-dark.css
       - L   %h/.config/gtk-3.0/assets                         -     -   -   -   .sky-blue-theme-data/assets
 
+  - type: tmpfiles
+    system:
       #
       #  Flatpak theming
       #
@@ -53,12 +55,16 @@ modules:
       - launch-new-instance@gnome-shell-extensions.gcampax.github.com
       - apps-menu@gnome-shell-extensions.gcampax.github.com
       - appindicatorsupport@rgcjonas.gmail.com
+      # Remove broken (dconf schema not installed) dash to dock, will be reinstalled
+      - dash-to-dock@micxgx.gmail.com
     install:
       - color-picker@tuberry
       - user-theme@gnome-shell-extensions.gcampax.github.com
+      - dash-to-dock@micxgx.gmail.com
     enable:
       - color-picker@tuberry
       - user-theme@gnome-shell-extensions.gcampax.github.com
+      - dash-to-dock@micxgx.gmail.com
 
   - type: dconf
     distro.d:
@@ -204,7 +210,7 @@ modules:
       #
       # Blur my shell
       #
-      - key: /org/gnome/shell/extensions/blur-my-shell/settings-version=
+      - key: /org/gnome/shell/extensions/blur-my-shell/settings-version
         type: int
         value: 2
 

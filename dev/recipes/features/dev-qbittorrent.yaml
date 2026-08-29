@@ -1,9 +1,0 @@
-name: qbittorrent
-description: QBittorrent config
-
-modules:
-  - type: tmpfiles
-    system: |
-      # System-wide default config
-      d /etc/xdg/qBittorrent 0755 root root -
-      L+ /etc/xdg/qBittorrent/qBittorrent.conf - - - - /usr/share/sblue/qbittorrent/qBittorrent.conf

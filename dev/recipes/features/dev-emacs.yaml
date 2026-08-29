@@ -1,7 +1,0 @@
-name: emacs
-description: emacs config
-
-modules:
-  - type: dnf
-    install:
-      - emacs-pgtk

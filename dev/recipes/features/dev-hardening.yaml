@@ -1,0 +1,138 @@
+name: hardening
+description: hardening
+
+modules:
+  - type: script
+    snippets: |
+      #
+      # Networking
+      #
+
+      # hardened public zone config
+      install -m 0644 -o root -g root /usr/share/sblue/firewalld/public.zone.xml /usr/lib/firewalld/zones/public.xml
+
+      # set default zone to public offline (creates/updates /etc/firewalld/firewalld.conf statically)
+      firewall-offline-cmd --set-default-zone=public
+
+      #
+      # Disable legacy LLMNR, MulticastDNS in resolve mode
+      #
+      mkdir -p /usr/lib/systemd/resolved.conf.d
+
+      cat << 'EOF' > /usr/lib/systemd/resolved.conf.d/200-sblue.conf
+      [Resolve]
+      LLMNR=no
+      MulticastDNS=resolve
+      EOF
+
+      chmod 0644 /usr/lib/systemd/resolved.conf.d/200-sblue.conf
+
+  - type: service
+    mask:
+      # Services with D-Bus/Socket auto-activation traps are masked
+      - name: avahi-daemon.service
+        scope: system
+      - name: avahi-daemon.socket
+        scope: system
+      - name: ModemManager.service
+        scope: system
+      - name: org.gnome.SettingsDaemon.Wwan.service
+        scope: user
+      - name: malcontent-timerd.service
+        scope: system
+      - name: realmd.service
+        scope: system
+      - name: gssproxy.service
+        scope: system
+      - name: gssuserproxy.service
+        scope: user
+      - name: sssd.service
+        scope: system
+      - name: sssd-kcm.service
+        scope: system
+      - name: gvfs-gphoto2-volume-monitor.service
+        scope: user
+      - name: app-vboxclient@autostart.service
+        scope: user
+      - name: 'app-vmware\x2duser@autostart'
+        scope: user
+
+    disable:
+      # Hypervisor guest tools (dormant unless run in that hypervisor)
+      - name: vboxservice.service
+        scope: system
+      - name: vmtoolsd.service
+        scope: system
+      - name: vgauthd.service
+        scope: system
+
+      # Modular libvirt hypervisors. Commented were present in the base image
+      # but removed during the cleanup stage
+      # - name: virtlxcd.service
+      #  scope: system
+      # - name: virtvboxd.service
+      #  scope: system
+      # - name: virtxend.service
+      #  scope: system
+
+       # Storage & File systems
+      - name: iscsi-starter.service
+        scope: system
+      - name: iscsi-onboot.service
+        scope: system
+      - name: multipathd.service
+        scope: system
+      - name: zfs-zed.service
+        scope: system
+      - name: zfs-import-cache.service
+        scope: system
+      - name: zfs-mount.service
+        scope: system
+      - name: zfs-share.service
+        scope: system
+      - name: zfs-volume-wait.service
+        scope: system
+
+      # Hardware logging
+      - name: mcelog.service
+        scope: system
+
+  # Prune eBPF tracing toolchains and associated Clang/LLVM JIT dependencies to minimize
+  # image footprint (~500MB) and attack surface. Run ad-hoc kernel tracing via privileged containers instead.
+  - type: dnf
+    remove:
+      - bcc
+      - bcc-tools
+      - python3-bcc
+      - bpftrace
+      - bpftop
+      - clang21-libs
+      - compiler-rt21
+      - libomp21-devel
+      - cpp
+      - subversion
+      - git-svn
+
+  # Strip host kernel build headers, compilers and dev libraries (~450MB+).
+  # All host kmods (Nvidia, ZFS) are pre-compiled into binary .ko files.
+  # Developer compilation workflows must be contained within Toolbox/Distrobox.
+  - type: dnf
+    remove:
+      - kernel-devel*
+      - kernel-headers
+      - gcc
+      - gcc-c++
+      - glibc-devel
+      - libstdc++-devel
+      - make
+      - bison
+      - flex
+      - m4
+      - binutils
+      - cache
+      - git-subtree
+      - git-svn
+    install:
+      # bring back packages deleted as deps above
+      - git-lfs
+      - patch

@@ -1,0 +1,13 @@
+name: qbittorrent
+description: qbittorrent installation & config
+
+modules:
+  - type: dnf
+    install:
+      - qbittorrent
+
+  - type: tmpfiles
+    system: |
+      # System-wide default config
+      d   /etc/xdg/qBittorrent                   0755 root root -
+      L+  /etc/xdg/qBittorrent/qBittorrent.conf  -    -    -    - /usr/share/sblue/qbittorrent/qBittorrent.conf

@@ -1,0 +1,62 @@
+name: cleanup
+description: remove excessive stuff
+
+modules:
+  #
+  # Samba client tools
+  #
+  - type: dnf
+    remove:
+      - samba
+      - samba-client
+      - samba-common-tools
+      - samba-winbind
+      - samba-winbind-clients
+      - samba-winbind-modules
+
+  #
+  # Small misc stuff
+  #
+  - type: dnf
+    remove:
+      - incus-agent # necessary only inside Incus-managed VMs)
+      - nbdkit*     # network block devices kit
+
+  #
+  # Leaner virtualization (x86 only)
+  #
+  - type: dnf
+    remove:
+      - qemu
+      - qemu-user
+      - qemu-user-static
+      - virt-v2v
+      - osbuild
+
+    install:
+      - gdisk
+      - virt-manager
+      - gnome-boxes
+      - libvirt-daemon-kvm
+      - edk2-ovmf
+      - swtpm-tools
+
+  # Remove unnecessary stuff brought by the install above
+  - type: dnf
+    remove:
+      - qemu-user-static-aarch64
+      - ipxe-roms-qemu
+      # Unused hypervisor backends
+      - libvirt-daemon-driver-vbox
+      - libvirt-daemon-driver-libxl
+      - libvirt-daemon-driver-lxc
+      - libvirt-daemon-driver-ch
+      # Enterprise SAN/cluster storage drivers
+      - libvirt-daemon-driver-storage-gluster
+      - libvirt-daemon-driver-storage-rbd
+      - libvirt-daemon-driver-storage-iscsi
+      - libvirt-daemon-driver-storage-iscsi-direct
+      - qemu-block-rbd
+      - qemu-block-gluster
+      - qemu-block-iscsi
+

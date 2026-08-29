@@ -11,11 +11,10 @@ modules:
   - include: features/fonts.yaml
   - include: features/branding.yaml
   - include: features/pakages.yaml
-  # - include: features/flatpaks.yaml
+  - include: features/qbittorrent.yaml
   - include: features/chrome.yaml
   - include: features/firefox.yaml
   - include: features/firefox-dev.yaml
   - include: features/veracrypt.yaml
   - include: features/sublime.yaml
-  # - include: features/docker.yaml
   - include: features/ui.yaml

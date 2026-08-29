@@ -27,6 +27,8 @@ systemctl reboot
 * **Hardened Browser Baseline:** System-level policies disable telemetry, tracking, and promotional clutter
   across all browsers, while provisioning essential content filtering and developer tools extensions.
 
+* **BitWarden:** Desktop & Browser extensions.
+
 * **UI Tweaks:**
   * custom wallpaper, icons theme, cursor theme
   * default system-wide dark theme
@@ -35,11 +37,55 @@ systemctl reboot
   * custom dash-to-dock, blur-my-shell and other extensions config
   * InconsolataLGC and JetBrainsMono Nerd fonts
 
-* **Native packages:**
+* **Added native packages:**
+  * mc
   * veracrypt
   * strace
   * dconf-editor
   * sublime-merge
+  * clapper
+  * qbittorrent
+  * g4music
+  * foliate
+
+* **Flatpaks replaced with native packages:**
+  * com.github.tchx84.Flatseal
+  * org.gnome.font-viewer
+  * org.gnome.Firmware
+  * org.gnome.Logs
+  * org.gnome.Calculator
+  * org.gnome.Calendar
+  * org.gnome.Characters
+  * org.gnome.Contacts
+  * org.gnome.Loupe
+  * org.gnome.NautilusPreviewer
+  * org.gnome.TextEditor
+  * org.gnome.FileRoller
+  * org.gnome.Papers
+  * org.gnome.baobab
+  * org.gnome.Weather
+  * org.gnome.clocks
+
+* **Added Flatpaks:**
+  * md.obsidian.Obsidian
+  * org.telegram.desktop
+  * com.mongodb.Compass
+  * com.bitwarden.desktop
+  * eu.betterbird.Betterbird
+  * app.grayjay.Grayjay
+  * org.cockpit_project.CockpitClient
+  * de.haeckerfelix.Shortwave
+
+* **Removed flatpaks & packages:**
+  * org.gnome.Maps
+  * org.gnome.Showtime
+  * org.mozilla.Thunderbird
+  * org.gnome.Connections
+  * org.gnome.DejaDup
+  * org.gnome.Snapshot
+  * org.gnome.SimpleScan
+  * tailscale
+  * yubikey-manager
 
 ## Security
 

@@ -77,7 +77,7 @@ COPY dev/files/   ./files/
 #
 # Base Image
 #
-FROM ghcr.io/ublue-os/bluefin-dx-nvidia-open:stable
+FROM ghcr.io/ublue-os/bluefin-nvidia-open:stable
 
 # Copy compiled theme from the theme-builder
 COPY --from=theme-builder /tmp/themes/ /usr/share/themes/
@@ -146,6 +146,9 @@ RUN --mount=type=bind,from=ctx-dev,source=/build,target=/build \
     else \
         echo "Skipping dev layer" ; \
     fi
+
+# dnf clean all && \
+# rm -rf /var/cache/dnf /var/cache/libdnf5 /var/lib/dnf/history.*
 
 RUN --mount=type=bind,from=ctx-prepost,source=/build,target=/build \
     /build/nu-shell/nu --config /build/config.nu /build/post-build.nu --optfix "${OPTFIX_DIR}"
