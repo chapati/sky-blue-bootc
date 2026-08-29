@@ -1,14 +1,15 @@
 name: Firefox
 description: Install firefox developer edition
 
-# TODO: firefox default settings common/system_files/bluefin/usr/share/ublue-os/firefox-config
-
 modules:
   - type: script
-    snippets:
-      - "curl -L 'https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US' > firefox-dev.tar.xz"
-      - "tar xf firefox-dev.tar.xz"
-      - "mkdir -p /usr/lib/opt && mv firefox /usr/lib/opt/firefox-dev"
-      - "rm firefox-dev.tar.xz"
-      - "mkdir -p /usr/lib/opt/firefox-dev/distribution"
-      - "ln -sf /usr/share/sblue/firefox-dev/policies.json /usr/lib/opt/firefox-dev/distribution/policies.json"
+    snippets: |
+      curl -L 'https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US' > firefox-dev.tar.xz
+      tar xf firefox-dev.tar.xz
+
+      mkdir -p /usr/lib/opt && mv firefox /usr/lib/opt/firefox-dev
+      rm firefox-dev.tar.xz
+
+      mkdir -p /usr/lib/opt/firefox-dev/distribution
+      ln -sf /usr/share/sblue/firefox-dev/policies.json /usr/lib/opt/firefox-dev/distribution/policies.json
+      ln -sf /usr/share/sblue/firefox-dev/firefox-dev.desktop /usr/share/applications/firefox-dev.desktop

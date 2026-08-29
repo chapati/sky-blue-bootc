@@ -7,24 +7,207 @@ modules:
       - breeze-cursor-theme
       - papirus-icon-theme
 
+  - type: script
+    snippets: |
+      cp /usr/share/sblue/ui/papirus-folders /usr/bin/papirus-folders
+      chmod +x /usr/bin/papirus-folders
+      /usr/bin/papirus-folders -C nordic
+
+  - type: tmpfiles
+    user:
+      #
+      # --- GTK4 Theming ---
+      #
+
+      # Create the base GTK4 config folder and keep a synced, physical copy of the theme
+      # hidden safely inside the config folder (Updates on every login)
+      - d   %h/.config/gtk-4.0                                0755  -   -   -   -
+      - C+  %h/.config/gtk-4.0/.sky-blue-theme-data           -     -   -   -   /usr/share/themes/Graphite-blue-Dark-ayu/gtk-4.0
+
+      # Create RELATIVE symlinks pointing to the hidden folder. This allows flatpaks read theme. This hack is
+      # necessary since flatpaks cannot read from /usr/share. Also if the user decides to change theme
+      # and deletes/changes these systemd respects it and leaves their files alone.
+      - L   %h/.config/gtk-4.0/gtk.css                        -     -   -   -   .sky-blue-theme-data/gtk.css
+      - L   %h/.config/gtk-4.0/gtk-dark.css                   -     -   -   -   .sky-blue-theme-data/gtk-dark.css
+      - L   %h/.config/gtk-4.0/assets                         -     -   -   -   .sky-blue-theme-data/assets
+
+      #
+      # --- GTK3 Theming ---
+      #
+      - d   %h/.config/gtk-3.0                                0755  -   -   -   -
+      - C+  %h/.config/gtk-3.0/.sky-blue-theme-data           -     -   -   -   /usr/share/themes/Graphite-blue-Dark-ayu/gtk-3.0
+      - L   %h/.config/gtk-3.0/gtk.css                        -     -   -   -   .sky-blue-theme-data/gtk.css
+      - L   %h/.config/gtk-3.0/gtk-dark.css                   -     -   -   -   .sky-blue-theme-data/gtk-dark.css
+      - L   %h/.config/gtk-3.0/assets                         -     -   -   -   .sky-blue-theme-data/assets
+
+      #
+      #  Flatpak theming
+      #
+      - d   /var/lib/flatpak/overrides                        0755  root  root  -  -
+      - L   /var/lib/flatpak/overrides/global                 -     -     -     -  /usr/share/sblue/var/lib/flatpak/overrides/global
+
   - type: gnome-extensions
     remove:
       - window-list@gnome-shell-extensions.gcampax.github.com
       - places-menu@gnome-shell-extensions.gcampax.github.com
       - launch-new-instance@gnome-shell-extensions.gcampax.github.com
       - apps-menu@gnome-shell-extensions.gcampax.github.com
-      # Remove broken dash to dock, will be reinstalled
-      - dash-to-dock@micxgx.gmail.com
+      - appindicatorsupport@rgcjonas.gmail.com
     install:
       - color-picker@tuberry
       - user-theme@gnome-shell-extensions.gcampax.github.com
-      - dash-to-dock@micxgx.gmail.com
     enable:
       - color-picker@tuberry
       - user-theme@gnome-shell-extensions.gcampax.github.com
-      - dash-to-dock@micxgx.gmail.com
 
-  - type: script
-    snippets:
-      - "chmod +x /usr/bin/papirus-folders"
-      - "/usr/bin/papirus-folders -C nordic"
+  - type: dconf
+    distro.d:
+      #
+      # Gnome config
+      #
+      - key: /org/gnome/desktop/interface/cursor-theme
+        type: string
+        value: Breeze_Light
+
+      - key: /org/gnome/desktop/interface/icon-theme
+        type: string
+        value: Papirus
+
+      - key: /org/gnome/desktop/interface/gtk-theme
+        type: string
+        value: Graphite-blue-Dark-ayu
+
+      - key: /org/gnome/desktop/interface/color-scheme
+        type: string
+        value: prefer-dark
+
+      - key: /org/gnome/desktop/wm/preferences/theme
+        type: string
+        value: Graphite-blue-Dark-ayu
+
+      - key: /org/gnome/shell/extensions/user-theme/name
+        type: string
+        value: Graphite-blue-Dark-ayu
+
+      - key: /org/gnome/desktop/background/picture-uri
+        type: string
+        value: file:///usr/share/backgrounds/gnome/fold-l.jxl
+
+      - key: /org/gnome/desktop/background/picture-uri-dark
+        type: string
+        value: file:///usr/share/backgrounds/gnome/fold-d.jxl
+
+      #
+      # Pinned apps
+      #
+      - key: /org/gnome/shell/favorite-apps
+        type: list
+        value:
+          - 'org.gnome.Nautilus.desktop'
+          - 'firefox-dev.desktop'
+          - 'org.mozilla.firefox.desktop'
+          - 'vivaldi-stable.desktop'
+          - 'google-chrome.desktop'
+          - 'code.desktop'
+          - 'sublime_merge.desktop'
+          - 'com.mongodb.Compass.desktop'
+          - 'org.gnome.Ptyxis.desktop'
+          - 'md.obsidian.Obsidian.desktop'
+          - 'org.telegram.desktop.desktop'
+          - 'com.bitwarden.desktop.desktop'
+          - 'org.qbittorrent.qBittorrent.desktop'
+          - 'veracrypt.desktop'
+          - 'eu.betterbird.Betterbird.desktop'
+          - 'de.haeckerfelix.Shortwave.desktop'
+          - 'app.grayjay.Grayjay.desktop'
+          - 'com.github.neithern.g4music.desktop'
+          - 'io.github.kolunmi.Bazaar.desktop'
+
+      #
+      # Dash-to-dock
+      #
+      - key: /org/gnome/shell/extensions/dash-to-dock/background-opacity
+        type: double
+        value: 0.01
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/custom-background-color
+        type: bool
+        value: true
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/custom-theme-shrink
+        type: bool
+        value: true
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/dash-max-icon-size
+        type: int
+        value: 48
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/disable-overview-on-startup
+        type: bool
+        value: true
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/dock-fixed
+        type: int
+        value: 48
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/dock-position
+        type: string
+        value: LEFT
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/height-fraction
+        type: double
+        value: 1
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/intellihide-mode
+        type: string
+        value: FOCUS_APPLICATION_WINDOWS
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/require-pressure-to-show
+        type: bool
+        value: true
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/running-indicator-style
+        type: string
+        value: DOTS
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/scroll-to-focused-application
+        type: bool
+        value: true
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/show-show-apps-button
+        type: bool
+        value: false
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/show-icons-emblems
+        type: bool
+        value: true
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/show-trash
+        type: bool
+        value: false
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/show-mounts
+        type: bool
+        value: false
+
+      - key: /org/gnome/shell/extensions/dash-to-dock/transparency-mode
+        type: string
+        value: FIXED
+
+      #
+      # Logo menu
+      #
+      - key: /org/gnome/shell/extensions/Logo-menu/menu-button-icon-image
+        type: int
+        value: 0
+
+      #
+      # Blur my shell
+      #
+      - key: /org/gnome/shell/extensions/blur-my-shell/settings-version=
+        type: int
+        value: 2
+
+      - key: /org/gnome/shell/extensions/blur-my-shell/dash-to-dock/blur
+        type: bool
+        value: false

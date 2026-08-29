@@ -27,7 +27,7 @@ env:
   IMAGE_FLAVOR:      "nvidia-open"
   IMAGE_REGISTRY:    "ghcr.io/${{github.repository_owner}}"
   DEFAULT_TAG:       "latest"
-  BASE_IMAGE_NAME:   "bluefin-dx-nvidia-open"
+  BASE_IMAGE_NAME:   "bluefin-nvidia-open"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

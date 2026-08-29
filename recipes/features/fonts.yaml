@@ -1,5 +1,5 @@
-name: ui
-description: UI & cosmetic stuff
+name: fonts
+description: SkyBlue fonts
 
 modules:
   - type: fonts
@@ -15,4 +15,3 @@ modules:
       - key: /org/gnome/desktop/interface/monospace-font-name
         type: string
         value: JetBrainsMono Nerd Font 12
-

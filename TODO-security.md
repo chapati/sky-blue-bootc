@@ -1,3 +1,29 @@
+* consider removing gnome-user-share httpd mod_dnssd mod_http2 mod_lua - gnome sharing requires apache httpd
+*
+
+* GSConnect
+  The Recommended Balance: Network-Aware Usability
+
+Instead of opening port 1716 globally on all untrusted networks, use NetworkManager Zone Binding:
+
+    Keep public Zone Hardened (Default): Port 1716 remains blocked on unknown or public Wi-Fi networks.
+
+    Allow kdeconnect on Trusted Networks (Home / Office): Assign your home or office Wi-Fi connection profile to the home zone, where kdeconnect is allowed:
+
+code Bash
+
+# 1. Allow kdeconnect in the home zone
+sudo firewall-cmd --zone=home --add-service=kdeconnect --permanent
+
+# 2. Assign your trusted Home Wi-Fi connection to the home zone
+nmcli connection modify "MyHomeWiFi" connection.zone home
+
+Implications of This Approach:
+
+    At Home/Office: GSConnect, clipboard sync, and file sharing work automatically.
+
+    On Public Wi-Fi: Your laptop automatically falls back to the public zone (target="DROP"), keeping port 1716 invisible to attackers.
+
 * create module for curl that checks hash, add hash for zsh gitstatus and other places
 * checksums for nerdfonts
 * scan third-party repos before embedding into image
@@ -10,6 +36,7 @@ rpm -qa --qf '%{NAME}\n' "python3-*" | sort
 dnf repoquery --whatrequires "python3-key*" --installed
 ```
 
+* check if can get rid of util-linux-script (/usr/bin/script)
 * get rid of python, as much as possible
 * custom dns resolver which blocks access to internal domains from non-hardened browser
 * investigate cryptomator vs veracrypt

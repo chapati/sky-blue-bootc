@@ -2,17 +2,32 @@
 
 * assess chrome theme - input too dark - need to make custom theme, manifest allows to change that color
 * chrome buttons too big and do not have enough spacing in classic theme
-* ugly prompt in mc in tumbleweed
 * theme in vscode cli is too bright also not synced with ptyxis
 * bad prompt line start in mc (artifact from shell prompt)
-* bad active menu color in mc theme
-* too light inactive menu color in mc theme (try #262626)
 * selection is not working properly in codeblocks in obsidian, most likely because of font size for ```
-* list which ports are opened and remove / close unnecessary
-* hardening - default firewall rules to deny
-* rootless docker
+* hardening - flatpaks (check also what secureblue dues)
+* rootless docker + apply daemon.json to it
+* using `sed -i` without the `--follow-symlinks` option breaks symlinks,
+* check what can be reverted back to flatpaks (official ones)
+* home (and other) key does not work in ptyxis
+* go over all old recipes and remove unnecessary stuff after dropping dx
 
 # Backlog
+
+* check if hardware acceleration in browsers is enabled
+* check why nushell is not signed (gpgcheck=0 in repo)/signature check fails when enabled
+* remove JetBrainsMono sinve nerd version is installed
+* check once again which services are masked/disabled. Probably after removal of unnecessary packages
+  they just do not exist anymore. It is better to not to touch these to not to break them if
+  user decides to install them manually.
+* invectigate enabling cockpit server, now client uses only bridge
+* investigate GSConnect (recommandations in security)
+* brighter red color for ptyxis sudo state
+* check if vscode is using wayland by default
+* check how to force all electron apps to use wayland
+* apply branding in /etc/os-release
+* read fedora release from /usr/lib/fedora-release, now 44 is hardcoded or read from cli out
+* check for context-sensitive Ctrl+C, i.e. when there is a selection Ctrl+C should copy
 * refactor everything what is possible from files
 * remove queue buttons from qbittorrent
 * fzf/fzf-tab skin colors
@@ -57,3 +72,4 @@
 * square buttons in chrome in GTK theme
 * button in pytxis on the right side has incorrect background
 * ugly red on blue = sign in ini files in mc editor
+* adopt bluefin default blurred shell config

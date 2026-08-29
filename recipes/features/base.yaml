@@ -1,0 +1,23 @@
+name: base
+description: base layer to bootstrap sblue
+
+modules:
+  - type: dnf
+    repos:
+      - nushell.repo
+    install:
+      - name: nushell
+        options: [ignore-errors]
+      - util-linux-script
+      - dconf-editor
+
+  - type: service
+    register:
+      - name: sblue-system-setup
+        scope: system
+
+      - name: sblue-system-online
+        scope: system
+
+      - name: sblue-user-setup
+        scope: user

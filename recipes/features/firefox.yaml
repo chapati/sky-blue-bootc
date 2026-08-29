@@ -1,7 +1,5 @@
-name: Firefox
-description: Replace firefox flatpak with native package
-
-# TODO: firefox default settings common/system_files/bluefin/usr/share/ublue-os/firefox-config
+name: firefox
+description: Firefox as a native package
 
 modules:
   - type: flatpak
@@ -11,3 +9,8 @@ modules:
   - type: dnf
     install:
       - firefox
+
+  - type: script
+    snippets: |
+      mkdir -p /usr/lib64/firefox/distribution
+      ln -sf /usr/share/sblue/firefox/policies.json /usr/lib64/firefox/distribution/policies.json

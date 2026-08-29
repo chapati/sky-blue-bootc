@@ -58,7 +58,7 @@ def main [--base: path, --recipe-name: string, nuon: string] {
 
   # Determine target directory and filename derived from recipe name
   let target_dir = "/etc/dconf/db/distro.d"
-  let output_file = [$target_dir $"200-sky-blue-($recipe_name)"] | path join
+  let output_file = [$target_dir $"200-sblue-($recipe_name)"] | path join
 
   if ($output_file | path exists) {
     die $"Dconf file already exists: ($output_file)"

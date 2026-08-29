@@ -1,5 +1,5 @@
-name: sky-blue-nvidia-open
-description: Build SkyBlue linux
+name: sblue-nvidia-open
+description: Build SkyBlue Linux
 
 modules:
   - type: files
@@ -7,25 +7,15 @@ modules:
       - source: system
         target: /
 
-  - type: service
-    register:
-      - name: sblue-system-setup
-        scope: system
-      - name: sblue-system-online
-        scope: system
-      - name: sblue-user-setup
-        scope: user
-
+  - include: features/base.yaml
+  - include: features/fonts.yaml
   - include: features/branding.yaml
   - include: features/pakages.yaml
-  - include: features/google-chrome.yaml
+  # - include: features/flatpaks.yaml
+  - include: features/chrome.yaml
   - include: features/firefox.yaml
   - include: features/firefox-dev.yaml
-  - include: features/sublime.yaml
   - include: features/veracrypt.yaml
-  - include: features/flatpaks.yaml
-  - include: features/docker.yaml
+  - include: features/sublime.yaml
+  # - include: features/docker.yaml
   - include: features/ui.yaml
-  - include: features/fonts.yaml
-
-

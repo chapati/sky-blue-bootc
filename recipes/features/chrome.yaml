@@ -1,7 +1,13 @@
-name: dev-chrome
-description: Chrome browser setup
+name: chrome
+description: Google Chrome Stable
 
 modules:
+  - type: dnf
+    repos:
+      - google-chrome.repo
+    install:
+      - google-chrome-stable
+
   - type: tmpfiles
     system: |
       # Create the managed policy directory

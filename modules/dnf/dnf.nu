@@ -5,17 +5,26 @@ def install_packages [names: list<string>, ignore_errors: bool] {
         die "No packages specified for installation"
     }
 
+    # Flags to keep layers minimal:
+    # - install_weak_deps=False: skips recommended/weak deps
+    # - --nodocs: skips man pages, docs, and licenses
+    let dnf_flags = [
+        "-y"
+        "--nodocs"
+        "--setopt=install_weak_deps=False"
+    ]
+
     if $ignore_errors {
         print $"(ansi yellow)Installing ($names) ignoring errors...(ansi reset)"
         try {
-            ^dnf install -y ...$names
+            ^dnf install ...$dnf_flags ...$names
         } catch {
             print $"(ansi yellow)Warning: finished with errors.(ansi reset)"
         }
     } else {
         print $"(ansi cyan)Installing ($names)...(ansi reset)"
         strict {
-            ^dnf install -y ...$names
+            ^dnf install ...$dnf_flags ...$names
         }
     }
 }
@@ -80,17 +89,24 @@ def remove_packages [names: list<string>, ignore_errors: bool] {
         die "No packages specified for removal"
     }
 
+    # Flags to cascade-remove orphan dependencies:
+    # - clean_requirements_on_remove=True removes all unused deps
+    let dnf_flags = [
+        "-y"
+        "--setopt=clean_requirements_on_remove=True"
+    ]
+
     if $ignore_errors {
         print $"(ansi yellow)Removing ($names) ignoring errors...(ansi reset)"
         try {
-            ^dnf remove -y ...$names
+            ^dnf remove ...$dnf_flags ...$names
         } catch {
             print $"(ansi yellow)Warning: finished with errors.(ansi reset)"
         }
     } else {
         print $"(ansi cyan)Removing ($names)...(ansi reset)"
         strict {
-            ^dnf remove -y ...$names
+            ^dnf remove ...$dnf_flags ...$names
         }
     }
 }

@@ -1,6 +1,8 @@
 # Sky Blue Linux
 
-This is a custum oci-based Linux image based on the Project Bluefin DX with several custom modifications. At the moment bluefin-dx-nvidia-open:stable is used as a base.
+This is a custum OCI Linux image based on the [ublueos/bluefin-nvidia-open:stable](https://ghcr.io/ublue-os/bluefin-nvidia-open:stable)
+with several custom modifications aimed to provide secure and minimal single-user developer workstation. All developer workflows are supposed
+to be conducted using containers/toolbox/distrobox.
 
 ## Installation
 
@@ -14,83 +16,40 @@ systemctl reboot
 
 ## Features
 
-Installed as native packages:
+* **Nushell:** Provided via upstream Gemfury RPM repository
 
-- mc
-- nushell from gemfury nushell repo
-- google chrome stable from google repository
-- firefox developer edition from mozilla website
-- vivaldi stable from official vivaldi repo
-- sublime merge
-- veracrypt
-- qbittorrent
-- clapper
-- foliate
-- g4music
-- dconf-editor
+**Native Web Browsers (System Packages):**
+  * Google Chrome
+  * Mozilla Firefox
+  * Firefox Developer Edition
+  * Vivaldi Stable
 
-Flatpaks added:
+* **Hardened Browser Baseline:** System-level policies disable telemetry, tracking, and promotional clutter
+  across all browsers, while provisioning essential content filtering and developer tools extensions.
 
-- Obsidian
-- Telegram Desktop
-- MongoDb Compass
-- BitWarden Desktop
-- BetterBird
-- Grayjay
-- Tauon
-- Slack
-- Zoom
-- Cockpit Client
-- Shortwave
+* **UI Tweaks:**
+  * custom wallpaper, icons theme, cursor theme
+  * default system-wide dark theme
+  * custom application themes
+  * reduced gnome shell extensions set
+  * custom dash-to-dock, blur-my-shell and other extensions config
+  * InconsolataLGC and JetBrainsMono Nerd fonts
 
-Flatpaks replaced with the native packages. SkyBlue prefers native fedora-reviewed packages over flatpaks due to many security implications
-of flatpaks.
+* **Native packages:**
+  * veracrypt
+  * strace
+  * dconf-editor
+  * sublime-merge
 
-- firefox
-- flatseal
-- thunderbird (replaced with betterbird)
-- pinta
-- gnome-calculator
-- gnome-calendar
-- gnome-characters
-- file-roller
-- gnome-firmware
-- gnome-logs
-- gnome-weather
-- loupe
-- sushi
-- papers-previewer
-- snapshot
-- gnome-text-editor
-- baobab
-- deja-dup
+## Security
 
-Removed from base bluefin:
+* Built using a custom, declarative [Nushell](https://www.nushell.sh/)-based build system inspired by
+  [BlueBuild](https://blue-build.org/), implemented natively to minimize external dependencies and reduce
+  supply-chain attack surface.
 
-- TailScale VPN client
-- Gnome Connections
-- Gnome Maps
-- Showtime
-- SimpleScan
-- Gnome Clocks
-
-Due to security implications SkyBlue tries to reduce base environment attack surface as much as possible. For example we
-tend to remove software written in python and python packages. The following packagees were removed:
-
-- yubikey manager (python)
-
-UI & cosmetic stuff:
-
-- Breeze Light cursor theme
-- Papirus icon theme with the nordic folders flavor
-- GTK & Shell theme based on modified Graphite-gtk-theme
-- custom dash to dock config
-- custom blur my shell config
-- custom logo menu config
-- color picker extension
-- user-theme extension
-- removed 'apps menu', 'places status indicator', 'launch new instance' and 'windows list' gnome shell extensions
-- custom Dracula-based Ptyxis theme which works well with mc
+* Browsers are installed as native system packages rather than Flatpaks to preserve their internal multi-process
+  sandboxing (user namespaces, Landlock, and seccomp) and ensure full SELinux confinement without the isolation
+  compromises caused by container nesting.
 
 ## Credits
 
@@ -99,4 +58,3 @@ Many thanks to everybody who made my custom distro possible!
 - [Universal Blue](https://universal-blue.org/)
 - [Project Bluefin](https://projectbluefin.io/)
 - [BlueBuild](https://blue-build.org/)
-- [Rich Renomeron](https://github.com/rrenomeron/bootc-images)

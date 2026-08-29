@@ -1,7 +1,10 @@
 1. Run local docker registry
 
+N.B. Not that this command makes your local registry visible to the local networks.
+It is unsafe to run such service on a public WiFi for example.
+
 ```bash
-docker run -d -p 5000:5000 --restart=always --name local-registry registry:2
+docker run -d -p 0.0.0.0:5000:5000 --restart=always --name local-registry registry:2
 ```
 
 2. Switch to local image.

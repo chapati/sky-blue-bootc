@@ -1,5 +1,6 @@
 use common.nu *
 use systemd.nu *
+use hooks.nu *
 
 #
 # This service has network.online target

@@ -6,7 +6,7 @@ IMAGE_NAME="sky-blue-nvidia-open"
 IMAGE_FLAVOR="nvidia-open"
 IMAGE_VENDOR="local-dev"
 IMAGE_TAG="latest"
-BASE_IMAGE_NAME="bluefin-dx-nvidia-open"
+BASE_IMAGE_NAME="bluefin-nvidia-open"
 LOCAL_REGISTRY_TAG="localhost:5000/${IMAGE_NAME}:${IMAGE_TAG}"
 
 docker build \

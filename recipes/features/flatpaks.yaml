@@ -15,7 +15,6 @@ modules:
     remove:
       - org.mozilla.Thunderbird
       - com.github.tchx84.Flatseal
-      - com.github.PintaProject.Pinta
       - org.gnome.Calculator
       - org.gnome.Calendar
       - org.gnome.Characters
@@ -41,7 +40,6 @@ modules:
   - type: dnf
     install:
       - flatseal
-      - pinta
       - foliate
       - g4music
       - gnome-calculator
