@@ -4,3 +4,18 @@
 LICENSE
 original/
 build-local.sh
+
+# OS & Editor temporary files
+.DS_Store
+*.swp
+*~
+.#*
+\#*\#
+
+# IDE configurations
+.vscode/
+.idea/
+
+# Build logs & temp files
+*.log
+*.tmp

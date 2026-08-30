@@ -1,8 +1,8 @@
 # Sky Blue Linux
 
 This is a custum OCI Linux image based on the [ublueos/bluefin-nvidia-open:stable](https://ghcr.io/ublue-os/bluefin-nvidia-open:stable)
-with several custom modifications aimed to provide secure and minimal single-user developer workstation. All developer workflows are supposed
-to be conducted using containers/toolbox/distrobox.
+with several custom modifications aimed to provide secure, minimal and beautiful single-user developer workstation. All developer workflows
+are supposed to be conducted using containers/toolbox/distrobox.
 
 ## Installation
 
@@ -87,6 +87,10 @@ systemctl reboot
   * tailscale
   * yubikey-manager
 
+* **Rootless docker** - docker is pre-configured to run in a rootless mode by default
+
+* **VSCode** - vscode with containers-related plugins, sane default and custom dark theme
+
 ## Security
 
 * Built using a custom, declarative [Nushell](https://www.nushell.sh/)-based build system inspired by
@@ -96,6 +100,8 @@ systemctl reboot
 * Browsers are installed as native system packages rather than Flatpaks to preserve their internal multi-process
   sandboxing (user namespaces, Landlock, and seccomp) and ensure full SELinux confinement without the isolation
   compromises caused by container nesting.
+
+* Rootless docker. Docker binds containers to localhost if host is not specified.
 
 ## Credits
 

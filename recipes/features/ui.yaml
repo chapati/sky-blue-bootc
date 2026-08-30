@@ -46,7 +46,7 @@ modules:
       #  Flatpak theming
       #
       - d   /var/lib/flatpak/overrides                        0755  root  root  -  -
-      - L   /var/lib/flatpak/overrides/global                 -     -     -     -  /usr/share/sblue/var/lib/flatpak/overrides/global
+      - L   /var/lib/flatpak/overrides/global                 -     -     -     -  /usr/share/sblue/flatpak/overrides-global
 
   - type: gnome-extensions
     remove:

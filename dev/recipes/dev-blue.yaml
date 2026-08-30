@@ -10,8 +10,9 @@ modules:
   - include: features/dev-ptyxis.yaml
   - include: features/dev-mc.yaml
   - include: features/dev-zsh.yaml
+  - include: features/dev-docker.yaml
   # - include: features/dev-vscode.yaml
   # - include: features/dev-cleanup.yaml
   # - include: features/dev-hardening.yaml
-  # - include: features/dev-docker.yaml
+  #
 

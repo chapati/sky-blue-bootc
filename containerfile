@@ -40,12 +40,12 @@ RUN git fetch --depth 1 origin "${THEME_COMMIT}" \
 # ==============================================================================
 FROM nu-base AS ctx-prepost
 
-RUN --mount=type=bind,target=/ctx \
-    mkdir -p /build/ /build/lib/ && \
-    cp -a /ctx/build/lib/. /build/lib/ && \
-    cp /ctx/build/config.nu /build/ && \
-    cp /ctx/build/pre-build.nu /build/ && \
-    cp /ctx/build/post-build.nu /build/
+WORKDIR /build
+
+COPY build/lib/          ./lib/
+COPY build/config.nu     ./
+COPY build/pre-build.nu  ./
+COPY build/post-build.nu ./
 
 
 # ==============================================================================
@@ -122,6 +122,7 @@ RUN --mount=type=bind,from=ctx-stable,source=/build,target=/build \
     export IMAGE_NAME IMAGE_FLAVOR IMAGE_VENDOR IMAGE_TAG BASE_IMAGE_NAME && \
     /build/nu-shell/nu --config /build/config.nu /build/build.nu --recipe /build/recipes/sky-blue.yaml --base /build && \
     dnf -y autoremove && \
+    dnf clean all && \
     dconf update
 
 #
@@ -142,13 +143,13 @@ RUN --mount=type=bind,from=ctx-dev,source=/build,target=/build \
         export IMAGE_NAME IMAGE_FLAVOR IMAGE_VENDOR IMAGE_TAG BASE_IMAGE_NAME && \
         DEV_MODE=true /build/nu-shell/nu --config /build/config.nu /build/build.nu --recipe /build/recipes/dev-blue.yaml --base /build && \
         dnf -y autoremove && \
+        dnf clean all && \
         dconf update ; \
     else \
         echo "Skipping dev layer" ; \
     fi
 
-# dnf clean all && \
-# rm -rf /var/cache/dnf /var/cache/libdnf5 /var/lib/dnf/history.*
+# rm -rf /var/cache/dnf /var/cache/libdnf5 /var/lib/dnf/history.* && \
 
 RUN --mount=type=bind,from=ctx-prepost,source=/build,target=/build \
     /build/nu-shell/nu --config /build/config.nu /build/post-build.nu --optfix "${OPTFIX_DIR}"

@@ -1,15 +1,14 @@
 # Important
 
 * vscode
-* toolbox vs distrobox, or install both
 * incus
+* default hostname is always bluefin
 * assess chrome theme - input too dark - need to make custom theme, manifest allows to change that color
 * chrome buttons too big and do not have enough spacing in classic theme
 * theme in vscode cli is too bright also not synced with ptyxis
 * bad prompt line start in mc (artifact from shell prompt)
 * selection is not working properly in codeblocks in obsidian, most likely because of font size for ```
 * hardening - flatpaks (check also what secureblue dues)
-* rootless docker + apply daemon.json to it
 * using `sed -i` without the `--follow-symlinks` option breaks symlinks,
 * check what can be reverted back to flatpaks (official ones)
 * home (and other) key does not work in ptyxis
@@ -17,6 +16,7 @@
 
 # Backlog
 
+* toolbox vs distrobox
 * check if hardware acceleration in browsers is enabled
 * check why nushell is not signed (gpgcheck=0 in repo)/signature check fails when enabled
 * remove JetBrainsMono sinve nerd version is installed

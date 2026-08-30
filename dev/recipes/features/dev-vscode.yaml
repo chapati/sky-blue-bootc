@@ -4,6 +4,16 @@ description: vscode config
 modules:
   - type: script
     snippets: |
+      rpm --import https://packages.microsoft.com/keys/microsoft.asc
+
+  - type: dnf
+    repos:
+      - vscode.repo
+    install:
+      - code
+
+  - type: script
+    snippets: |
       #
       # Default vscode config
       #
