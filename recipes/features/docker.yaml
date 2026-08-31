@@ -1,0 +1,33 @@
+name: docker
+description: default docker config
+
+modules:
+  - type: dnf
+    install:
+      - docker-cli
+      - docker-compose
+      - docker-buildkit
+      - docker-compose-switch
+      - docker-buildx
+      - moby-engine*
+
+  - type: service
+    mask:
+      - name: docker.socket
+        scope: system
+      - name: docker.service
+        scope: system
+
+  - type: script
+    snippets: |
+      rm /var/run/docker.sock || true
+
+  - type: tmpfiles
+    system: |
+      # This is just a precaution if users ever enables rootful docker
+      d   /etc/docker              0755 root root  -   -
+      L+  /etc/docker/daemon.json  -    -    -     -   /usr/share/sblue/docker/daemon.json
+
+    user: |
+      d   %h/.config/docker              0755  -   -   -   -
+      L   %h/.config/docker/daemon.json  -     -   -   -   /usr/share/sblue/docker/daemon.json

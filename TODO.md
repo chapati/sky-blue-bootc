@@ -1,21 +1,23 @@
 # Important
 
-* vscode
-* incus
+* vscode theme extension + other extensions
 * default hostname is always bluefin
-* assess chrome theme - input too dark - need to make custom theme, manifest allows to change that color
-* chrome buttons too big and do not have enough spacing in classic theme
+* assess chrome theme - input too dark - need to make custom theme to allow changes to theme in the future, manifest allows to change input color
 * theme in vscode cli is too bright also not synced with ptyxis
 * bad prompt line start in mc (artifact from shell prompt)
 * selection is not working properly in codeblocks in obsidian, most likely because of font size for ```
 * hardening - flatpaks (check also what secureblue dues)
 * using `sed -i` without the `--follow-symlinks` option breaks symlinks,
-* check what can be reverted back to flatpaks (official ones)
 * home (and other) key does not work in ptyxis
-* go over all old recipes and remove unnecessary stuff after dropping dx
+* clear cache & registry, run BUILDKIT_PROGRESS=plain ./build-local.sh and fix all warnings
+* check extension that bluefin-dx preinstalls and settings overall in their github
+* assess using systemd-homed
 
 # Backlog
 
+* podman quadlets https://podman-desktop.io/blog/podman-quadlet
+* investigate incus, incus vs docker
+* check if there is any way to auto-renum lists in vscode md editor
 * toolbox vs distrobox
 * check if hardware acceleration in browsers is enabled
 * check why nushell is not signed (gpgcheck=0 in repo)/signature check fails when enabled
@@ -67,6 +69,7 @@
 
 # UI
 
+* chrome buttons too big and do not have enough spacing in classic theme, same in vscode default theme
 * firefox sidebars button not removed
 * distorted colors in shell logout window
 * less round corner in gnome shell windows
