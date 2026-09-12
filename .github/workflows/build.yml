@@ -181,6 +181,24 @@ jobs:
             BASE_IMAGE_NAME=${{ env.BASE_IMAGE_NAME }}
             THEME_COMMIT=${{ steps.theme_sha.outputs.sha }}
 
+      - name: Install Trivy CLI
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin
+
+      - name: Scan Image In-Place via Podman Socket
+        run: |
+          # Start Podman API socket for local storage inspection
+          systemctl --user enable --now podman.socket
+
+          # Scan image directly from Podman storage
+          # --ignore-unfixed
+          trivy image \
+            --image-src podman \
+            --scanners vuln \
+            --severity CRITICAL,HIGH,MEDIUM \
+            --exit-code 1 \
+            "localhost/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
+
       # Rechunk is a script that we use on Universal Blue to make sure there isnt a single huge layer when your image gets published.
       # This does not make your image faster to download, just provides better resumability and fixes a few errors.
       # Documentation for Rechunk is provided on their github repository at https://github.com/hhd-dev/rechunk
