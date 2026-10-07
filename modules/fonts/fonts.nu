@@ -5,7 +5,7 @@ def install_zip_url [url: string, target_dir: path, dir_name: string] {
   print $"(ansi cyan)Installing zip font ($dir_name) -> ($target_dir)(ansi reset)"
 
   strict {
-    ^curl -fsSL $url -o $tmp_zip
+    ^curl --connect-timeout 10 -fsSL $url -o $tmp_zip
     ^mkdir -p $target_dir
     ^unzip -q -o $tmp_zip -d $target_dir
     ^rm -f $tmp_zip
@@ -20,7 +20,7 @@ def install_file_url [url: string, target_dir: path, filename: string] {
 
   strict {
     ^mkdir -p $target_dir
-    ^curl -fsSL $url -o $target_file
+    ^curl --connect-timeout 10 -fsSL $url -o $target_file
     ^chmod 644 $target_file
     ^chmod 755 $target_dir
   }

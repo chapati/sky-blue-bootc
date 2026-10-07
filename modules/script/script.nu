@@ -7,7 +7,7 @@ def main [nuon: string, --recipe-name: string, --base: path] {
     $params.snippets | each {|cmd|
       print $"(ansi purple)Executing:(ansi reset) ($cmd)"
       strict {
-        ^bash -c $cmd
+        ^bash -c $"set -euo pipefail\n($cmd)"
       }
     } | ignore
 }

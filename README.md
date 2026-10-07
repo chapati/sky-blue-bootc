@@ -89,7 +89,7 @@ systemctl reboot
 
 * **Rootless docker** - docker is pre-configured to run in a rootless mode by default
 
-* **VSCode** - vscode with containers-related plugins, sane default and custom dark theme
+* **VSCode** - vscode with containers-related plugins, sane defaults and custom dark theme
 
 ## Security
 

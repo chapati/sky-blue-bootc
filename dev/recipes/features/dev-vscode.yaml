@@ -4,16 +4,6 @@ description: vscode config
 modules:
   - type: script
     snippets: |
-      rpm --import https://packages.microsoft.com/keys/microsoft.asc
-
-  - type: dnf
-    repos:
-      - vscode.repo
-    install:
-      - code
-
-  - type: script
-    snippets: |
       #
       # Default vscode config
       #
@@ -25,3 +15,11 @@ modules:
 
       cp -fv "$SOURCE_FILE" "$TARGET_DIR/package.json"
       chmod 644 "$TARGET_DIR/package.json"
+
+  - type: vscode-extensions
+    files:
+      - teabyii.ayu-1.1.12
+      - miguelsolorio.symbols-0.0.26
+    marketplace:
+      - ms-vscode-remote.remote-containers
+      - pomdtr.secrets

@@ -13,50 +13,125 @@ modules:
       - samba-winbind
       - samba-winbind-clients
       - samba-winbind-modules
+      - samba-ldb-ldap-modules
+      - samba-dcerpc
 
-  #
-  # Small misc stuff
-  #
   - type: dnf
     remove:
-      - incus-agent # necessary only inside Incus-managed VMs)
-      - nbdkit*     # network block devices kit
+      # UPnP/DLNA server: exposes unauthenticated LAN HTTP/SSDP ports (1900/UDP) & media
+      # parser attack surface; Google Cast/Chromecast does not require this
+      - rygel
 
-  #
-  # Leaner virtualization (x86 only)
-  #
-  - type: dnf
-    remove:
-      - qemu
-      - qemu-user
-      - qemu-user-static
-      - virt-v2v
-      - osbuild
+      # Legacy x86 hardware error logger: deprecated, fails on modern CPUs, runs an unneeded
+      # privileged daemon; modern kernels log MCEs directly to journald or use rasdaemon
+      - mcelog
 
-    install:
-      - gdisk
-      - virt-manager
-      - gnome-boxes
-      - libvirt-daemon-kvm
-      - edk2-ovmf
-      - swtpm-tools
+      # Parental controls. Not necessary on developer workstation
+      - malcontent-ui-libs
+      - malcontent-control
 
-  # Remove unnecessary stuff brought by the install above
-  - type: dnf
-    remove:
-      - qemu-user-static-aarch64
-      - ipxe-roms-qemu
-      # Unused hypervisor backends
-      - libvirt-daemon-driver-vbox
-      - libvirt-daemon-driver-libxl
-      - libvirt-daemon-driver-lxc
-      - libvirt-daemon-driver-ch
-      # Enterprise SAN/cluster storage drivers
-      - libvirt-daemon-driver-storage-gluster
-      - libvirt-daemon-driver-storage-rbd
-      - libvirt-daemon-driver-storage-iscsi
-      - libvirt-daemon-driver-storage-iscsi-direct
-      - qemu-block-rbd
-      - qemu-block-gluster
-      - qemu-block-iscsi
+      # Welcome bloat
+      - gnome-tour
 
+      # Errors reporting/information disclosure
+      - sos
+
+      # Prune NFS layer down to NFSv4 client only. System is not supposed to be used as as an NFS server.
+      # NFSv3 relies on legacy RPC/rpcbind mechanisms with weak authentication
+      - nfs-utils
+      - nfsv3-client-utils
+      - rpcbind
+
+      # Remove Performance Co-Pilot (PCP) libraries and SELinux modules.
+      # Redundant monitoring stack pulled in via weak dependencies
+      - pcp-libs
+      - pcp-conf
+      - pcp-selinux-import
+
+      # Remove toolchain and kernel compilation headers after pre-building kmods
+      # Eliminates local exploit compilation tools (LotL attack surface) and reduces image footprint.
+      # Use via toolbox/distrobox if needed
+      - gcc
+      - gcc-c++
+      - cpp
+      - make
+      - binutils
+      - kernel-headers
+      - kernel-devel-matched
+      - '*-devel'
+      - python3-pip
+
+      # CUPS browsed daemon. Critical network attack surface (unauthenticated UDP 631 RCE vectors).
+      # Standard driverless network printing (AirPrint / IPP Everywhere) uses Avahi/mDNS directly without this daemon.
+      - cups-browsed
+
+      # Legacy printer dirvers. Eliminates unneeded CUPS binaries, legacy raster parsing
+      # attack surface and historical root/daemon attack surface
+      - hplip
+      - hplip-common
+      - hplip-libs
+      - libsane-hpaio
+      - gutenprint
+      - gutenprint-cups
+      - gutenprint-libs
+      - braille-printer-app
+      - printer-driver-brlaser
+      - ptouch-driver
+      - splix
+      - c2esp
+      - dymo-cups-drivers
+      - foo2zjs
+
+      # Legacy printer configuration helper and udev auto-installer.
+      # Eliminates unneeded udev-triggered root service execution (configure-printer@.service).
+      - system-config-printer-libs
+      - system-config-printer-udev
+
+      # Deprecated and unsafe filesystems
+      - fuse-encfs
+      - cryfs
+      - hfsplus-tools
+      - davfs2
+
+      # EOL/legacy toolkit
+      - gtk2
+      - ibus-gtk2
+      - libcanberra-gtk2
+
+      # GNOME local WebDAV file sharing service and its Apache backend.
+      # Eliminates full Apache HTTP server (httpd) runtime and LAN WebDAV broadcast surface.
+      # File transfers should be handled via SSH/SFTP or cloud storage
+      - gnome-user-share
+      - httpd
+      - httpd-core
+      - httpd-filesystem
+      - httpd-tools
+      - mod_dnssd
+      - mod_http2
+      - mod_lua
+      - fedora-logos-httpd
+
+      # GNOME Remote Desktop and embedded VNC server library.
+      # Eliminates listening network service attack surface (RDP/VNC over TCP 3389/5900)
+      - gnome-remote-desktop
+      - libvncserver
+
+      # Legacy automounter, dial-up/PPPoE networking stack, and serial transfer utilities.
+      # Eliminates unneeded background automounter daemon (autofs) and privileged map parsing.
+      - autofs
+      - libsss_autofs
+      - ppp
+      - NetworkManager-ppp
+      - NetworkManager-adsl
+      - lrzsz
+
+      # Remove legacy D-Bus privileged task execution broker and PAM home directory helper.
+      # Eliminates oddjobd background D-Bus service and unneeded root execution surface.
+      - oddjob
+      - oddjob-mkhomedir
+
+      # Vintage 2000s Broadcom Wi-Fi extractors, reverse-engineered 802.11b/g firmware,
+      # and USB EZ-USB loaders.
+      - b43-fwcutter
+      - b43-openfwwf
+      - fxload

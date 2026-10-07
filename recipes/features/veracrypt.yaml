@@ -2,11 +2,14 @@ name: veracrypt
 description: Install veracrypt
 
 modules:
+  - type: rpm
+    install:
+      - url:    "https://github.com/veracrypt/VeraCrypt/releases/download/VeraCrypt_1.26.29/veracrypt-1.26.29-Fedora-44-x86_64.rpm"
+        key:    "VeraCrypt_PGP_public_key.asc"
+        sha256: "ff6b9b4a84a546c6a6fbc0c58ac1074fc6252cae8398f52b57ff360a3cbc312e"
+
   - type: script
     snippets: |
-      rpm --import /build/files/keys/VeraCrypt_PGP_public_key.asc
-      dnf install -y 'https://downloads.sourceforge.net/project/veracrypt/VeraCrypt%201.26.29/Linux/veracrypt-1.26.29-Fedora-44-x86_64.rpm'
-
       # xpm codec is not installed, we supply png icon for veracrypt
       rm -f /usr/share/pixmaps/veracrypt.xpm
       ln -sf /usr/share/sblue/veracrypt/veracrypt.png /usr/share/pixmaps/veracrypt.png

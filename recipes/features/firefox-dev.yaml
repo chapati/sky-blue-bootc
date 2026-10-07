@@ -4,7 +4,7 @@ description: Install firefox developer edition
 modules:
   - type: script
     snippets: |
-      curl -L 'https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US' > firefox-dev.tar.xz
+      curl --connect-timeout 10 -L 'https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US' > firefox-dev.tar.xz
       tar xf firefox-dev.tar.xz
 
       mkdir -p /usr/lib/opt && mv firefox /usr/lib/opt/firefox-dev

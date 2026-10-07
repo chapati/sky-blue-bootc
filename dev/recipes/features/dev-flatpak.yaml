@@ -1,0 +1,11 @@
+name: dev-flatpak
+description: flatpaks and settings
+
+modules:
+  - type: tmpfiles
+    system:
+      #
+      #  Flatpak hardening + theming
+      #
+      - d   /var/lib/flatpak/overrides         0755  root  root  -  -
+      - L   /var/lib/flatpak/overrides/global  -     -     -     -  /usr/share/sblue/flatpak/overrides-global

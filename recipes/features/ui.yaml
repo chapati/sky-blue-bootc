@@ -40,14 +40,6 @@ modules:
       - L   %h/.config/gtk-3.0/gtk-dark.css                   -     -   -   -   .sky-blue-theme-data/gtk-dark.css
       - L   %h/.config/gtk-3.0/assets                         -     -   -   -   .sky-blue-theme-data/assets
 
-  - type: tmpfiles
-    system:
-      #
-      #  Flatpak theming
-      #
-      - d   /var/lib/flatpak/overrides                        0755  root  root  -  -
-      - L   /var/lib/flatpak/overrides/global                 -     -     -     -  /usr/share/sblue/flatpak/overrides-global
-
   - type: gnome-extensions
     remove:
       - window-list@gnome-shell-extensions.gcampax.github.com
@@ -106,6 +98,9 @@ modules:
       #
       # Pinned apps
       #
+      # Oct 6th 26: 'code.desktop' & 'com.microsoft.VSCode.desktop' are both included cause
+      # the desktop file name was changed. It looks like flatpak id, so not sure if it is a bug.
+      #
       - key: /org/gnome/shell/favorite-apps
         type: list
         value:
@@ -115,6 +110,7 @@ modules:
           - 'vivaldi-stable.desktop'
           - 'google-chrome.desktop'
           - 'code.desktop'
+          - 'com.microsoft.VSCode.desktop'
           - 'sublime_merge.desktop'
           - 'com.mongodb.Compass.desktop'
           - 'org.gnome.Ptyxis.desktop'

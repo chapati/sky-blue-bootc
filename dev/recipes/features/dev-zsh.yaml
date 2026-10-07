@@ -14,11 +14,11 @@
     - type: git
       fetch:
         - target: /usr/share/sblue/zsh/plugins/fzf-tab
-          url: https://github.com/Aloxaf/fzf-tab
+          url: https://github.com/Aloxaf/fzf-tab.git
           hash: 24105b15714bfec37989ed5c5b6e60f572253019
 
         - target: /usr/share/sblue/zsh/plugins/powerlevel10k
-          url: https://github.com/romkatv/powerlevel10k
+          url: https://github.com/romkatv/powerlevel10k.git
           hash: 3308262dfbd743b6e1d3956a2b5572f7a049d692
 
     - type: script
@@ -29,10 +29,10 @@
 
         # Stage pinned binary directly into usrbin
         mkdir -p /usr/share/sblue/zsh/plugins/powerlevel10k/gitstatus/usrbin
-        curl -fsSL https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-x86_64.tar.gz | tar -xz -C /usr/share/sblue/zsh/plugins/powerlevel10k/gitstatus/usrbin/
+        curl --connect-timeout 10 -fsSL https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-x86_64.tar.gz | tar -xz -C /usr/share/sblue/zsh/plugins/powerlevel10k/gitstatus/usrbin/
 
         # Change default shell for all new users to zsh
-        sed -i 's|SHELL=/bin/bash|SHELL=/bin/zsh|g' /etc/default/useradd
+        sed -i --follow-symlinks 's|SHELL=/bin/bash|SHELL=/bin/zsh|g' /etc/default/useradd
 
         # Setup skel
         rm -rf /etc/skel/.zshrc

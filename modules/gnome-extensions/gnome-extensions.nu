@@ -40,7 +40,7 @@ def install_exts [install: list<any>] {
     print $"(ansi cyan)Downloading ($uuid)...(ansi reset)"
 
     strict {
-      ^curl -sSL $dl_url -o $zip_path
+      ^curl --connect-timeout 10 -sSL $dl_url -o $zip_path
       ^unzip -q -o $zip_path -d $extract_dir
     }
 

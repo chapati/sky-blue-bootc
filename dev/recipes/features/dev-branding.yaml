@@ -1,0 +1,11 @@
+name: branding
+description: SkyBlue branding
+
+modules:
+  - type: script
+    snippets: |
+      echo "Placeholder"
+      # HOSTNAME="sblue"
+      #
+      # OS_RELEASE="/usr/lib/os-release"
+      # sed -i --follow-symlinks "s/^DEFAULT_HOSTNAME=.*/DEFAULT_HOSTNAME=\"${HOSTNAME}\"/" "$OS_RELEASE"

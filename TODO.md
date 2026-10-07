@@ -1,20 +1,92 @@
 # Important
 
-* vscode theme extension + other extensions
-* default hostname is always bluefin
-* assess chrome theme - input too dark - need to make custom theme to allow changes to theme in the future, manifest allows to change input color
-* theme in vscode cli is too bright also not synced with ptyxis
-* bad prompt line start in mc (artifact from shell prompt)
-* selection is not working properly in codeblocks in obsidian, most likely because of font size for ```
-* hardening - flatpaks (check also what secureblue dues)
-* using `sed -i` without the `--follow-symlinks` option breaks symlinks,
-* home (and other) key does not work in ptyxis
 * clear cache & registry, run BUILDKIT_PROGRESS=plain ./build-local.sh and fix all warnings
-* check extension that bluefin-dx preinstalls and settings overall in their github
-* assess using systemd-homed
+
+Inspect the Bluefin Base Image Bill of Materials:
+Run an automated vulnerability/SBOM scan (e.g., trivy image or syft) inside your CI pipeline to catch unexpected upstream layer additions.
+
+* hardening - flatpaks (check also what secureblue does)
+
+~/.local/share/flatpak/overrides/com.github.tchx84.Flatseal
+Ini, TOML
+
+[Session Bus Policy]
+org.gnome.Software=talk
+org.freedesktop.impl.portal.PermissionStore=talk
+
+~/.local/share/flatpak/overrides/io.github.flattool.Warehouse
+Ini, TOML
+
+[Session Bus Policy]
+org.freedesktop.Flatpak=talk
+
+!!! added filesystems=!host:reset;
+check current flatpak settings
+
+What This Script Does
+It enforces a strict deny-by-default (zero-trust) security profile across all Flatpaks for the current user by writing extensive negative overrides to ~/.local/share/flatpak/overrides/global:
+
+    Strips Broad Capabilities:
+
+        Network & IPC: --unshare=network --unshare=ipc (cuts all internet and shared memory).
+
+        Audio & X11: --nosocket=pulseaudio --nosocket=x11 --nosocket=fallback-x11 (kills audio and X11 access).
+
+        Hardware: --nodevice=all --nodevice=input --nodevice=usb --nodevice=kvm.
+
+        Filesystem: Denies access to home, host, host-etc, external media (/media, /run/media), and shell dotfiles (~/.bashrc, ~/.bash_profile).
+
+    Blocks D-Bus Attack Surface:
+
+        Rejects communication with dozens of known session and system D-Bus interfaces (GNOME Shell, KWallet, Secret Service, systemd, Mutter, NetworkManager).
+
+    Applies a Minimal Baseline:
+
+        Grants --socket=wayland and --device=dri (Wayland rendering + GPU acceleration only).
+
+        Enables --persist=. to keep application state strictly inside ~/.var/app/<app_id>/.
+
+    Bootstraps Flatseal:
+
+        Grants com.github.tchx84.Flatseal access to the PermissionStore and GNOME Software so the user can manually grant permissions back via GUI.
+
+Flatpak Hardening (secureblue approach):
+
+    Implications: Applying global nosocket=fallback-x11, nosocket=pulseaudio, or restricted filesystem overrides significantly increases security but breaks out-of-the-box Flatpak usability (file pickers, screensharing, clipboard). Apply overrides selectively at /etc/flatpak/overrides/ (recommended/system-level, allows user override).
+
+# After Install
+
+* double/distorted cli line in vscode
+* huge font in tips when hovering over nu functions (e.g. print)
+* review vscode settings once again, compare to current
+* screenshot with console in vscode, why this happens with zsh
+* decide on no border theme
+* vscode debug console font too big
+* vscode output console font too big
+* vscode debug console output line font too big
 
 # Backlog
 
+* VSCode
+[Apc Customize UI+](https://marketplace.visualstudio.com/items?itemName=drcika.apc-extension)**
+to change font size in editor
+"apc.font.family": "'Inconsolata LGC Nerd Font Regular', sans-serif", "apc.listRow": { "fontSize": 14, // Forces text inside trees (Problems list/Explorer) to be larger "height": 22 // Manually keeps row spacing compact }
+
+* disable boxes resize overlay
+/* Hide the resolution overlay toast in GNOME Boxes */
+.boxes-display-page adw-toast-overlay adw-toast {
+    opacity: 0;
+}
+* qbittorrent to flatpak - untrusted P2P network traffic and complex torrent protocol parsers should be strictly constrained by
+  Flatpak network and filesystem permissions (e.g., restricted strictly to ~/Downloads).
+* not all skyblue changes are applied after rebase to an exisiting user (e.g. ptyxis theme). One way to fix is still to replace
+  files in the user directory if checksum is the same as in /etc/skel or something like this
+* check once again all /etc reference and if it is possible to get rid of them
+* make mc cli prompt ">" green
+* default hostname is always bluefin
+* update all the stuff in /usr/lib/os-release (branding)
+* vscode theme differs from local pc (borders, selection in left panel &c) but may be leave as is / wait for ayu update
+* check extension that bluefin-dx preinstalls and settings overall in their github
 * podman quadlets https://podman-desktop.io/blog/podman-quadlet
 * investigate incus, incus vs docker
 * check if there is any way to auto-renum lists in vscode md editor
@@ -60,6 +132,9 @@
 * extensions take time to install on first run of chrome and firefox, bundle during the build
 * set default applications, seems that default choice is good already so can solve this later
 * org.gnome.DejaDup for backups
+* org.jupyter.JupyterLab
+* com.logseq.Logseq
+* com.zettlr.Zettlr
 
 # Branding
 

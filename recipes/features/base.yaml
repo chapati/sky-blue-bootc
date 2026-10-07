@@ -2,12 +2,18 @@ name: base
 description: base layer to bootstrap sblue
 
 modules:
-  - type: dnf
-    repos:
-      - nushell.repo
+  - type: script
+    snippets: |
+      ln -sf /usr/share/sblue/env.d/200-sblue-env.conf /usr/lib/environment.d/200-sblue-env.conf
+
+  - type: rpm
     install:
-      - name: nushell
-        options: [ignore-errors]
+      url: https://github.com/nushell/integrations/releases/download/0.115.1-1/nushell-0.115.1-1.x86_64.rpm
+      sha256: fd7bf85b45c4c5e6b3c59e59c763add23e73bd968c7355f8bb463d6cc5af6c5c
+      options: [noscripts]
+
+  - type: dnf
+    install:
       - util-linux-script
       - dconf-editor
 

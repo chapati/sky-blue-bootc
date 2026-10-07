@@ -1,5 +1,9 @@
+* generate SBOM for the image
+* do not pin to the latest sblue, but to the specific hash
+* nushell is not signed - open issue
 * consider removing gnome-user-share httpd mod_dnssd mod_http2 mod_lua - gnome sharing requires apache httpd
-*
+* running services: embed list of expected running services, check after boot and write report to disk
+* opened ports: same as above
 
 * GSConnect
   The Recommended Balance: Network-Aware Usability
@@ -27,7 +31,6 @@ Implications of This Approach:
 * create module for curl that checks hash, add hash for zsh gitstatus and other places
 * checksums for nerdfonts
 * scan third-party repos before embedding into image
-* host veracrypt inside the repo
 * investigate vs codieum vs vscode (extensions, updates &c)
 * analyse packages
 
@@ -40,13 +43,13 @@ dnf repoquery --whatrequires "python3-key*" --installed
 * get rid of python, as much as possible
 * custom dns resolver which blocks access to internal domains from non-hardened browser
 * investigate cryptomator vs veracrypt
-* harden veracrypt install - check key against official id/fingerprint
 * deploy public key to target machines via /etc/containers/policy.json
 * generate new keypair protected with password
 * run trivy or grype against the image before the signing step failing the job if critical CVEs or unknown binaries are detected
 * `cosign attest` to generate and attach an in-toto / SLSA
 * enable renovate for cosign
 * disable saving passwords in browsers, force bitwarden
+* assess using systemd-homed - looks like for bootc distros homed has several edge cases so usual home is preferrable at the moment
 * handle tmpfiles through nu module, ensure on boot that all tmpfiles are present otherwise display message / fail &c, support optional linking
 ```json
 {

@@ -5,17 +5,17 @@ modules:
   - type: script
     snippets: |
       #
-      # Networking
+      # Networking Hardening
       #
 
-      # hardened public zone config
+      # Install hardened public zone to vendor layer
       install -m 0644 -o root -g root /usr/share/sblue/firewalld/public.zone.xml /usr/lib/firewalld/zones/public.xml
 
-      # set default zone to public offline (creates/updates /etc/firewalld/firewalld.conf statically)
+      # Switch default firewalld zone from FedoraWorkstation (which opens ports 1025-65535) to public
       firewall-offline-cmd --set-default-zone=public
 
       #
-      # Disable legacy LLMNR, MulticastDNS in resolve mode
+      # Disable legacy LLMNR poisoning vector and restrict MulticastDNS to query-only mode
       #
       mkdir -p /usr/lib/systemd/resolved.conf.d
 
@@ -29,110 +29,107 @@ modules:
 
   - type: service
     mask:
-      # Services with D-Bus/Socket auto-activation traps are masked
+      # Privileged Configuration Broker: Runs as root when activated and has permission to execute external commands
+      # Unneeded on standalone developer workstations not enrolled in Active Directory or FreeIPA
+      - name: realmd.service
+        scope: system
+
+      # Eliminates unneeded parental screen-time enforcement on developer workstation
+      # Prevents local DoS / disk exhaustion via D-Bus RecordUsage
+      - name: malcontent-timerd.service
+        scope: system
+
+      # Mask ModemManager to prevent serial port lockouts/corruption on dev boards (ESP32/Arduino)
+      # and DBus priveleged attack surface
+      - name: ModemManager.service
+        scope: system
+
+      # Disable iSCSI control daemon, user-space I/O driver, and their IPC sockets.
+      # Both daemons run with full root privileges (iscsid as root, iscsiuio as root).
+      # Eliminates outbound unauthenticated network connections over TCP 3260 (SAN traffic),
+      # closes privileged local IPC control sockets (/var/run/iscsid.sock, /var/run/iscsiuio.sock),
+      # and prevents iscsiuio from opening raw packet sockets (AF_PACKET) for hardware offload framing.
+      - name: iscsid.service
+        scope: system
+      - name: iscsid.socket
+        scope: system
+      - name: iscsiuio.service
+        scope: system
+      - name: iscsiuio.socket
+        scope: system
+
+      # Mask host-wide dnsmasq systemd service (link to /dev/null).
+      # The system service launches as root and opens unauthenticated network listeners on UDP/TCP 53 (DNS)
+      # and UDP 67 (DHCP). Masking prevents accidental activation and port 53 binding collisions against systemd-resolved.
+      # Note: GNOME Boxes / libvirt executes /usr/sbin/dnsmasq directly as a child process and remains fully functional.
+      - name: dnsmasq.service
+        scope: system
+
+      # Bluetooth OBEX file transfer daemon in user session.
+      # Runs under user session; eliminates unneeded Bluetooth file reception/push listener
+      # surface (obexd) against rogue paired devices on public transport/offices.
+      - name: obex.service
+        scope: user
+
+    disable:
+      # Disables legacy Avahi mDNS responder and D-Bus activation socket to close UDP 5353.
+      # Eliminates LAN host fingerprinting and opened port
       - name: avahi-daemon.service
         scope: system
       - name: avahi-daemon.socket
         scope: system
-      - name: ModemManager.service
-        scope: system
-      - name: org.gnome.SettingsDaemon.Wwan.service
-        scope: user
-      - name: malcontent-timerd.service
-        scope: system
-      - name: realmd.service
-        scope: system
-      - name: gssproxy.service
-        scope: system
-      - name: gssuserproxy.service
-        scope: user
+
+      # Disable SSSD identity suite and Kerberos Cache Manager (KCM) socket.
+      # Workstation uses local PAM authentication (authselect 'local' profile).
+      # Eliminates privileged root-level responder processes (sssd, sssd_kcm) and closes
+      # local UNIX domain sockets (/var/run/sss/, /var/run/.kcm/) to eliminate IPC parser attack surface.
       - name: sssd.service
         scope: system
       - name: sssd-kcm.service
         scope: system
-      - name: gvfs-gphoto2-volume-monitor.service
-        scope: user
-      - name: app-vboxclient@autostart.service
-        scope: user
-      - name: 'app-vmware\x2duser@autostart'
-        scope: user
-
-    disable:
-      # Hypervisor guest tools (dormant unless run in that hypervisor)
-      - name: vboxservice.service
-        scope: system
-      - name: vmtoolsd.service
-        scope: system
-      - name: vgauthd.service
+      - name: sssd-kcm.socket
         scope: system
 
-      # Modular libvirt hypervisors. Commented were present in the base image
-      # but removed during the cleanup stage
-      # - name: virtlxcd.service
-      #  scope: system
-      # - name: virtvboxd.service
-      #  scope: system
-      # - name: virtxend.service
-      #  scope: system
-
-       # Storage & File systems
+      # Disable iSCSI boot-time auto-login and target starter services.
+      # Both units execute as root (spawning /usr/sbin/iscsiadm and iscsid).
+      # Eliminates early-boot network probing over TCP 3260, closes root IPC socket (/var/run/iscsid.sock),
+      # and prevents severe 90-second boot-time network timeout hangs when roaming across Wi-Fi networks.
       - name: iscsi-starter.service
         scope: system
       - name: iscsi-onboot.service
         scope: system
-      - name: multipathd.service
-        scope: system
-      - name: zfs-zed.service
-        scope: system
-      - name: zfs-import-cache.service
-        scope: system
-      - name: zfs-mount.service
-        scope: system
-      - name: zfs-share.service
-        scope: system
-      - name: zfs-volume-wait.service
+
+      # Disable Web Services Dynamic Discovery (WSD) host announcement daemon.
+      # Why: Runs as root (User=root or dynamically allocated daemon user).
+      # Eliminates unauthenticated LAN network listeners on UDP 3702 (multicast discovery) and TCP 5357 (HTTP/SOAP),
+      # prevents local subnet host fingerprinting, and closes the Python SOAP/XML parsing attack surface.
+      - name: wsdd.service
         scope: system
 
-      # Hardware logging
-      - name: mcelog.service
+      # Unneeded background socket listeners on workstations not using Kerberized NFSv4 or enterprise SSO.
+      - name: gssproxy.service
+        scope: system
+      - name: gssuserproxy.service
+        scope: user
+
+      # Switch libvirt QEMU daemon to pure on-demand socket activation.
+      # virtqemud runs persistently as root; disabling the service allows
+      # virtqemud.socket to launch it only when GNOME Boxes or virt-manager starts a VM.
+      - name: virtqemud.service
         scope: system
 
-  # Prune eBPF tracing toolchains and associated Clang/LLVM JIT dependencies to minimize
-  # image footprint (~500MB) and attack surface. Run ad-hoc kernel tracing via privileged containers instead.
-  - type: dnf
-    remove:
-      - bcc
-      - bcc-tools
-      - python3-bcc
-      - bpftrace
-      - bpftop
-      - clang21-libs
-      - compiler-rt21
-      - libomp21-devel
-      - cpp
-      - subversion
-      - git-svn
+      # Homed runs as a privileged root daemon and has known integration flaws on bootc/OSTree systems.
+      # Workstations use standard POSIX /var/home accounts; disabling eliminates the root PAM/D-Bus manager
+      # (org.freedesktop.home1) and early-boot loopback filesystem scanning attack surface.
+      - name: systemd-homed.service
+        scope: system
+      - name: systemd-homed-activate.service
+        scope: system
 
-  # Strip host kernel build headers, compilers and dev libraries (~450MB+).
-  # All host kmods (Nvidia, ZFS) are pre-compiled into binary .ko files.
-  # Developer compilation workflows must be contained within Toolbox/Distrobox.
-  - type: dnf
-    remove:
-      - kernel-devel*
-      - kernel-headers
-      - gcc
-      - gcc-c++
-      - glibc-devel
-      - libstdc++-devel
-      - make
-      - bison
-      - flex
-      - m4
-      - binutils
-      - cache
-      - git-subtree
-      - git-svn
-    install:
-      # bring back packages deleted as deps above
-      - git-lfs
-      - patch
+      # GLib Proxy Auto-Configuration (PAC) runner.
+      # Eliminates local D-Bus daemon parsing untrusted remote PAC/WPAD JavaScript proxy
+      # scripts over unauthenticated HTTP/DHCP connections.
+      - name: glib-pacrunner.service
+        scope: user
+
+

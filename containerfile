@@ -3,13 +3,13 @@
 # ==============================================================================
 FROM registry.access.redhat.com/ubi10/ubi:latest AS nu-base
 
-ARG NU_VERSION="0.115.0"
-ARG NU_SHA256="da83cfe482060d2c34b6b9af829975a313bce6b92e0398c3b2a59cb38630c7b2"
+ARG NU_VERSION="0.115.1"
+ARG NU_SHA256="d11d825241f6504a3617c535fa725a9dd6d009c86d7b19fb3168b47635b9d8b0"
 
 RUN mkdir -p /build && \
     NU_FILE="nu-${NU_VERSION}-x86_64-unknown-linux-gnu" \
     && NU_URL="https://github.com/nushell/nushell/releases/download/${NU_VERSION}/${NU_FILE}.tar.gz" \
-    && curl -sSL "${NU_URL}" -o "${NU_FILE}.tar.gz" \
+    && curl --connect-timeout 10 -sSL "${NU_URL}" -o "${NU_FILE}.tar.gz" \
     && echo "${NU_SHA256}  ${NU_FILE}.tar.gz" | sha256sum -c - \
     && tar -xzf "${NU_FILE}.tar.gz" \
     && mv "${NU_FILE}" /build/nu-shell \

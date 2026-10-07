@@ -14,4 +14,4 @@ modules:
     distro.d:
       - key: /org/gnome/desktop/interface/monospace-font-name
         type: string
-        value: JetBrainsMono Nerd Font 12
+        value: JetBrainsMono Nerd Font Regular 12

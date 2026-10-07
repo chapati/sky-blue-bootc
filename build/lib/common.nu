@@ -19,7 +19,7 @@ export def strict [cmd: closure, result: bool = false] {
             msg: $msg
             labels: [{
                 text: ($err.labels?.0?.text? | default "failed here")
-                span: ($err.labels?.0?.span? | default (metadata $cmd))
+                span: ($err.labels?.0?.span? | default (metadata $cmd).span?)
             }]
         }
     } else if $result {

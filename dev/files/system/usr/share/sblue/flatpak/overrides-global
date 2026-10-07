@@ -1,0 +1,8 @@
+[Context]
+shared=!ipc;
+sockets=wayland;!x11;!fallback-x11;!pulseaudio;!session-bus;!system-bus;!ssh-auth;!pcsc;!cups;!gpg-agent;!inherit-wayland-socket;
+devices=dri;!all;!shm;!kvm;!input;!usb;
+features=!per-app-dev-shm;!canbus;!bluetooth;!multiarch;!devel;
+filesystems=!host:reset;xdg-config/gtk-3.0:ro;xdg-config/gtk-4.0:ro;~/.local/share/fonts:ro;
+persistent=.;
+Environment=ELECTRON_OZONE_PLATFORM_HINT=auto;

@@ -28,12 +28,14 @@ modules:
       - file-roller
       - papers-previewer
       - baobab
+      - ignition
     remove:
       - tailscale
       - yubikey-manager
 
   - type: flatpak
     remove:
+      - com.github.tchx84.Flatseal
       - org.gnome.Showtime
       - org.mozilla.Thunderbird
       - org.gnome.font-viewer
@@ -56,6 +58,8 @@ modules:
       - org.gnome.SimpleScan
       - org.gnome.Weather
       - org.gnome.clocks
+      - com.mattjakeman.ExtensionManager
+      - io.github.flattool.Ignition
     install:
       - md.obsidian.Obsidian
       - org.telegram.desktop
@@ -65,3 +69,36 @@ modules:
       - app.grayjay.Grayjay
       - org.cockpit_project.CockpitClient
       - de.haeckerfelix.Shortwave
+
+  #
+  # System & dev tools
+  #
+  - type: dnf
+    install:
+      - xlsclients
+      - xwininfo
+      - sysstat
+      - iostat
+
+  #
+  # Lean virtualization (x86 only)
+  #
+  - type: dnf
+    install:
+      - libvirt-daemon-kvm
+      - virt-manager
+      - gnome-boxes
+      - edk2-ovmf
+      - swtpm
+      - swtpm-tools
+      - gdisk
+
+    remove:
+      - virtualbox-guest-additions
+      - open-vm-tools
+      - open-vm-tools-desktop
+      - hyperv-daemons
+      - hyperv-daemons-license
+      - hypervfcopyd
+      - hypervkvpd
+      - hypervvssd
